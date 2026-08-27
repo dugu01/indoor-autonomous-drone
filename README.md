@@ -221,7 +221,7 @@ README for its validated entry points and acceptance scripts.
   title  = {Indoor Autonomous Drone: Robust Estimation, Replanning and Active Exploration},
   school = {Indian Institute of Technology Delhi},
   year   = {2026},
-  note   = {M.Tech Robotics (JRB), CoE-BIRD}
+  note   = {M.Tech Control & Automation}
 }
 ```
 
