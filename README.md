@@ -109,10 +109,14 @@ allowance. Rotor model: 920 KV motors, 10 in props, T/W ≈ 2.4, hover ≈ 5,600
 
 ### Hardware Platform
 
+Hardware integration is in progress; the physical build targets the platform below,
+mirroring the simulation model. ROS 2 bring-up lives in `code/ros2_ws` and companion
+firmware in `hardware/firmware`.
+
 | Component  | Details                                                             |
 | ---------- | ------------------------------------------------------------------- |
 | Platform   | DJI F450 quadrotor, 450 mm diagonal, 10 in props, 920 KV motors    |
-| Compute    | Companion computer + flight-controller MCU (bring-up in `code/ros2_ws`, `hardware/firmware`) |
+| Compute    | Companion computer + flight-controller MCU                          |
 | Sensors    | IMU ×2, visual odometry / D435i-class camera, 2-D LiDAR, downward rangefinder, barometer |
 | Middleware | ROS 2 (`code/ros2_ws`) for hardware bring-up; MATLAB for simulation and validation |
 
@@ -225,14 +229,15 @@ README for its validated entry points and acceptance scripts.
 
 ## Team
 
-| Role           | Name             |
-| -------------- | ---------------- |
-| Student(s)     | Durgesh Singh    |
-| Supervisor(s)  | *to be added*    |
+| Role           | Name                      |
+| -------------- | ------------------------- |
+| Student(s)     | Durgesh Singh             |
+| Supervisor(s)  | Prof. Shubhendu Bhasin    |
 
 ## Contact
 
 Durgesh Singh — durgeshsingh0104@gmail.com  
+Supervisor: Prof. Shubhendu Bhasin, Department of Electrical Engineering, IIT Delhi  
 CoE-BIRD, Indian Institute of Technology Delhi
 
 ---
