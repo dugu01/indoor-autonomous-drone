@@ -1,0 +1,43 @@
+S2.4 v1.0.0-RC3 CLEAN RELEASE-CANDIDATE PRECHECK
+Date: 2026-08-27
+
+Frozen-parent restoration
+-------------------------
+Restored from the uploaded S2.4 source workspace and checked against the release manifests:
+  frozen S2.3 files checked: 208
+  missing: 0
+  changed: 0
+  extra: 0
+  PARENT BYTE IDENTITY: PASS
+
+Final parent closure manifest:
+  paths: 203
+  mismatches: 0
+  FINAL PARENT MANIFEST INTERPRETATION: PASS
+
+Bytecode-mutation regression
+----------------------------
+Release-side validation launchers now suppress Python bytecode writes.
+The complete S2.4 A-D static/offline aggregate was run twice consecutively.
+After each run:
+  frozen parent missing: 0
+  frozen parent changed: 0
+  frozen parent extra: 0
+
+Only the two manifest-tracked CPython 3.13 bytecode files remain in the parent.
+No new cache files were created.
+
+Static/offline validation executed in packaging environment
+-----------------------------------------------------------
+S2.4 truth/command isolation: PASS
+MATLAB source sanity: PASS
+S2.4 A-D scenario contracts: 15/15 PASS
+S2.4 A-D PACKAGE STATIC/OFFLINE GATE: PASS (twice)
+S2.4-E static gate: PASS
+Literal competing-corridor geometry audit: PASS
+Legacy goal-requires-scan selector regression: PASS
+S2.4-E AGGREGATE STATIC/OFFLINE GATE: PASS
+Post-run frozen-parent byte identity: PASS
+
+MATLAB runtime is not available in the packaging environment.
+Final clean-build MATLAB A-D and coupled parity remain intentionally pending.

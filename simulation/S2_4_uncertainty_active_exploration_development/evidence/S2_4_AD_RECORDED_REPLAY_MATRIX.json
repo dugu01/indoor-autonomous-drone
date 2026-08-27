@@ -1,0 +1,22 @@
+{
+  "schema": "S2_4_AD_RECORDED_REPLAY_MATRIX_V1",
+  "count": 1,
+  "passed": 1,
+  "rows": [
+    {
+      "file": "/mnt/data/s23_audit/S2_3_v1_0_0_candidate_trial_data(6).mat",
+      "pass": true,
+      "error": "",
+      "scenario": "UNKNOWN_ROOM_NOMINAL",
+      "snapshots": 81,
+      "deterministic_repeat": true,
+      "incremental_frontier_equals_full": true,
+      "accepted_candidates": 0,
+      "unsafe_accepted_candidates": 0,
+      "tracks_created": 19,
+      "replay_digest": "60216caa557e1679c5bb3b657fd240e574ae33a48a8b8579c781fa5cfd899901",
+      "uncertainty_digest": "94924c22cc335af6051f722614f4b727cf63d92569c6d47ceec987cbd0a0e8e4"
+    }
+  ],
+  "pass": true
+}

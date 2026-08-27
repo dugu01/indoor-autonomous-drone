@@ -1,0 +1,8 @@
+S2.3 exact perception-mapper replay
+Input: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_v1_0_0_RC3_clean/frozen_parent/results/S2_3_online_mapping/v1_0_0_candidate/unknown_room_nominal/seed_000/S2_3_v1_0_0_candidate_trial_data.mat
+Records 1342 | accepted 1342 | rejected 0
+Exact arrays 1 | exact core counters 1 | metrics match 1
+Idle counters replay 0 | coupled 2684 | informational only
+Original false-free 0.001749851936 | recall 0.990053557766 | observed 0.879581584768
+Replay false-free 0.001749851936 | recall 0.990053557766 | observed 0.879581584768
+PASS 1

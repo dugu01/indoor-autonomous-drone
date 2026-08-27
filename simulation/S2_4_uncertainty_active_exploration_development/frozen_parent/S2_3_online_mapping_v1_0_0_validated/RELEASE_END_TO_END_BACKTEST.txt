@@ -1,0 +1,16 @@
+S2.3 COMPLETE 12-SCENARIO END-TO-END BACKTEST
+grid=0.10 m inflation=0.602 m lidar=6.5 m
+unknown_room_nominal           PASS | feasible=YES length= 5.453 clearance= 0.632 | extension_optional
+hidden_obstacle_replan         PASS | feasible=YES length= 5.453 clearance= 0.632 | safety_replan_required
+occluded_obstacle              PASS | feasible=YES length= 6.570 clearance= 0.632 | extension_required
+unknown_narrow_passage         PASS | feasible=YES length= 4.400 clearance= 0.750 | extension_optional
+dead_end_recovery              PASS | feasible=YES length= 5.228 clearance= 0.650 | replan_required
+goal_requires_scan             PASS | feasible=YES length= 7.804 clearance= 0.632 | scan_and_extension_required
+unreachable_goal               PASS | feasible=NO  length=    NA clearance=    NA | safe_refusal_no_extension_required
+depth_dropout_lidar            PASS | feasible=YES length= 5.453 clearance= 0.632 | single_sensor_continuity
+lidar_dropout_depth            PASS | feasible=YES length= 5.453 clearance= 0.632 | single_sensor_continuity
+perception_dropout_recover     PASS | feasible=YES length= 5.453 clearance= 0.632 | hold_then_recover
+primary_imu_fault_mapping      PASS | feasible=YES length= 5.453 clearance= 0.632 | lane_switch_required
+dynamic_to_static_mapping      PASS | feasible=YES length= 5.453 clearance= 0.632 | promotion_and_replan
+
+RESULT: 12/12 PASS

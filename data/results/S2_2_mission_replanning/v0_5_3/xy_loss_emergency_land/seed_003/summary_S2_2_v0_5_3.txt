@@ -1,0 +1,23 @@
+Stage S2.2 v0.5.3 autonomous mission and 6-DOF replanning
+Scenario: XY_LOSS_EMERGENCY_LAND | seed 3
+Goal 0 | failsafe 1 | RTL request 1 | PASS 1
+Arm 1 | takeoff 1 | RTL execute 0 | landed 1 | disarmed 1
+Preflight reject 0 | emergency land 1 | alternate 0 | site 3.956479 1.473410
+Truth goal/takeoff/land 0 1 1 | complete 1
+Preflight H/V/A/L/C/U/home/goal/route 1 1 1 1 1 1 1 1 1
+Preflight ages XY/Z/att 0.02000000 0.02000000 0.02000000 | accepted 35 | Pxy/Pz 3.83321404e-05 9.85999430e-06
+Replans 0 | inflation replans 3 | brake 0 | retries 0
+Lane final 1 | switches 0
+IMU fault detect/switch/blend NaN NaN NaN
+Estimator max position 1.19312651 | attitude deg 0.56410999
+Estimator observable/trigger/postloss 0.01856432 0.00640067 1.19312651 | metric 0.01856432
+Navigation degraded holds 1 | emergency horizontal drift 0.59027855
+XY loss time 16.20000000 | brake end 16.93422467 | brake accel -0.28527509 -0.24711390
+Grid fallback count 0
+Reference XY v/a/j 0.31067980 0.05828842 0.02224888
+Executed XY v/a/j 0.28812098 0.40053324 2.52474102
+Reference Z v/a/j 0.55501006 0.43322748 0.68802900
+Executed Z v/a/j 0.55143142 0.43553425 1.17945891
+Track 0.01976982 | override 1.68314478 | altitude 0.01378607 | tilt 2.22896246 deg
+Clearance obstacle/wall/dynamic 1.48547477 0.78622657 Inf
+Final state COMPLETE | distance goal 3.47590381

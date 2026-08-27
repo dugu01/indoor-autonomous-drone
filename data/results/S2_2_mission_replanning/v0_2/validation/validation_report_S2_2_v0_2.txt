@@ -1,0 +1,11 @@
+Stage S2.2 v0.2 validation report
+Generated: 2026-07-08 15:10:11
+
+incremental_static_insert | PASS 1 | goal 1 | failsafe 0 | replans 1 | promotions 0 | collisions 0 | geofence 0
+dynamic_crossing_yield | PASS 1 | goal 1 | failsafe 0 | replans 0 | promotions 0 | collisions 0 | geofence 0
+dynamic_blocker_becomes_static | PASS 1 | goal 1 | failsafe 0 | replans 1 | promotions 1 | collisions 0 | geofence 0
+sensor_dropout_recover | PASS 1 | goal 1 | failsafe 0 | replans 0 | promotions 0 | collisions 0 | geofence 0
+sensor_dropout_failsafe | PASS 1 | goal 0 | failsafe 1 | replans 0 | promotions 0 | collisions 0 | geofence 0
+two_dynamic_crossings | PASS 1 | goal 1 | failsafe 0 | replans 0 | promotions 0 | collisions 0 | geofence 0
+
+Overall: 6/6 PASS

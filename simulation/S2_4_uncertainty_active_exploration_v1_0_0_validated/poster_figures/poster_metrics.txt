@@ -1,0 +1,12 @@
+Scenario: DYNAMIC_TO_STATIC_MAPPING
+Recorded perception updates: 1410
+LiDAR / depth source packets: 705 / 846
+Map snapshots evaluated: 85
+Persistent frontier tracks created: 35
+Total candidate evaluations: 14687
+Candidates passing all hard gates: 218 (1.48%)
+Selected shadow recommendations: 26
+Unsafe accepted candidates: 0
+Truth-map accesses: 0
+Commands issued: 0
+Interpretable repeat arrays exact: 1

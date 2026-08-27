@@ -1,0 +1,91 @@
+S2.3 FINAL CLOSURE STATIC GATE
+UTC 2026-07-13T08:28:27Z
+
+S2.3 cumulative candidate static audit
+inherited_files_present               : PASS
+inherited_files_unchanged             : PASS
+s23_entry_point                       : PASS
+s23_lifecycle_separate                : PASS
+frozen_s22_entry_retained             : PASS
+tabbed_single_dashboard               : PASS
+raw_lidar_stream                      : PASS
+raw_depth_stream                      : PASS
+unknown_fail_closed                   : PASS
+map_version_contract                  : PASS
+timestamp_pose_interpolation          : PASS
+duplicate_packet_rejection            : PASS
+free_changes_increment_version        : PASS
+safe_stop_gate                        : PASS
+no_route_scan_hold                    : PASS
+truth_audit_script                    : PASS
+mechanism_tests                       : PASS
+preflight_uses_map_freshness          : PASS
+idle_packets_not_rejected             : PASS
+ground_layer_validation_contract      : PASS
+known_boundary_contract               : PASS
+route_aware_map_repair                : PASS
+extension_plan_completion_split       : PASS
+map_version_not_progress_proxy        : PASS
+continuous_scan_yaw                   : PASS
+strict_trajectory_adapter             : PASS
+endpoint_voxel_exclusion              : PASS
+height_aware_dynamic_layer            : PASS
+unique_static_promotion               : PASS
+recorded_trace_crosscheck             : PASS
+metric_radius_inflation               : PASS
+persistent_static_latch               : PASS
+latest_recorded_trace_crosscheck      : PASS
+all_s23_calls_resolved                : PASS
+summary_fields_unique                 : PASS
+S2.3 STATIC AUDIT: PASS
+S2.3 truth-isolation static audit
+TRUTH ISOLATION STATIC AUDIT: PASS
+MATLAB source sanity: 85 files checked
+MATLAB SOURCE SANITY: PASS
+test_dead_end_replan_is_conditional: PASS
+test_dynamic_layer_is_height_aware: PASS
+test_dynamic_promotion_replan_is_conditional: PASS
+test_endpoint_voxel_never_receives_free_update: PASS
+test_extension_counted_on_arrival_not_selection: PASS
+test_far_map_change_does_not_affect_route: PASS
+test_grid_fallback_is_validated_trajectory_mechanism: PASS
+test_idle_control_step_is_not_rejected_packet: PASS
+test_known_free_is_disjoint_from_static_occupancy: PASS
+test_known_room_boundary_is_registered_persistent_static: PASS
+test_launch_footprint_after_preflight_scan: PASS
+test_metric_inflation_preserves_configured_radius: PASS
+test_near_ground_layer_not_floor_false_free: PASS
+test_old_half_voxel_method_overlaps_endpoint_about_half_the_time: PASS
+test_persistent_static_latch_survives_free_rays: PASS
+test_pose_interpolation_contract: PASS
+test_preflight_uses_mapping_freshness_not_exact_packet: PASS
+test_promotion_clamps_once_to_occupied: PASS
+test_raycast_geometry: PASS
+test_scan_progress_not_map_version_proxy: PASS
+test_scan_yaw_is_continuous_and_rate_reduced: PASS
+test_source_uses_metric_inflation_and_static_latch: PASS
+test_strict_trajectory_adapter_preserves_hard_limit: PASS
+23/23 mechanism checks PASS
+capture_schema                  : PASS
+capture_packet                  : PASS
+capture_pose                    : PASS
+capture_call_time               : PASS
+summary_count                   : PASS
+replay_actual_mapper            : PASS
+replay_production_validator     : PASS
+S2.3 COMPLETE 12-SCENARIO END-TO-END BACKTEST
+grid=0.10 m inflation=0.602 m lidar=6.5 m
+unknown_room_nominal           PASS | feasible=YES length= 5.453 clearance= 0.632 | extension_optional
+hidden_obstacle_replan         PASS | feasible=YES length= 5.453 clearance= 0.632 | safety_replan_required
+occluded_obstacle              PASS | feasible=YES length= 6.570 clearance= 0.632 | extension_required
+unknown_narrow_passage         PASS | feasible=YES length= 4.400 clearance= 0.750 | extension_optional
+dead_end_recovery              PASS | feasible=YES length= 5.228 clearance= 0.650 | safe_discovery_or_replan
+goal_requires_scan             PASS | feasible=YES length= 7.804 clearance= 0.632 | scan_and_extension_required
+unreachable_goal               PASS | feasible=NO  length=    NA clearance=    NA | safe_refusal_no_extension_required
+depth_dropout_lidar            PASS | feasible=YES length= 5.453 clearance= 0.632 | single_sensor_continuity
+lidar_dropout_depth            PASS | feasible=YES length= 5.453 clearance= 0.632 | single_sensor_continuity
+perception_dropout_recover     PASS | feasible=YES length= 5.453 clearance= 0.632 | hold_then_recover
+primary_imu_fault_mapping      PASS | feasible=YES length= 5.453 clearance= 0.632 | lane_switch_required
+dynamic_to_static_mapping      PASS | feasible=YES length= 5.453 clearance= 0.632 | promotion_required_replan_conditional
+
+RESULT: 12/12 PASS

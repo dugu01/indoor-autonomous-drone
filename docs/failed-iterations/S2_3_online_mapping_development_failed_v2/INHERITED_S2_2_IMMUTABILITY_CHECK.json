@@ -1,0 +1,7 @@
+{
+  "checked_file_count": 110,
+  "missing": [],
+  "changed": [],
+  "pass": true,
+  "note": "Compared candidate inherited S2.2 files byte-for-byte with the uploaded frozen S2.2 v1.0.0 package."
+}

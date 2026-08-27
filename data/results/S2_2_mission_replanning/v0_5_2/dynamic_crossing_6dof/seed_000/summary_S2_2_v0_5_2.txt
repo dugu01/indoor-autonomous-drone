@@ -1,0 +1,10 @@
+Stage S2.2 v0.5.2 autonomous mission and 6-DOF replanning
+Scenario: DYNAMIC_CROSSING_6DOF | seed 0
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Replans 0 | inflation replans 0 | brake 0 | retries 0
+Lane final 1 | switches 0
+Estimator max position 0.02515549 | attitude deg 0.91959387
+Reference XY v/a/j 0.31138812 0.05723540 0.02164885
+Executed XY v/a/j 0.38069268 0.61508782 2.29431139
+Track 0.19486807 | override 0.01307917 | altitude 0.00991226 | tilt 3.54667286 deg
+Clearance obstacle/wall/dynamic 0.79318735 0.69381248 0.32856907

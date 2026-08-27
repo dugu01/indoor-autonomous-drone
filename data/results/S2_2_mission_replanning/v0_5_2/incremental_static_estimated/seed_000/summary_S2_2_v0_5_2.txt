@@ -1,0 +1,10 @@
+Stage S2.2 v0.5.2 autonomous mission and 6-DOF replanning
+Scenario: INCREMENTAL_STATIC_ESTIMATED | seed 0
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Replans 1 | inflation replans 0 | brake 0 | retries 0
+Lane final 1 | switches 0
+Estimator max position 0.02515549 | attitude deg 0.91959387
+Reference XY v/a/j 0.31138812 0.09949699 0.06482840
+Executed XY v/a/j 0.31903519 0.11154167 0.73931903
+Track 0.02069718 | override 0.00594803 | altitude 0.00991226 | tilt 0.72254565 deg
+Clearance obstacle/wall/dynamic 0.79130801 0.69335787 Inf

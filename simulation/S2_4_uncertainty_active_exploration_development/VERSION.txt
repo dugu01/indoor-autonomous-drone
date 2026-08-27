@@ -1,0 +1,3 @@
+S2.4-A-D-shadow-v0.1.0-candidate
+Generated from uploaded S2.3 archive SHA-256:
+7b898ce312821958cddb6d87152c8728f7f7614b46c3c56920dfe069839c2226

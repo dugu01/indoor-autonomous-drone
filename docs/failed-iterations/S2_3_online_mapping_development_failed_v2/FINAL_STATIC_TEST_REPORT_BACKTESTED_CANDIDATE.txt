@@ -1,0 +1,10 @@
+Stage S2.3 cumulative backtested candidate — non-MATLAB verification
+
+Inherited S2.2 SHA-256 comparison: PASS (110 files, 0 missing, 0 changed)
+S2.3 cumulative source audit: PASS
+Truth-isolation static audit: PASS
+MATLAB source sanity: PASS (81 MATLAB files)
+Recorded seed-0 trace cross-check: PASS
+Independent mechanism checks: PASS (15/15)
+Package status: DEVELOPMENT CANDIDATE
+MATLAB validation status: NOT YET RERUN / NOT VALIDATED

@@ -1,0 +1,24 @@
+Stage S2.2 v0.5.3.3 autonomous mission and 6-DOF replanning
+Scenario: PREFLIGHT_REJECT_UNSAFE_HOME | seed 0
+Goal 0 | failsafe 0 | RTL request 0 | PASS 1
+Arm 0 | takeoff 0 | RTL execute 0 | landed 0 | disarmed 1
+Preflight reject 1 | emergency land 0 | alternate 0 | site 3.000000 0.800000
+Truth goal/takeoff/land 0 0 0 | complete 0
+Preflight H/V/A/L/C/U/home/goal/route 1 1 1 1 1 1 0 1 0
+Preflight ages XY/Z/att 0.02000000 0.02000000 0.02000000 | accepted 35 | Pxy/Pz 3.83318919e-05 9.85999373e-06
+Replans 0 | inflation replans 0 | brake 0 | retries 0
+Lane final 1 | switches 0
+IMU fault detect/switch/blend NaN NaN NaN
+Estimator max position 0.02515775 | attitude deg 0.94893840
+Estimator observable/trigger/postloss 0.02515775 NaN 0.01579060 | metric 0.02515775
+Navigation degraded holds 0 | emergency horizontal drift 0.00000000
+XY loss time NaN | brake end NaN | brake accel 0.00000000 0.00000000
+Brake release time/speed NaN NaN
+Grid fallback count 0
+Reference XY v/a/j 0.00000000 0.00000000 0.00000000
+Executed XY v/a/j 0.00000000 0.00000000 0.00000000
+Reference Z v/a/j 0.00000000 0.00000000 0.00000000
+Executed Z v/a/j 0.00000000 0.00000000 0.00000000
+Track 0.00000000 | override 0.00000000 | altitude 0.00000000 | tilt 0.00000000 deg
+Clearance obstacle/wall/dynamic -0.32000000 0.80000000 Inf
+Final state PREFLIGHT_REJECT | distance goal 5.05371151

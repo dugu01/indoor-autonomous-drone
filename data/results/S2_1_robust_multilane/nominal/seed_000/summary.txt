@@ -1,0 +1,8 @@
+Stage S2.1 robust multi-lane navigation
+Scenario: NOMINAL | seed 0
+Max error after 5 s: 0.016461 m
+RMSE: 0.008072 m
+Attitude max: 0.842195 deg
+LiDAR max: 0.014955 m | acceptance 1.0000 | loops 7
+Final lane 1 | switches 0 | degraded 0.000 s | RTL requested 0
+Path clearance 0.624761 m | PASS 1

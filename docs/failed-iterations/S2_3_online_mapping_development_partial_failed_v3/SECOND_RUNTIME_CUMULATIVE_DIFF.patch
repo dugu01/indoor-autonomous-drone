@@ -1,0 +1,1139 @@
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/changed_cells_affect_route_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/changed_cells_affect_route_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/changed_cells_affect_route_S2_3.m	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/changed_cells_affect_route_S2_3.m	2026-07-12 19:15:00.503448272 +0000
+@@ -0,0 +1,34 @@
++function affected = changed_cells_affect_route_S2_3(grid,newlyBlockedMask, ...
++    traj,trajClock,gridFallbackActive,gridFallbackPath,gridFallbackIndex,currentXY)
++% CHANGED_CELLS_AFFECT_ROUTE_S2_3 Replan only when newly blocked inflated
++% cells intersect the active future route. The input mask is already
++% inflated by vehicle, control, estimator and map margins.
++affected=false;
++if ~any(newlyBlockedMask(:)),return;end
++checkGrid=grid;checkGrid.occ=logical(newlyBlockedMask);
++points=double(currentXY(:).');
++if gridFallbackActive&&~isempty(gridFallbackPath)
++    idx=max(1,min(gridFallbackIndex,size(gridFallbackPath,1)));
++    points=[points;double(gridFallbackPath(idx:end,:))]; %#ok<AGROW>
++elseif isfield(traj,'valid')&&traj.valid
++    if isfield(traj,'sample')&&isfield(traj.sample,'t')
++        sample=traj.sample;
++    else
++        sample=sample_min_snap_trajectory_S2_2(traj,0.05);
++    end
++    keep=sample.t>=max(0,trajClock)-1e-9;
++    points=[points;double(sample.p(keep,:))]; %#ok<AGROW>
++else
++    % A tracking state without a usable route representation is unsafe to
++    % exempt from repair.
++    affected=true;return;
++end
++if size(points,1)==1
++    affected=segment_occupied_grid_S2_2(checkGrid,points,points);return;
++end
++for i=1:size(points,1)-1
++    if segment_occupied_grid_S2_2(checkGrid,points(i,:),points(i+1,:))
++        affected=true;return;
++    end
++end
++end
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/generate_strict_trajectory_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/generate_strict_trajectory_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/generate_strict_trajectory_S2_3.m	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/generate_strict_trajectory_S2_3.m	2026-07-12 19:15:00.496654285 +0000
+@@ -0,0 +1,16 @@
++function traj = generate_strict_trajectory_S2_3(cfg,grid,path,startVelocity,startAcceleration,initialScale)
++% GENERATE_STRICT_TRAJECTORY_S2_3 Preserve the S2.2 generator but enforce
++% the unchanged hard S2.2 kinematic limits at the S2.3 adapter boundary.
++if nargin<6||isempty(initialScale),initialScale=1.0;end
++scale=max(initialScale,eps);traj=struct('valid',false);
++for attempt=1:5
++    traj=generate_min_snap_trajectory_S2_2(cfg,grid,path,startVelocity,startAcceleration,scale);
++    if ~isfield(traj,'valid')||~traj.valid,return;end
++    ratios=[traj.maxSpeed_mps/max(cfg.maxSpeedXY_mps,eps), ...
++        sqrt(traj.maxAccel_mps2/max(cfg.maxAccelXY_mps2,eps)), ...
++        nthroot(traj.maxJerk_mps3/max(cfg.maxJerkXY_mps3,eps),3)];
++    if all(ratios<=1+1e-9),return;end
++    scale=scale*1.002*max(ratios);
++end
++traj.valid=false;
++end
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_S2_3_config.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/init_S2_3_config.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_S2_3_config.m	2026-07-12 18:50:37.268299784 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/init_S2_3_config.m	2026-07-12 19:15:09.404256702 +0000
+@@ -57,7 +57,10 @@
+ cfg.mapPerceptionFailsafeTimeout_s=4.0;
+ cfg.mapInitialScanTime_s=2.40;
+ cfg.mapScanHoldTime_s=2.60;
+-cfg.mapScanYawRate_radps=deg2rad(55);
++% The seed-0 recorded replay localized the 2 deg attitude violation to
++% repeated scan states at 55 deg/s. Use a 35 deg/s continuous scan; this
++% remains sufficient to sweep approximately 91 deg during a 2.6 s hold.
++cfg.mapScanYawRate_radps=deg2rad(35);
+ cfg.mapMaxExtensionAttempts=12;
+ cfg.mapMaxNoProgressScans=3;
+ cfg.mapMinFrontierProgress_m=0.20;
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_probabilistic_map_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/init_probabilistic_map_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_probabilistic_map_S2_3.m	2026-07-12 18:50:37.269557400 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/init_probabilistic_map_S2_3.m	2026-07-12 19:15:00.470935436 +0000
+@@ -1,5 +1,5 @@
+ function map = init_probabilistic_map_S2_3(cfg)
+-% INIT_PROBABILISTIC_MAP_S2_3 Layered log-odds occupancy representation.
++% INIT_PROBABILISTIC_MAP_S2_3 Layered 3-D log-odds representation.
+ xs=0:cfg.mapResolutionXY_m:cfg.room(1);
+ ys=0:cfg.mapResolutionXY_m:cfg.room(2);
+ zs=cfg.mapMinZ_m:cfg.mapResolutionZ_m:cfg.mapMaxZ_m;
+@@ -10,11 +10,19 @@
+ map.logOdds=cfg.mapLogOddsPrior*ones(ny,nx,nz,'single');
+ map.observationCount=zeros(ny,nx,nz,'uint16');
+ map.hitCount=zeros(ny,nx,nz,'uint16');
++% rawHitCount records every physical ray endpoint, including endpoints first
++% treated as temporary occupancy. It is used only by independent map recall
++% validation and never by planning or mission decisions.
++map.rawHitCount=zeros(ny,nx,nz,'uint16');
+ map.lastObserved=-inf(ny,nx,nz,'single');
+-map.dynamicLogOdds=zeros(ny,nx,'single');
+-map.dynamicHitCount=zeros(ny,nx,'uint16');
+-map.dynamicFirstHit=nan(ny,nx,'single');
+-map.dynamicLastHit=-inf(ny,nx,'single');
++% Temporary occupancy is maintained per voxel. The earlier 2-D candidate
++% lost the endpoint height and repeatedly promoted the same XY cell at a
++% fixed altitude, which was incompatible with depth-camera observations.
++map.dynamicLogOdds=zeros(ny,nx,nz,'single');
++map.dynamicHitCount=zeros(ny,nx,nz,'uint16');
++map.dynamicFirstHit=nan(ny,nx,nz,'single');
++map.dynamicLastHit=-inf(ny,nx,nz,'single');
++map.promotedStatic=false(ny,nx,nz);
+ map.version=uint32(0);map.frameVersion=uint32(0);
+ map.lastPacketTime=-inf;map.lastLidarTime=-inf;map.lastDepthTime=-inf;map.lastSequence=uint64(0);
+ map.acceptedPackets=uint32(0);map.rejectedPackets=uint32(0);map.noDataPackets=uint32(0);
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/mission_lifecycle_manager_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/mission_lifecycle_manager_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/mission_lifecycle_manager_S2_3.m	2026-07-12 18:50:37.269314787 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/mission_lifecycle_manager_S2_3.m	2026-07-12 19:16:38.680092379 +0000
+@@ -43,7 +43,9 @@
+ mapVersionHistory=double(mapState.version);mapVersionHistoryTime=0;mapSnapshots={};mapSnapshotTimes=[];
+ lastMapSnapshotTime=-inf;segmentIsFinal=true;segmentMissionGoal=outboundTarget;
+ scanResumeState='PLAN_OUTBOUND';scanEntryMapVersion=double(mapState.version);scanNoProgressCount=0;
+-mapExtensionCount=0;scanHoldCount=0;goalUnreachable=false;mapSafetyReplanCount=0;
++mapExtensionCount=0;mapExtensionPlanCount=0;scanHoldCount=0;goalUnreachable=false;mapSafetyReplanCount=0;
++segmentStartGoalDistance=norm(est.p(1:2)-outboundTarget(:));
++yawCommand=estimated_yaw_S2_3(est);scanStartYaw=yawCommand;
+ perceptionHoldCount=0;perceptionResumeState='';perceptionLossStart=nan;
+ unknownCommitmentCount=0;lastPlannerMapVersion=double(mapState.version);
+ insertedDone=false(1,numel(scenario.truthInsertedObstacles));homeBlockInserted=false;rtlObstacleInserted=false;rtlObstacleReplanRecorded=false;
+@@ -129,6 +131,11 @@
+     changedMask=xor(oldGrid.occ,grid.occ);
+     newlyBlockedMask=grid.occ&~oldGrid.occ;
+     mapChanged=any(newlyBlockedMask(:));
++    routeAffected=false;
++    if mapChanged&&any(strcmp(state,{'TRACK_OUTBOUND','TRACK_RTL'}))
++        routeAffected=changed_cells_affect_route_S2_3(grid,newlyBlockedMask, ...
++            traj,trajClock,gridFallbackActive,gridFallbackPath,gridFallbackIndex,est.p(1:2));
++    end
+     if double(mapState.version)~=mapVersionHistory(end)
+         mapVersionHistory(end+1)=double(mapState.version); %#ok<AGROW>
+         mapVersionHistoryTime(end+1)=t; %#ok<AGROW>
+@@ -149,9 +156,10 @@
+         gridFallbackActive=false;pendingReplan=false;
+     end
+ 
+-    % A newly blocked cell during horizontal flight repairs the current
+-    % segment. Free-space revelation is used on the next planned segment.
+-    if mapChanged&&any(strcmp(state,{'TRACK_OUTBOUND','TRACK_RTL'}))
++    % A newly blocked cell repairs the active segment only when its already
++    % inflated footprint intersects the future route. Map changes elsewhere
++    % remain available to the next planning call without resetting progress.
++    if routeAffected&&any(strcmp(state,{'TRACK_OUTBOUND','TRACK_RTL'}))
+         resumeState=state;
+         [planner,candidatePath,candidateTraj,st,jump,routeExists]= ...
+             repair_segment(cfg,planner,grid,changedMask,est,estAcc,currentTarget);
+@@ -177,8 +185,14 @@
+             if strcmp(resumeState,'TRACK_RTL')
+                 state='PLAN_RTL';stateEntryTime=t;holdPosition=est.p;
+             else
+-                state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';
+-                scanEntryMapVersion=double(mapState.version);holdPosition=est.p;scanHoldCount=scanHoldCount+1;
++                scanNoProgressCount=scanNoProgressCount+1;
++                if scanNoProgressCount>=cfg.mapMaxNoProgressScans|| ...
++                        mapExtensionCount>=cfg.mapMaxExtensionAttempts
++                    goalUnreachable=true;state='GOAL_UNREACHABLE';stateEntryTime=t;holdPosition=est.p;
++                else
++                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';scanStartYaw=yawCommand;
++                    scanEntryMapVersion=double(mapState.version);holdPosition=est.p;scanHoldCount=scanHoldCount+1;
++                end
+             end
+         end
+     end
+@@ -226,10 +240,20 @@
+             % Stop in known free space, scan, and re-enter the appropriate
+             % planner. Emergency landing remains reserved for exhausted RTL
+             % recovery or loss of navigation/perception safety.
++            resumeAfterFailure=pendingResumeState;
+             pendingReplan=false;pendingFallbackPath=zeros(0,2);gridFallbackActive=false;
+-            state='SCAN_HOLD';stateEntryTime=t;holdPosition=est.p;
+-            if strcmp(pendingResumeState,'TRACK_RTL'),scanResumeState='PLAN_RTL';else,scanResumeState='PLAN_OUTBOUND';end
+-            scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;
++            if strcmp(resumeAfterFailure,'TRACK_OUTBOUND')
++                scanNoProgressCount=scanNoProgressCount+1;
++            end
++            if strcmp(resumeAfterFailure,'TRACK_OUTBOUND')&& ...
++                    (scanNoProgressCount>=cfg.mapMaxNoProgressScans|| ...
++                    mapExtensionCount>=cfg.mapMaxExtensionAttempts)
++                goalUnreachable=true;state='GOAL_UNREACHABLE';stateEntryTime=t;holdPosition=est.p;
++            else
++                state='SCAN_HOLD';stateEntryTime=t;holdPosition=est.p;scanStartYaw=yawCommand;
++                if strcmp(resumeAfterFailure,'TRACK_RTL'),scanResumeState='PLAN_RTL';else,scanResumeState='PLAN_OUTBOUND';end
++                scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;
++            end
+         end
+     end
+     if pendingReplan&&t-pendingReplanStart>=cfg.rtlReplanTimeout_s
+@@ -251,10 +275,20 @@
+                 if ~isfinite(rtlTrackStart),rtlTrackStart=t;end
+             end
+         else
++            resumeAfterFailure=pendingResumeState;
+             pendingReplan=false;pendingFallbackPath=zeros(0,2);gridFallbackActive=false;
+-            state='SCAN_HOLD';stateEntryTime=t;holdPosition=est.p;
+-            if strcmp(pendingResumeState,'TRACK_RTL'),scanResumeState='PLAN_RTL';else,scanResumeState='PLAN_OUTBOUND';end
+-            scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;
++            if strcmp(resumeAfterFailure,'TRACK_OUTBOUND')
++                scanNoProgressCount=scanNoProgressCount+1;
++            end
++            if strcmp(resumeAfterFailure,'TRACK_OUTBOUND')&& ...
++                    (scanNoProgressCount>=cfg.mapMaxNoProgressScans|| ...
++                    mapExtensionCount>=cfg.mapMaxExtensionAttempts)
++                goalUnreachable=true;state='GOAL_UNREACHABLE';stateEntryTime=t;holdPosition=est.p;
++            else
++                state='SCAN_HOLD';stateEntryTime=t;holdPosition=est.p;scanStartYaw=yawCommand;
++                if strcmp(resumeAfterFailure,'TRACK_RTL'),scanResumeState='PLAN_RTL';else,scanResumeState='PLAN_OUTBOUND';end
++                scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;
++            end
+         end
+     end
+ 
+@@ -312,7 +346,7 @@
+             [brakeAccel,dampingEnabled]=xy_loss_horizontal_command( ...
+                 t,xyLossBrakeEndTime,xyLossVelocityTrustEnd,xyLossBrakeAccel);
+             ref3=struct('p',[est.p(1:2);holdPosition(3)], ...
+-                'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',0, ...
++                'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',yawCommand, ...
+                 'horizontalControlEnabled',false, ...
+                 'horizontalVelocityDampingEnabled',dampingEnabled, ...
+                 'horizontalVelocityDampingGain',cfg.emergencyVelocityDampingGain, ...
+@@ -351,7 +385,7 @@
+         case 'TAKEOFF'
+             motorsActive=true;
+             vz=vertical_profile_S2_2(verticalStartZ,cfg.altitudeNominal_m,cfg.takeoffDuration_s,t-verticalStartTime);
+-            ref3=struct('p',[scenario.home(:);vz.z],'v',[0;0;vz.vz],'a',[0;0;vz.az],'yaw',0);
++            ref3=struct('p',[scenario.home(:);vz.z],'v',[0;0;vz.vz],'a',[0;0;vz.az],'yaw',yawCommand);
+             maxVerticalReferenceSpeed=max(maxVerticalReferenceSpeed,abs(vz.vz));
+             maxVerticalReferenceAccel=max(maxVerticalReferenceAccel,abs(vz.az));
+             maxVerticalReferenceJerk=max(maxVerticalReferenceJerk,abs(vz.jz));
+@@ -366,24 +400,24 @@
+             end
+             if takeoffConfirmTimer>=cfg.takeoffConfirmTime_s
+                 takeoffCompleted=true;state='INITIAL_HOVER';stateEntryTime=t;
+-                holdPosition=[scenario.home(:);cfg.altitudeNominal_m];
++                holdPosition=[scenario.home(:);cfg.altitudeNominal_m];scanStartYaw=yawCommand;
+             end
+ 
+         case 'INITIAL_HOVER'
+             motorsActive=true;
+-            scanYaw=wrap_pi_S2_2(cfg.mapScanYawRate_radps*(t-stateEntryTime));
+-            ref3=hover_ref_yaw(scenario.home,cfg.altitudeNominal_m,scanYaw);
++            scanYaw=wrap_pi_S2_2(scanStartYaw+cfg.mapScanYawRate_radps*(t-stateEntryTime));
++            yawCommand=scanYaw;ref3=hover_ref_yaw(scenario.home,cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=max(cfg.initialHoverTime_s,cfg.mapInitialScanTime_s)
+                 state='WAIT_FOR_GOAL';stateEntryTime=t;
+             end
+ 
+         case 'WAIT_FOR_GOAL'
+-            motorsActive=true;ref3=hover_ref(scenario.home,cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(scenario.home,cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=scenario.goalCommandDelay_s,state='PLAN_OUTBOUND';stateEntryTime=t;end
+ 
+         case 'PLAN_OUTBOUND'
+             motorsActive=true;segmentMissionGoal=outboundTarget;
+-            ref3=hover_ref(est.p(1:2).',cfg.altitudeNominal_m);
++            ref3=hover_ref_yaw(est.p(1:2).',cfg.altitudeNominal_m,yawCommand);
+             [planner,path,traj,st,jump,routeExists,planMeta]=plan_unknown_segment_S2_3( ...
+                 cfg,grid,est,estAcc,segmentMissionGoal,scenario.trajectoryInitialTimeScale);
+             dstarRepairExpanded=dstarRepairExpanded+st.dstarExpanded;
+@@ -391,11 +425,12 @@
+             astarRecoveryCount=astarRecoveryCount+st.astarRecovery;
+             pathHistory{end+1}=path;trajectoryHistory{end+1}=traj; %#ok<AGROW>
+             currentTarget=planMeta.segmentTarget;segmentIsFinal=planMeta.isFinal;
+-            if planMeta.frontierUsed,mapExtensionCount=mapExtensionCount+1;end
++            segmentStartGoalDistance=norm(est.p(1:2)-segmentMissionGoal(:));
++            if planMeta.frontierUsed,mapExtensionPlanCount=mapExtensionPlanCount+1;end
+             if routeExists&&traj.valid
+                 trajClock=0;state='TRACK_OUTBOUND';stateEntryTime=t;arrivalConfirmTimer=0;
+                 lastPlannerMapVersion=double(grid.mapVersion);
+-                ref3=trajectory_start_ref(traj,cfg.altitudeNominal_m);
++                ref3=trajectory_start_ref(traj,cfg.altitudeNominal_m,yawCommand);
+                 [trajectoryGenerationCount,trajectoryFallbackCount,maxTrajectoryTimeScale,maxReferenceContinuity,maxReplanStateJump,maxReferenceSpeed,maxReferenceAccel,maxReferenceJerk]= ...
+                     update_traj_metrics(traj,jump,trajectoryGenerationCount,trajectoryFallbackCount,maxTrajectoryTimeScale,maxReferenceContinuity,maxReplanStateJump,maxReferenceSpeed,maxReferenceAccel,maxReferenceJerk);
+             elseif routeExists
+@@ -407,7 +442,7 @@
+                 if scanNoProgressCount>=cfg.mapMaxNoProgressScans||mapExtensionCount>=cfg.mapMaxExtensionAttempts
+                     goalUnreachable=true;state='GOAL_UNREACHABLE';stateEntryTime=t;holdPosition=est.p;
+                 else
+-                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';
++                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';scanStartYaw=yawCommand;
+                     scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;holdPosition=est.p;
+                 end
+             end
+@@ -423,13 +458,13 @@
+                 [fallbackVelCmd,fallbackAccelCmd]=shape_velocity_command_S2_2( ...
+                     cfgFallback,fallbackVelCmd,fallbackAccelCmd,targetVel);
+                 ref3=struct('p',[est.p(1:2);cfg.altitudeNominal_m], ...
+-                    'v',[fallbackVelCmd(:);0],'a',[fallbackAccelCmd(:);0],'yaw',0);
++                    'v',[fallbackVelCmd(:);0],'a',[fallbackAccelCmd(:);0],'yaw',yawCommand);
+                 trackingError=norm(est.p(1:2).'-currentTarget);
+             else
+                 [desiredVel,trackingError,refXY]=track_smooth_trajectory_S2_2( ...
+                     cfg,est.p(1:2),est.v(1:2),traj,trajClock); %#ok<ASGLU>
+                 ref3=struct('p',[refXY.p(:);cfg.altitudeNominal_m], ...
+-                    'v',[refXY.v(:);0],'a',[refXY.a(:);0],'yaw',0);
++                    'v',[refXY.v(:);0],'a',[refXY.a(:);0],'yaw',yawCommand);
+                 if traj.valid&&isfinite(trackingError)&& ...
+                         trackingError<=cfg.trajectoryClockMaxError_m
+                     trajClock=min(traj.duration_s,trajClock+cfg.dt);
+@@ -455,7 +490,15 @@
+                         goalReached=true;timeToGoal=t;state='GOAL_HOVER';stateEntryTime=t;
+                         holdPosition=[segmentMissionGoal(:);cfg.altitudeNominal_m];scanNoProgressCount=0;
+                     else
+-                        state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';
++                        extensionProgress=segmentStartGoalDistance- ...
++                            norm(est.p(1:2)-segmentMissionGoal(:));
++                        mapExtensionCount=mapExtensionCount+1;
++                        if extensionProgress>=cfg.mapMinFrontierProgress_m
++                            scanNoProgressCount=0;
++                        else
++                            scanNoProgressCount=scanNoProgressCount+1;
++                        end
++                        state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_OUTBOUND';scanStartYaw=yawCommand;
+                         scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;holdPosition=est.p;
+                     end
+                 else
+@@ -463,27 +506,35 @@
+                         state='LAND_HOVER';stateEntryTime=t;
+                         holdPosition=[selectedLandingXY(:);cfg.altitudeNominal_m];scanNoProgressCount=0;
+                     else
+-                        state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';
++                        extensionProgress=segmentStartGoalDistance- ...
++                            norm(est.p(1:2)-segmentMissionGoal(:));
++                        mapExtensionCount=mapExtensionCount+1;
++                        if extensionProgress>=cfg.mapMinFrontierProgress_m
++                            scanNoProgressCount=0;
++                        else
++                            scanNoProgressCount=scanNoProgressCount+1;
++                        end
++                        state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';scanStartYaw=yawCommand;
+                         scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;holdPosition=est.p;
+                     end
+                 end
+             end
+ 
+         case 'GOAL_HOVER'
+-            motorsActive=true;ref3=hover_ref(scenario.goal,cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(scenario.goal,cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=cfg.goalHoverTime_s&&scenario.requestRTLAfterGoal
+                 state='PLAN_RTL';stateEntryTime=t;
+             end
+ 
+         case 'PLAN_RTL'
+-            motorsActive=true;ref3=hover_ref(est.p(1:2).',cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(est.p(1:2).',cfg.altitudeNominal_m,yawCommand);
+             candidates=[scenario.home;scenario.alternateLandingZones];
+             landingChoice=select_safe_landing_zone_S2_3(cfg,grid,est.p(1:2).',candidates,t);
+             astarScratchExpanded=astarScratchExpanded+landingChoice.astarExpanded;
+             if ~landingChoice.valid
+                 scanNoProgressCount=scanNoProgressCount+1;
+                 if scanNoProgressCount<cfg.mapMaxNoProgressScans
+-                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';
++                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';scanStartYaw=yawCommand;
+                     scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;holdPosition=est.p;
+                 else
+                     emergencyVerticalOnly=false;
+@@ -500,13 +551,14 @@
+                 astarRecoveryCount=astarRecoveryCount+st.astarRecovery;
+                 pathHistory{end+1}=path;trajectoryHistory{end+1}=traj; %#ok<AGROW>
+                 currentTarget=planMeta.segmentTarget;segmentIsFinal=planMeta.isFinal;
+-                if planMeta.frontierUsed,mapExtensionCount=mapExtensionCount+1;end
++                segmentStartGoalDistance=norm(est.p(1:2)-segmentMissionGoal(:));
++                if planMeta.frontierUsed,mapExtensionPlanCount=mapExtensionPlanCount+1;end
+                 if routeExists&&traj.valid
+                     trajClock=0;gridFallbackActive=false;rtlExecuted=true;
+                     if ~isfinite(rtlTrackStart),rtlTrackStart=t;end
+                     state='TRACK_RTL';stateEntryTime=t;arrivalConfirmTimer=0;
+                     lastPlannerMapVersion=double(grid.mapVersion);
+-                    ref3=trajectory_start_ref(traj,cfg.altitudeNominal_m);
++                    ref3=trajectory_start_ref(traj,cfg.altitudeNominal_m,yawCommand);
+                     [trajectoryGenerationCount,trajectoryFallbackCount,maxTrajectoryTimeScale,maxReferenceContinuity,maxReplanStateJump,maxReferenceSpeed,maxReferenceAccel,maxReferenceJerk]= ...
+                         update_traj_metrics(traj,jump,trajectoryGenerationCount,trajectoryFallbackCount,maxTrajectoryTimeScale,maxReferenceContinuity,maxReplanStateJump,maxReferenceSpeed,maxReferenceAccel,maxReferenceJerk);
+                 elseif routeExists
+@@ -514,36 +566,24 @@
+                     pendingFallbackPath=path;replanBrakeCount=replanBrakeCount+1;
+                     state='LIFECYCLE_REPLAN_BRAKE';stateEntryTime=t;holdPosition=est.p;
+                 else
+-                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';
++                    state='SCAN_HOLD';stateEntryTime=t;scanResumeState='PLAN_RTL';scanStartYaw=yawCommand;
+                     scanEntryMapVersion=double(mapState.version);scanHoldCount=scanHoldCount+1;holdPosition=est.p;
+                 end
+             end
+ 
+         case 'SCAN_HOLD'
+             motorsActive=true;
+-            scanYaw=wrap_pi_S2_2(cfg.mapScanYawRate_radps*(t-stateEntryTime));
+-            ref3=hover_ref_yaw(holdPosition(1:2).',cfg.altitudeNominal_m,scanYaw);
++            scanYaw=wrap_pi_S2_2(scanStartYaw+cfg.mapScanYawRate_radps*(t-stateEntryTime));
++            yawCommand=scanYaw;ref3=hover_ref_yaw(holdPosition(1:2).',cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=cfg.mapScanHoldTime_s
+-                if double(mapState.version)<=scanEntryMapVersion
+-                    scanNoProgressCount=scanNoProgressCount+1;
+-                else
+-                    scanNoProgressCount=0;
+-                end
+-                if scanNoProgressCount>=cfg.mapMaxNoProgressScans
+-                    if strcmp(scanResumeState,'PLAN_OUTBOUND')
+-                        goalUnreachable=true;state='GOAL_UNREACHABLE';stateEntryTime=t;
+-                    else
+-                        emergencyVerticalOnly=false;
+-                        [state,stateEntryTime,emergencyLanding,failsafe,holdPosition,verticalStartZ,verticalStartTime]= ...
+-                            begin_emergency_landing(t,est,'EMERGENCY_HOLD');
+-                    end
+-                else
+-                    state=scanResumeState;stateEntryTime=t;
+-                end
++                % A changing map version alone is not physical progress.
++                % Resume planning; PLAN_* and completed frontier arrivals
++                % update the no-progress watchdog using route/progress evidence.
++                state=scanResumeState;stateEntryTime=t;
+             end
+ 
+         case 'MAP_DEGRADED_HOLD'
+-            motorsActive=true;ref3=hover_ref(est.p(1:2).',cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(est.p(1:2).',cfg.altitudeNominal_m,yawCommand);
+             perceptionAge=t-max(mapState.lastLidarTime,mapState.lastDepthTime);
+             if isfinite(perceptionAge)&&perceptionAge<=cfg.mapPerceptionHoldTimeout_s
+                 if any(strcmp(perceptionResumeState,{'TRACK_OUTBOUND','TRACK_RTL'}))
+@@ -562,13 +602,13 @@
+             end
+ 
+         case 'GOAL_UNREACHABLE'
+-            motorsActive=true;ref3=hover_ref(est.p(1:2).',cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(est.p(1:2).',cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=cfg.goalHoverTime_s
+                 rtlRequested=true;state='PLAN_RTL';stateEntryTime=t;
+             end
+ 
+         case 'LAND_HOVER'
+-            motorsActive=true;ref3=hover_ref(selectedLandingXY,cfg.altitudeNominal_m);
++            motorsActive=true;ref3=hover_ref_yaw(selectedLandingXY,cfg.altitudeNominal_m,yawCommand);
+             if t-stateEntryTime>=cfg.rtlArrivalHoverTime_s
+                 state='LAND_DESCENT';stateEntryTime=t;verticalStartTime=t;verticalStartZ=est.p(3);landContactTimer=0;landDetected=false;
+             end
+@@ -577,7 +617,7 @@
+             motorsActive=true;
+             vz=vertical_profile_S2_2(verticalStartZ,cfg.groundHeight_m,cfg.landingDuration_s,t-verticalStartTime);
+             landingDetectionArmed=vz.complete;
+-            ref3=struct('p',[selectedLandingXY(:);vz.z],'v',[0;0;vz.vz],'a',[0;0;vz.az],'yaw',0);
++            ref3=struct('p',[selectedLandingXY(:);vz.z],'v',[0;0;vz.vz],'a',[0;0;vz.az],'yaw',yawCommand);
+             maxVerticalReferenceSpeed=max(maxVerticalReferenceSpeed,abs(vz.vz));
+             maxVerticalReferenceAccel=max(maxVerticalReferenceAccel,abs(vz.az));
+             maxVerticalReferenceJerk=max(maxVerticalReferenceJerk,abs(vz.jz));
+@@ -591,7 +631,7 @@
+                 [brakeAccel,dampingEnabled]=xy_loss_horizontal_command( ...
+                     t,xyLossBrakeEndTime,xyLossVelocityTrustEnd,xyLossBrakeAccel);
+                 ref3=struct('p',[est.p(1:2);holdPosition(3)], ...
+-                    'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',0, ...
++                    'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',yawCommand, ...
+                     'horizontalControlEnabled',false, ...
+                     'horizontalVelocityDampingEnabled',dampingEnabled, ...
+                     'horizontalVelocityDampingGain',cfg.emergencyVelocityDampingGain, ...
+@@ -611,7 +651,7 @@
+                 holdComplete=(t-stateEntryTime>=holdDuration)&&horizontalBrakeComplete;
+             else
+                 ref3=struct('p',holdPosition(:),'v',zeros(3,1), ...
+-                    'a',zeros(3,1),'yaw',0,'horizontalControlEnabled',true);
++                    'a',zeros(3,1),'yaw',yawCommand,'horizontalControlEnabled',true);
+                 holdDuration=cfg.emergencyHoldTime_s;
+                 holdComplete=t-stateEntryTime>=holdDuration;
+             end
+@@ -635,12 +675,12 @@
+                 % position/velocity feedback, so a drifting inertial estimate
+                 % cannot create a new horizontal acceleration command.
+                 ref3=struct('p',[est.p(1:2);vz.z],'v',[0;0;vz.vz], ...
+-                    'a',[0;0;vz.az],'yaw',0,'horizontalControlEnabled',false, ...
++                    'a',[0;0;vz.az],'yaw',yawCommand,'horizontalControlEnabled',false, ...
+                     'horizontalVelocityDampingEnabled',false, ...
+                     'horizontalFeedforwardAccelEnabled',false);
+             else
+                 ref3=struct('p',[selectedLandingXY(:);vz.z],'v',[0;0;vz.vz], ...
+-                    'a',[0;0;vz.az],'yaw',0,'horizontalControlEnabled',true);
++                    'a',[0;0;vz.az],'yaw',yawCommand,'horizontalControlEnabled',true);
+             end
+             maxVerticalReferenceSpeed=max(maxVerticalReferenceSpeed,abs(vz.vz));
+             maxVerticalReferenceAccel=max(maxVerticalReferenceAccel,abs(vz.az));
+@@ -652,7 +692,7 @@
+         case 'LIFECYCLE_REPLAN_BRAKE'
+             motorsActive=true;
+             ref3=struct('p',[est.p(1:2);cfg.altitudeNominal_m], ...
+-                'v',zeros(3,1),'a',zeros(3,1),'yaw',0);
++                'v',zeros(3,1),'a',zeros(3,1),'yaw',yawCommand);
+ 
+         case 'DISARM'
+             if t-stateEntryTime>=cfg.disarmDelay_s
+@@ -684,32 +724,32 @@
+         [brakeAccel,dampingEnabled]=xy_loss_horizontal_command( ...
+             t,xyLossBrakeEndTime,xyLossVelocityTrustEnd,xyLossBrakeAccel);
+         ref3=struct('p',[est.p(1:2);holdPosition(3)], ...
+-            'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',0, ...
++            'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',yawCommand, ...
+             'horizontalControlEnabled',false, ...
+             'horizontalVelocityDampingEnabled',dampingEnabled, ...
+             'horizontalVelocityDampingGain',cfg.emergencyVelocityDampingGain, ...
+             'horizontalFeedforwardAccelEnabled',true);
+     elseif strcmp(state,'LIFECYCLE_REPLAN_BRAKE')
+         ref3=struct('p',[est.p(1:2);cfg.altitudeNominal_m], ...
+-            'v',zeros(3,1),'a',zeros(3,1),'yaw',0);
++            'v',zeros(3,1),'a',zeros(3,1),'yaw',yawCommand);
+     elseif strcmp(state,'MAP_DEGRADED_HOLD')
+-        ref3=hover_ref(est.p(1:2).',cfg.altitudeNominal_m);
++        ref3=hover_ref_yaw(est.p(1:2).',cfg.altitudeNominal_m,yawCommand);
+     elseif strcmp(state,'SCAN_HOLD')
+-        scanYaw=wrap_pi_S2_2(cfg.mapScanYawRate_radps*(t-stateEntryTime));
+-        ref3=hover_ref_yaw(holdPosition(1:2).',cfg.altitudeNominal_m,scanYaw);
++        scanYaw=wrap_pi_S2_2(scanStartYaw+cfg.mapScanYawRate_radps*(t-stateEntryTime));
++        yawCommand=scanYaw;ref3=hover_ref_yaw(holdPosition(1:2).',cfg.altitudeNominal_m,yawCommand);
+     elseif strcmp(state,'EMERGENCY_HOLD')
+         if emergencyVerticalOnly
+             [brakeAccel,dampingEnabled]=xy_loss_horizontal_command( ...
+                 t,xyLossBrakeEndTime,xyLossVelocityTrustEnd,xyLossBrakeAccel);
+             ref3=struct('p',[est.p(1:2);holdPosition(3)], ...
+-                'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',0, ...
++                'v',zeros(3,1),'a',[brakeAccel(:);0],'yaw',yawCommand, ...
+                 'horizontalControlEnabled',false, ...
+                 'horizontalVelocityDampingEnabled',dampingEnabled, ...
+                 'horizontalVelocityDampingGain',cfg.emergencyVelocityDampingGain, ...
+                 'horizontalFeedforwardAccelEnabled',true);
+         else
+             ref3=struct('p',holdPosition(:),'v',zeros(3,1), ...
+-                'a',zeros(3,1),'yaw',0,'horizontalControlEnabled',true);
++                'a',zeros(3,1),'yaw',yawCommand,'horizontalControlEnabled',true);
+         end
+     end
+ 
+@@ -905,7 +945,8 @@
+     'mapVersionFinal',double(mapState.version),'mapFrameVersionFinal',double(mapState.frameVersion), ...
+     'mapAcceptedPackets',double(mapState.acceptedPackets),'mapRejectedPackets',double(mapState.rejectedPackets), ...
+     'mapNoDataPackets',double(mapState.noDataPackets), ...
+-    'mapExtensionCount',mapExtensionCount,'scanHoldCount',scanHoldCount,'mapSafetyReplanCount',mapSafetyReplanCount, ...
++    'mapExtensionCount',mapExtensionCount,'mapExtensionPlanCount',mapExtensionPlanCount, ...
++    'scanHoldCount',scanHoldCount,'mapSafetyReplanCount',mapSafetyReplanCount, ...
+     'perceptionHoldCount',perceptionHoldCount,'goalUnreachable',goalUnreachable, ...
+     'unknownCommitmentCount',unknownCommitmentCount,'mapPromotionCount',double(mapState.promotedCount), ...
+     'mapFalseFreeRate',mapMetrics.falseFreeRate,'mapOccupiedRecall',mapMetrics.occupiedRecall, ...
+@@ -1073,7 +1114,7 @@
+ end
+ 
+ function [traj,jump]=make_traj(cfg,grid,path,est,estAcc,initialScale)
+-traj=generate_min_snap_trajectory_S2_2(cfg,grid,path,est.v(1:2),estAcc(1:2),initialScale);jump=inf(1,3);
++traj=generate_strict_trajectory_S2_3(cfg,grid,path,est.v(1:2),estAcc(1:2),initialScale);jump=inf(1,3);
+ if traj.valid,r=sample_min_snap_state_S2_2(traj,0);jump=[norm(r.p-est.p(1:2)) norm(r.v-est.v(1:2)) norm(r.a-estAcc(1:2))];end
+ end
+ 
+@@ -1101,9 +1142,9 @@
+ function cfg2=grid_cfg(cfg,inflation),cfg2=cfg;cfg2.inflationRadius=inflation;end
+ function ref=hover_ref(xy,z),ref=struct('p',[xy(:);z],'v',zeros(3,1),'a',zeros(3,1),'yaw',0);end
+ function ref=hover_ref_yaw(xy,z,yaw),ref=struct('p',[xy(:);z],'v',zeros(3,1),'a',zeros(3,1),'yaw',yaw);end
+-function ref=trajectory_start_ref(traj,z)
++function ref=trajectory_start_ref(traj,z,yaw)
+ r=sample_min_snap_state_S2_2(traj,0);
+-ref=struct('p',[r.p(:);z],'v',[r.v(:);0],'a',[r.a(:);0],'yaw',0);
++ref=struct('p',[r.p(:);z],'v',[r.v(:);0],'a',[r.a(:);0],'yaw',yaw);
+ end
+ function ref=ground_ref(xy,cfg),ref=hover_ref(xy,cfg.groundHeight_m);end
+ function cmd=zero_cmd(),cmd=struct('thrust_N',0,'moment_Nm',zeros(3,1),'aCmd',zeros(3,1));end
+@@ -1132,6 +1173,10 @@
+ end
+ end
+ 
++function yaw=estimated_yaw_S2_3(est)
++rpy=q2rpy_S2_2(est.q);yaw=rpy(3);
++end
++
+ function id=lifecycle_state_id(s)
+ switch s
+     case 'PREFLIGHT',id=1;case 'ARM',id=2;case 'TAKEOFF',id=3;case 'INITIAL_HOVER',id=4;
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/plan_unknown_segment_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/plan_unknown_segment_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/plan_unknown_segment_S2_3.m	2026-07-11 23:41:19.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/plan_unknown_segment_S2_3.m	2026-07-12 19:15:07.954630699 +0000
+@@ -34,7 +34,7 @@
+ end
+ 
+ function [traj,jump]=make_traj(cfg,grid,path,est,estAcc,initialScale)
+-traj=generate_min_snap_trajectory_S2_2(cfg,grid,path,est.v(1:2),estAcc(1:2),initialScale);jump=inf(1,3);
++traj=generate_strict_trajectory_S2_3(cfg,grid,path,est.v(1:2),estAcc(1:2),initialScale);jump=inf(1,3);
+ if traj.valid,r=sample_min_snap_state_S2_2(traj,0);jump=[norm(r.p-est.p(1:2)) norm(r.v-est.v(1:2)) norm(r.a-estAcc(1:2))];end
+ end
+ function path=prepare_path(grid,startXY,raw)
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/project_map_to_planner_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/project_map_to_planner_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/project_map_to_planner_S2_3.m	2026-07-11 23:43:39.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/project_map_to_planner_S2_3.m	2026-07-12 19:15:00.478160164 +0000
+@@ -10,7 +10,13 @@
+ staticOcc=any(map.logOdds(:,:,iz)>=loOcc&map.hitCount(:,:,iz)>=cfg.mapMinOccupiedObservations,3);
+ [~,izNom]=min(abs(map.zs-cfg.altitudeNominal_m));
+ knownFree=map.logOdds(:,:,izNom)<=loFree&map.observationCount(:,:,izNom)>=cfg.mapMinFreeObservations;
+-dynamicOcc=map.dynamicLogOdds>=log(cfg.mapDynamicOccupiedProbability/(1-cfg.mapDynamicOccupiedProbability));
++if ndims(map.dynamicLogOdds)==3
++    dynamicOcc=any(map.dynamicLogOdds(:,:,iz)>=log(cfg.mapDynamicOccupiedProbability/(1-cfg.mapDynamicOccupiedProbability)),3);
++else
++    % Backward-compatible read path for development replays made before the
++    % temporary layer became height-aware.
++    dynamicOcc=map.dynamicLogOdds>=log(cfg.mapDynamicOccupiedProbability/(1-cfg.mapDynamicOccupiedProbability));
++end
+ unknown=~staticOcc&~knownFree;
+ rCells=ceil(inflationRadius/map.resolutionXY);
+ inflatedStatic=inflate_binary(staticOcc|dynamicOcc,rCells);
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/python_tests/replay_seed0_crosscheck.py /mnt/data/S2_3_online_mapping_development_backtested_candidate/python_tests/replay_seed0_crosscheck.py
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/python_tests/replay_seed0_crosscheck.py	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/python_tests/replay_seed0_crosscheck.py	2026-07-12 19:21:38.557803222 +0000
+@@ -0,0 +1,89 @@
++#!/usr/bin/env python3
++"""Cross-check the recorded UNKNOWN_ROOM_NOMINAL seed-0 MATLAB trace.
++
++This script diagnoses the supplied failing run and verifies that the cumulative
++candidate source contains the corresponding mechanism corrections. It does not
++execute MATLAB and cannot establish coupled 6-DOF acceptance.
++"""
++from __future__ import annotations
++import argparse, json
++from pathlib import Path
++import h5py
++import numpy as np
++
++
++def scalar(group, name):
++    return np.asarray(group[name])[()].reshape(-1)[0].item()
++
++
++def main() -> int:
++    ap=argparse.ArgumentParser()
++    ap.add_argument('mat_file', type=Path)
++    ap.add_argument('--source-root', type=Path, default=Path(__file__).resolve().parents[1])
++    ap.add_argument('--output', type=Path)
++    args=ap.parse_args()
++    with h5py.File(args.mat_file,'r') as f:
++        t=np.asarray(f['log/t']).reshape(-1)
++        state=np.asarray(f['log/stateId']).reshape(-1)
++        truth_p=np.asarray(f['log/truthP']).T
++        dt=float(np.median(np.diff(t)))
++        idx_un=np.flatnonzero(state==23)
++        idx_land=np.flatnonzero(state==12)
++        un_t=float(t[idx_un[0]]) if idx_un.size else float('nan')
++        before=t<=un_t if idx_un.size else np.ones_like(t,dtype=bool)
++        p0=truth_p[0,:2]
++        max_disp=float(np.max(np.linalg.norm(truth_p[before,:2]-p0,axis=1)))
++        summary=f['summary']; cfg=f['cfg']
++        rec={
++            'goal_unreachable_time_s':un_t,
++            'map_extension_count_reported':int(round(scalar(summary,'mapExtensionCount'))),
++            'max_displacement_before_unreachable_m':max_disp,
++            'track_outbound_time_before_unreachable_s':float(np.count_nonzero((state==7)&before)*dt),
++            'scan_hold_time_before_unreachable_s':float(np.count_nonzero((state==21)&before)*dt),
++            'replan_count':int(round(scalar(summary,'replanCount'))),
++            'replan_brake_count':int(round(scalar(summary,'replanBrakeCount'))),
++            'trajectory_generation_count':int(round(scalar(summary,'trajectoryGenerationCount'))),
++            'landing_descent_start_s':float(t[idx_land[0]]) if idx_land.size else float('nan'),
++            'landing_duration_s':float(scalar(cfg,'landingDuration_s')),
++            'simulation_horizon_s':float(scalar(cfg,'maxLifecycleTime_s')),
++            'map_false_free_rate':float(scalar(summary,'mapFalseFreeRate')),
++            'map_occupied_recall':float(scalar(summary,'mapOccupiedRecall')),
++            'promotion_count':int(round(scalar(summary,'mapPromotionCount'))),
++            'max_reference_speed_mps':float(scalar(summary,'maxReferenceSpeed_mps')),
++            'max_estimator_attitude_error_deg':float(scalar(summary,'maxEstimatorAttitudeError_deg')),
++        }
++    root=args.source_root
++    mgr=(root/'mission_lifecycle_manager_S2_3.m').read_text(errors='ignore')
++    mapper=(root/'update_probabilistic_map_S2_3.m').read_text(errors='ignore')
++    cfg_text=(root/'init_S2_3_config.m').read_text(errors='ignore')
++    source={
++        'route_aware_repair': 'changed_cells_affect_route_S2_3' in mgr and 'if routeAffected' in mgr,
++        'extension_plan_completion_split': 'mapExtensionPlanCount=mapExtensionPlanCount+1' in mgr and 'mapExtensionCount=mapExtensionCount+1' in mgr,
++        'scan_progress_not_map_version': 'A changing map version alone is not physical progress' in mgr,
++        'continuous_scan_yaw': 'scanStartYaw+cfg.mapScanYawRate_radps' in mgr,
++        'endpoint_voxel_excluded': 'if hitIndex>0&&idx==hitIndex,continue;end' in mapper,
++        'unique_static_promotion': 'map.promotedStatic' in mapper and 'loPromote' in mapper,
++        'strict_trajectory_adapter': 'generate_strict_trajectory_S2_3' in mgr,
++        'scan_rate_35_deg_s': 'cfg.mapScanYawRate_radps=deg2rad(35)' in cfg_text,
++        'horizon_not_increased_after_failure': 'cfg.maxLifecycleTime_s=220.0' in cfg_text,
++    }
++    diagnosis={
++        'false_extension_exhaustion_supported': rec['map_extension_count_reported']==12 and rec['max_displacement_before_unreachable_m']<0.10,
++        'replan_storm_supported': rec['replan_count']>1000,
++        'landing_horizon_exhaustion_supported': rec['landing_descent_start_s']+rec['landing_duration_s']>rec['simulation_horizon_s'],
++        'map_quality_failure_supported': rec['map_false_free_rate']>0.005 and rec['map_occupied_recall']<0.95,
++        'hard_speed_contract_mismatch_supported': rec['max_reference_speed_mps']>0.32,
++        'scan_attitude_issue_supported': rec['max_estimator_attitude_error_deg']>2.0,
++    }
++    report={'mat_file':str(args.mat_file),'recorded_trace':rec,'diagnosis_checks':diagnosis,
++            'candidate_source_corrections':source,
++            'pass':all(diagnosis.values()) and all(source.values()),
++            'note':'PASS means the failing trace is reproduced and candidate mechanisms are present; it is not a MATLAB validation result.'}
++    text=json.dumps(report,indent=2)
++    print(text)
++    if args.output:
++        args.output.write_text(text+'\n')
++    return 0 if report['pass'] else 1
++
++if __name__=='__main__':
++    raise SystemExit(main())
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/python_tests/test_s23_mechanisms.py /mnt/data/S2_3_online_mapping_development_backtested_candidate/python_tests/test_s23_mechanisms.py
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/python_tests/test_s23_mechanisms.py	2026-07-12 18:51:34.260486220 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/python_tests/test_s23_mechanisms.py	2026-07-12 19:18:06.412542295 +0000
+@@ -1,11 +1,14 @@
+ #!/usr/bin/env python3
+-"""Independent mechanism checks for the S2.3 candidate.
+-These tests do not claim coupled MATLAB validation.
++"""Independent mechanism checks for the cumulative S2.3 candidate.
++These tests verify isolated logic and source contracts. They do not claim a
++coupled MATLAB 6-DOF pass.
+ """
+ from __future__ import annotations
+ import math
++from pathlib import Path
+ import numpy as np
+ 
++ROOT=Path(__file__).resolve().parents[1]
+ ROOM=np.array([6.0,6.0,2.5])
+ RESXY=0.10; RESZ=0.20
+ XS=np.arange(0,ROOM[0]+1e-9,RESXY); YS=np.arange(0,ROOM[1]+1e-9,RESXY); ZS=np.arange(0,ROOM[2]+1e-9,RESZ)
+@@ -28,88 +31,132 @@
+     return max_range,False
+ 
+ def idx(p):
+-    ix=round(p[0]/RESXY); iy=round(p[1]/RESXY); iz=round((p[2]-ZS[0])/RESZ)
++    ix=math.floor(p[0]/RESXY+.5); iy=math.floor(p[1]/RESXY+.5); iz=math.floor((p[2]-ZS[0])/RESZ+.5)
+     ok=0<=ix<len(XS) and 0<=iy<len(YS) and 0<=iz<len(ZS)
+     return ix,iy,iz,ok
+ 
+-def insert(logodds,obs,origin,d,rng,hit):
++def insert_endpoint_excluded(logodds,obs,origin,d,rng,hit):
+     d=np.asarray(d,float); d/=np.linalg.norm(d)
+-    step=.5*min(RESXY,RESZ); end=max(0,rng-.5*min(RESXY,RESZ))
+-    for s in np.arange(0,end+1e-12,step):
+-        p=origin+s*d; ix,iy,iz,ok=idx(p)
+-        if ok:
+-            logodds[iy,ix,iz]=max(LMIN,logodds[iy,ix,iz]+L_MISS); obs[iy,ix,iz]+=1
++    endpoint_index=None
+     if hit:
+-        ix,iy,iz,ok=idx(origin+rng*d)
+-        if ok:
+-            logodds[iy,ix,iz]=min(LMAX,logodds[iy,ix,iz]+L_HIT); obs[iy,ix,iz]+=1
++        ep=idx(origin+rng*d)
++        if ep[3]: endpoint_index=ep[:3]
++    free=[]; step=.5*min(RESXY,RESZ)
++    for s in np.arange(0,rng+1e-12,step):
++        cell=idx(origin+s*d)
++        if not cell[3]: continue
++        key=cell[:3]
++        if endpoint_index is not None and key==endpoint_index: continue
++        free.append(key)
++    for ix,iy,iz in dict.fromkeys(free):
++        logodds[iy,ix,iz]=max(LMIN,logodds[iy,ix,iz]+L_MISS);obs[iy,ix,iz]+=1
++    if endpoint_index is not None:
++        ix,iy,iz=endpoint_index
++        logodds[iy,ix,iz]=min(LMAX,logodds[iy,ix,iz]+L_HIT);obs[iy,ix,iz]+=1
++
++def segment_hits(mask,p0,p1,res=.1):
++    length=np.linalg.norm(np.asarray(p1)-np.asarray(p0)); n=max(1,int(math.ceil(length/(.5*res))))
++    for a in np.linspace(0,1,n+1):
++        p=(1-a)*np.asarray(p0)+a*np.asarray(p1)
++        ix=math.floor(p[0]/res+.5); iy=math.floor(p[1]/res+.5)
++        if 0<=iy<mask.shape[0] and 0<=ix<mask.shape[1] and mask[iy,ix]: return True
++    return False
+ 
+ def test_raycast_geometry():
+-    # +y from home reaches the y=1 obstacle at about 0.2m, not the room wall.
+-    r,h=raycast(np.array([1.25,.8,.06]),[0,1,0])
+-    assert h and .16 <= r <= .25, (r,h)
+-    # -y reaches the room boundary near 0.8m.
+-    r,h=raycast(LIDAR_ORIGIN,[0,-1,0])
+-    assert h and .75 <= r <= .86, (r,h)
++    r,h=raycast(np.array([1.25,.8,.06]),[0,1,0]); assert h and .16<=r<=.25
++    r,h=raycast(LIDAR_ORIGIN,[0,-1,0]); assert h and .75<=r<=.86
+ 
+ def test_launch_footprint_after_preflight_scan():
+-    lo=np.zeros((len(YS),len(XS),len(ZS))); obs=np.zeros_like(lo,dtype=int)
+-    angles=np.linspace(-math.pi,math.pi,120,endpoint=False)
+-    # preflight check happens at 0.6 s: packets at 0, .14, .28, .42, .56 s for 8 Hz rounded to 0.14 s.
++    lo=np.zeros((len(YS),len(XS),len(ZS)));obs=np.zeros_like(lo,dtype=int)
+     for _ in range(5):
+-        for a in angles:
+-            d=np.array([math.cos(a),math.sin(a),0.])
+-            r,h=raycast(LIDAR_ORIGIN,d)
+-            insert(lo,obs,LIDAR_ORIGIN,d,r,h)
+-    iz=round(START[2]/RESZ)
+-    X,Y=np.meshgrid(XS,YS)
+-    radius=.225+.127+.05
+-    mask=(X-START[0])**2+(Y-START[1])**2<=radius**2
+-    free=(lo[:,:,iz] <= math.log(PFREE/(1-PFREE))) & (obs[:,:,iz]>=MIN_FREE_OBS)
+-    coverage=free[mask].mean()
+-    assert coverage==1.0, coverage
+-
+-def test_free_change_is_version_relevant():
+-    prior=0.0; after=prior+5*L_MISS
+-    old_free=prior<=math.log(PFREE/(1-PFREE)) and 0>=MIN_FREE_OBS
+-    new_free=after<=math.log(PFREE/(1-PFREE)) and 5>=MIN_FREE_OBS
+-    assert not old_free and new_free
+-
+-def test_unknown_not_free():
+-    prior=0.0
+-    is_occ=prior>=math.log(POCC/(1-POCC))
+-    is_free=prior<=math.log(PFREE/(1-PFREE))
+-    assert not is_occ and not is_free
++        for a in np.linspace(-math.pi,math.pi,120,endpoint=False):
++            d=np.array([math.cos(a),math.sin(a),0.]);r,h=raycast(LIDAR_ORIGIN,d)
++            insert_endpoint_excluded(lo,obs,LIDAR_ORIGIN,d,r,h)
++    iz=math.floor(START[2]/RESZ+.5);X,Y=np.meshgrid(XS,YS);radius=.225+.127+.05
++    footprint=(X-START[0])**2+(Y-START[1])**2<=radius**2
++    free=(lo[:,:,iz]<=math.log(PFREE/(1-PFREE)))&(obs[:,:,iz]>=MIN_FREE_OBS)
++    assert free[footprint].mean()==1.0
++
++def test_endpoint_voxel_never_receives_free_update():
++    rng=np.random.default_rng(4)
++    for _ in range(5000):
++        origin=np.array([.2,.2,.4]); angle=rng.uniform(-math.pi,math.pi); d=np.array([math.cos(angle),math.sin(angle),0.])
++        distance=rng.uniform(.2,4.0); ep=idx(origin+distance*d)
++        if not ep[3]: continue
++        lo=np.zeros((len(YS),len(XS),len(ZS)));obs=np.zeros_like(lo,dtype=int)
++        insert_endpoint_excluded(lo,obs,origin,d,distance,True)
++        ix,iy,iz=ep[:3]
++        assert lo[iy,ix,iz]>=L_HIT-1e-12
++
++def test_old_half_voxel_method_overlaps_endpoint_about_half_the_time():
++    rng=np.random.default_rng(12345);n=200000
++    endpoint=rng.uniform(0,10,n);free=endpoint-.5*RESXY
++    i1=np.floor(endpoint/RESXY+.5);i0=np.floor(free/RESXY+.5)
++    overlap=np.mean(i1==i0)
++    assert .48<overlap<.52,overlap
++
++def test_promotion_clamps_once_to_occupied():
++    lo=-4.0;occ=math.log(POCC/(1-POCC));promoted=False;count=0
++    if not promoted:
++        lo=max(lo,occ+.05);promoted=True;count+=1
++    assert lo>occ and promoted and count==1
++    # Re-observation cannot create another promotion event.
++    if not promoted: count+=1
++    assert count==1
++
++def test_dynamic_layer_is_height_aware():
++    init=(ROOT/'init_probabilistic_map_S2_3.m').read_text()
++    proj=(ROOT/'project_map_to_planner_S2_3.m').read_text()
++    assert "zeros(ny,nx,nz,'single')" in init
++    assert 'any(map.dynamicLogOdds(:,:,iz)' in proj
++
++def test_far_map_change_does_not_affect_route():
++    mask=np.zeros((61,61),dtype=bool);mask[50,50]=True
++    route=np.array([[3.0,.8],[3.0,1.8],[2.8,2.3]])
++    assert not any(segment_hits(mask,route[i],route[i+1]) for i in range(len(route)-1))
++    mask[15,30]=True
++    assert any(segment_hits(mask,route[i],route[i+1]) for i in range(len(route)-1))
++
++def test_extension_counted_on_arrival_not_selection():
++    mgr=(ROOT/'mission_lifecycle_manager_S2_3.m').read_text()
++    assert 'if planMeta.frontierUsed,mapExtensionPlanCount=mapExtensionPlanCount+1;end' in mgr
++    assert 'if planMeta.frontierUsed,mapExtensionCount=mapExtensionCount+1;end' not in mgr
++    assert mgr.count('mapExtensionCount=mapExtensionCount+1;')==2  # outbound and RTL completed arrival
++
++def test_scan_progress_not_map_version_proxy():
++    mgr=(ROOT/'mission_lifecycle_manager_S2_3.m').read_text()
++    scan=mgr[mgr.index("case 'SCAN_HOLD'"):mgr.index("case 'MAP_DEGRADED_HOLD'")]
++    assert 'mapState.version)<=scanEntryMapVersion' not in scan
++    assert 'A changing map version alone is not physical progress' in scan
++
++def test_strict_trajectory_adapter_preserves_hard_limit():
++    text=(ROOT/'generate_strict_trajectory_S2_3.m').read_text()
++    assert 'ratios<=1+1e-9' in text
++    plan=(ROOT/'plan_unknown_segment_S2_3.m').read_text()
++    mgr=(ROOT/'mission_lifecycle_manager_S2_3.m').read_text()
++    assert 'generate_strict_trajectory_S2_3' in plan and 'generate_strict_trajectory_S2_3' in mgr
++
++def test_scan_yaw_is_continuous_and_rate_reduced():
++    cfg=(ROOT/'init_S2_3_config.m').read_text();mgr=(ROOT/'mission_lifecycle_manager_S2_3.m').read_text()
++    assert 'deg2rad(35)' in cfg
++    assert 'scanStartYaw+cfg.mapScanYawRate_radps' in mgr
++    assert "scanStartYaw=yawCommand" in mgr
+ 
+ def test_preflight_uses_mapping_freshness_not_exact_packet():
+-    # Recorded nominal failure: no scan on the exact 0.60 s control step,
+-    # but accepted mapping observations at 0.48/0.50 s were still fresh.
+-    t_now=.60; last_lidar=.48; last_depth=.50; accepted=10
+-    current_packet_has_scan=False
+-    old_gate=current_packet_has_scan
+-    new_gate=(t_now-max(last_lidar,last_depth) <= .55) and accepted>=2
+-    assert not old_gate and new_gate
++    t_now=.60;last_lidar=.48;last_depth=.50;accepted=10
++    assert (t_now-max(last_lidar,last_depth)<=.55) and accepted>=2
+ 
+ def test_idle_control_step_is_not_rejected_packet():
+-    has_lidar=False; has_depth=False
+-    reason='no_sensor_event' if not has_lidar and not has_depth else 'process'
+-    rejected_increment=0 if reason=='no_sensor_event' else 1
+-    idle_increment=1 if reason=='no_sensor_event' else 0
+-    assert rejected_increment==0 and idle_increment==1
++    reason='no_sensor_event';assert reason=='no_sensor_event'
+ 
+ def test_near_ground_layer_not_floor_false_free():
+-    # In the node-centred S2.3 map, z=0 denotes the near-ground air layer.
+-    # Floor contact is checked by the plant/landing model, not occupancy truth.
+     x,y,z=3.0,.8,0.0
+-    side_or_ceiling=(x<=0 or x>=ROOM[0] or y<=0 or y>=ROOM[1] or z>=ROOM[2])
+-    assert not side_or_ceiling
++    assert not (x<=0 or x>=ROOM[0] or y<=0 or y>=ROOM[1] or z>=ROOM[2])
+ 
+ def test_pose_interpolation_contract():
+-    t0,t1=.10,.20; p0=np.array([1.,2.,.5]); p1=np.array([1.2,2.4,.7]); tq=.15
+-    a=(tq-t0)/(t1-t0); p=(1-a)*p0+a*p1
+-    assert np.allclose(p,[1.1,2.2,.6])
++    a=.5;p=(1-a)*np.array([1.,2.,.5])+a*np.array([1.2,2.4,.7]);assert np.allclose(p,[1.1,2.2,.6])
+ 
+ if __name__=='__main__':
+     tests=[v for k,v in sorted(globals().items()) if k.startswith('test_')]
+-    for f in tests: f(); print(f'{f.__name__}: PASS')
++    for f in tests:f();print(f'{f.__name__}: PASS')
+     print(f'{len(tests)}/{len(tests)} mechanism checks PASS')
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/run_S2_3_online_mapping.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/run_S2_3_online_mapping.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/run_S2_3_online_mapping.m	2026-07-12 18:50:37.272732001 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/run_S2_3_online_mapping.m	2026-07-12 19:21:03.737986286 +0000
+@@ -25,7 +25,9 @@
+ fprintf('Goal/unreachable/failsafe : %d / %d / %d\n',summary.goalReached,summary.goalUnreachable,summary.failsafeTriggered);
+ fprintf('Arm/takeoff/RTL/land      : %d / %d / %d / %d\n',summary.armedEver,summary.takeoffCompleted,summary.rtlExecuted,summary.landed);
+ fprintf('Map version/packets       : %d / %d accepted / %d rejected / %d idle\n',summary.mapVersionFinal,summary.mapAcceptedPackets,summary.mapRejectedPackets,summary.mapNoDataPackets);
+-fprintf('Extensions/scans/replans  : %d / %d / %d\n',summary.mapExtensionCount,summary.scanHoldCount,summary.mapSafetyReplanCount);
++fprintf('Extensions done/planned    : %d / %d | scans/route repairs/all replans %d / %d / %d\n', ...
++    summary.mapExtensionCount,summary.mapExtensionPlanCount,summary.scanHoldCount, ...
++    summary.mapSafetyReplanCount,summary.replanCount);
+ fprintf('Map false-free/recall     : %.5f / %.3f\n',summary.mapFalseFreeRate,summary.mapOccupiedRecall);
+ fprintf('Map observed fraction     : %.3f | promotions %d\n',summary.mapObservedFraction,summary.mapPromotionCount);
+ fprintf('Unknown commitments       : %d | truth isolation %d\n',summary.unknownCommitmentCount,summary.truthIsolationPass);
+@@ -53,7 +55,9 @@
+ fprintf(f,'Stage S2.3 %s perception-driven online mapping\n',cfg.version);
+ fprintf(f,'Scenario %s | seed %d | PASS %d\n',s.scenario,s.seed,s.pass);
+ fprintf(f,'Goal %d | unreachable %d | failsafe %d | RTL %d | landed %d\n',s.goalReached,s.goalUnreachable,s.failsafeTriggered,s.rtlExecuted,s.landed);
+-fprintf(f,'Map version %d | accepted %d | rejected %d | idle %d | extensions %d | scans %d\n',s.mapVersionFinal,s.mapAcceptedPackets,s.mapRejectedPackets,s.mapNoDataPackets,s.mapExtensionCount,s.scanHoldCount);
++fprintf(f,'Map version %d | accepted %d | rejected %d | idle %d | extensions completed %d | planned %d | scans %d | route repairs %d | all replans %d\n', ...
++    s.mapVersionFinal,s.mapAcceptedPackets,s.mapRejectedPackets,s.mapNoDataPackets, ...
++    s.mapExtensionCount,s.mapExtensionPlanCount,s.scanHoldCount,s.mapSafetyReplanCount,s.replanCount);
+ fprintf(f,'False free %.10f | occupied recall %.10f | observed %.10f\n',s.mapFalseFreeRate,s.mapOccupiedRecall,s.mapObservedFraction);
+ fprintf(f,'Unknown commitments %d | truth isolation %d | map pass %d\n',s.unknownCommitmentCount,s.truthIsolationPass,s.mapPass);
+ fprintf(f,'Collision %d | geofence %d | final state %s\n',s.collisionCount,s.geofenceViolationCount,s.finalState);
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/update_probabilistic_map_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/update_probabilistic_map_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/update_probabilistic_map_S2_3.m	2026-07-12 18:50:37.272048927 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/update_probabilistic_map_S2_3.m	2026-07-12 19:15:00.484432599 +0000
+@@ -29,11 +29,12 @@
+     (map.observationCount>=cfg.mapMinFreeObservations);
+ oldDynamic=map.dynamicLogOdds>=logit(cfg.mapDynamicOccupiedProbability);
+ 
+-% Continuous decay of temporary occupancy.
++% Continuous decay of temporary occupancy. Static occupancy is never
++% deleted by this decay path.
+ dtDecay=max(0,t-map.lastUpdateTime);
+ map.dynamicLogOdds=max(0,map.dynamicLogOdds-cfg.mapDynamicDecayPerSecond*dtDecay);
+ R=q2R_S2_2(est.q);acceptedRay=false;
+-if isfield(packet,'hasLidarScan')&&packet.hasLidarScan
++if hasLidarEvent
+     origin=est.p+R*cfg.r_B_lidar;
+     for i=1:numel(packet.lidarRanges)
+         dB=cfg.R_B_lidar*[cos(packet.lidarAngles(i));sin(packet.lidarAngles(i));0];
+@@ -42,7 +43,7 @@
+     end
+     map.lastLidarTime=packet.timestamp;
+ end
+-if isfield(packet,'hasDepthRays')&&packet.hasDepthRays
++if hasDepthEvent
+     origin=est.p+R*cfg.r_B_depth;
+     for i=1:numel(packet.depthRanges)
+         dB=cfg.R_B_depth*packet.depthDirections(i,:).';
+@@ -55,17 +56,25 @@
+     update.reason='no_valid_rays';map.rejectedPackets=map.rejectedPackets+1;return;
+ end
+ 
+-% Promote persistent temporary occupancy to the static map.
++% Promote a persistent temporary voxel once. Clamp the static evidence above
++% the occupied threshold instead of adding one hit to a saturated-free cell.
++% This prevents repeated promotion cycles while preserving the configured
++% persistence and hit-count qualification.
+ promote=(map.dynamicHitCount>=cfg.mapDynamicPromotionHits)& ...
+     isfinite(map.dynamicFirstHit)&(t-double(map.dynamicFirstHit)>=cfg.mapDynamicPromotionTime_s)& ...
+     (map.dynamicLogOdds>=logit(cfg.mapDynamicOccupiedProbability));
+-[py,px]=find(promote);
+-for i=1:numel(px)
+-    ix=px(i);iy=py(i);
+-    iz=nearest_z_index(map,1.15);
+-    map.logOdds(iy,ix,iz)=min(cfg.mapLogOddsMax,map.logOdds(iy,ix,iz)+cfg.mapLogOddsHit);
+-    map.hitCount(iy,ix,iz)=map.hitCount(iy,ix,iz)+1;
+-    map.dynamicLogOdds(iy,ix)=0;map.dynamicHitCount(iy,ix)=0;map.dynamicFirstHit(iy,ix)=nan;map.promotedCount=map.promotedCount+1;
++indices=find(promote);
++loPromote=logit(cfg.mapOccupiedProbability)+single(0.05);
++for i=1:numel(indices)
++    idx=indices(i);
++    map.logOdds(idx)=max(map.logOdds(idx),loPromote);
++    map.hitCount(idx)=max(map.hitCount(idx),uint16(cfg.mapMinOccupiedObservations));
++    if ~map.promotedStatic(idx)
++        map.promotedStatic(idx)=true;
++        map.promotedCount=map.promotedCount+1;
++    end
++    map.dynamicLogOdds(idx)=0;map.dynamicHitCount(idx)=0;
++    map.dynamicFirstHit(idx)=nan;map.dynamicLastHit(idx)=-inf;
+ end
+ newStaticClass=map.logOdds>=logit(cfg.mapOccupiedProbability);
+ newFreeClass=(map.logOdds<=logit(cfg.mapFreeProbability))& ...
+@@ -79,7 +88,9 @@
+ if update.staticChanged||update.dynamicChanged||map.acceptedPackets==0
+     map.version=map.version+1;map.lastChangeTime=t;
+ end
+-map.lastPacketTime=packet.timestamp;if isfield(packet,'sequence'),map.lastSequence=uint64(packet.sequence);end;map.lastUpdateTime=t;map.acceptedPackets=map.acceptedPackets+1;
++map.lastPacketTime=packet.timestamp;
++if isfield(packet,'sequence'),map.lastSequence=uint64(packet.sequence);end
++map.lastUpdateTime=t;map.acceptedPackets=map.acceptedPackets+1;
+ update.accepted=true;update.reason='accepted';
+ end
+ 
+@@ -87,36 +98,55 @@
+ accepted=false;direction=direction(:);n=norm(direction);
+ if n<1e-12||~isfinite(range),return;end
+ direction=direction/n;range=max(0,double(range));
+-endRange=max(0,range-0.5*min(map.resolutionXY,map.resolutionZ));
++
++% Determine the occupied endpoint first. The endpoint voxel is explicitly
++% excluded from all free updates. The previous half-voxel geometric offset
++% was insufficient because nearest-node quantisation still mapped the final
++% free sample into the hit voxel for about half of generic grid phases.
++hitIndex=0;
++if hit
++    endpoint=origin(:)+range*direction;
++    [ixh,iyh,izh,insideHit]=point_index(map,endpoint);
++    if insideHit,hitIndex=sub2ind([map.ny map.nx map.nz],iyh,ixh,izh);end
++end
++
+ step=0.5*min(map.resolutionXY,map.resolutionZ);
+-for s=0:step:endRange
++freeIndices=zeros(max(1,ceil(range/step)+2),1,'uint32');nFree=0;
++for s=0:step:range
+     p=origin(:)+s*direction;
+     [ix,iy,iz,inside]=point_index(map,p);
+     if ~inside,continue;end
+-    map.logOdds(iy,ix,iz)=max(cfg.mapLogOddsMin,map.logOdds(iy,ix,iz)+cfg.mapLogOddsMiss);
+-    map.observationCount(iy,ix,iz)=map.observationCount(iy,ix,iz)+1;
+-    map.lastObserved(iy,ix,iz)=single(t);accepted=true;
+-    % A valid free ray clears transient occupancy at this XY location.
+-    map.dynamicLogOdds(iy,ix)=max(0,map.dynamicLogOdds(iy,ix)-0.75*cfg.mapDynamicHit);
++    idx=sub2ind([map.ny map.nx map.nz],iy,ix,iz);
++    if hitIndex>0&&idx==hitIndex,continue;end
++    nFree=nFree+1;freeIndices(nFree)=uint32(idx);
++end
++if nFree>0
++    freeIndices=unique(freeIndices(1:nFree),'stable');
++    for j=1:numel(freeIndices)
++        idx=double(freeIndices(j));
++        map.logOdds(idx)=max(cfg.mapLogOddsMin,map.logOdds(idx)+cfg.mapLogOddsMiss);
++        map.observationCount(idx)=inc_u16(map.observationCount(idx));
++        map.lastObserved(idx)=single(t);accepted=true;
++        map.dynamicLogOdds(idx)=max(0,map.dynamicLogOdds(idx)-0.75*cfg.mapDynamicHit);
++    end
+ end
+-if hit
+-    p=origin(:)+range*direction;
+-    [ix,iy,iz,inside]=point_index(map,p);
+-    if inside
+-        priorFree=map.logOdds(iy,ix,iz)<=logit(cfg.mapFreeProbability)&& ...
+-            map.observationCount(iy,ix,iz)>=cfg.mapMinFreeObservations;
+-        if priorFree
+-            map.dynamicLogOdds(iy,ix)=min(cfg.mapLogOddsMax,map.dynamicLogOdds(iy,ix)+cfg.mapDynamicHit);
+-            map.dynamicHitCount(iy,ix)=map.dynamicHitCount(iy,ix)+1;
+-            if ~isfinite(map.dynamicFirstHit(iy,ix)),map.dynamicFirstHit(iy,ix)=single(t);end
+-            map.dynamicLastHit(iy,ix)=single(t);
+-        else
+-            map.logOdds(iy,ix,iz)=min(cfg.mapLogOddsMax,map.logOdds(iy,ix,iz)+cfg.mapLogOddsHit);
+-            map.hitCount(iy,ix,iz)=map.hitCount(iy,ix,iz)+1;
+-        end
+-        map.observationCount(iy,ix,iz)=map.observationCount(iy,ix,iz)+1;
+-        map.lastObserved(iy,ix,iz)=single(t);accepted=true;
++
++if hitIndex>0
++    idx=hitIndex;
++    map.rawHitCount(idx)=inc_u16(map.rawHitCount(idx));
++    priorFree=map.logOdds(idx)<=logit(cfg.mapFreeProbability)&& ...
++        map.observationCount(idx)>=cfg.mapMinFreeObservations;
++    if priorFree&&~map.promotedStatic(idx)
++        map.dynamicLogOdds(idx)=min(cfg.mapLogOddsMax,map.dynamicLogOdds(idx)+cfg.mapDynamicHit);
++        map.dynamicHitCount(idx)=inc_u16(map.dynamicHitCount(idx));
++        if ~isfinite(map.dynamicFirstHit(idx)),map.dynamicFirstHit(idx)=single(t);end
++        map.dynamicLastHit(idx)=single(t);
++    else
++        map.logOdds(idx)=min(cfg.mapLogOddsMax,map.logOdds(idx)+cfg.mapLogOddsHit);
++        map.hitCount(idx)=inc_u16(map.hitCount(idx));
+     end
++    map.observationCount(idx)=inc_u16(map.observationCount(idx));
++    map.lastObserved(idx)=single(t);accepted=true;
+ end
+ end
+ 
+@@ -125,7 +155,7 @@
+ iz=round((p(3)-map.zs(1))/map.resolutionZ)+1;
+ inside=ix>=1&&ix<=map.nx&&iy>=1&&iy<=map.ny&&iz>=1&&iz<=map.nz;
+ end
+-function iz=nearest_z_index(map,z)
+-iz=max(1,min(map.nz,round((z-map.zs(1))/map.resolutionZ)+1));
+-end
+ function y=logit(p),y=log(p/max(1-p,eps));end
++function v=inc_u16(v)
++if v<intmax('uint16'),v=v+1;end
++end
+diff -ruN '--exclude=*.json' '--exclude=*.txt' '--exclude=*.md' /mnt/data/S2_3_online_mapping_development_runtime_corrected/validate_map_against_truth_S2_3.m /mnt/data/S2_3_online_mapping_development_backtested_candidate/validate_map_against_truth_S2_3.m
+--- /mnt/data/S2_3_online_mapping_development_runtime_corrected/validate_map_against_truth_S2_3.m	2026-07-12 18:50:37.272423779 +0000
++++ /mnt/data/S2_3_online_mapping_development_backtested_candidate/validate_map_against_truth_S2_3.m	2026-07-12 19:20:09.314205568 +0000
+@@ -1,8 +1,10 @@
+ function metrics = validate_map_against_truth_S2_3(cfg,map,world)
+ % VALIDATE_MAP_AGAINST_TRUTH_S2_3 Independent final-map validation.
+-% The z=0 layer denotes near-ground air volume in this node-centred map.
+-% Floor contact is validated by the plant/landing model and is therefore not
+-% counted as a volumetric obstacle cell for false-free occupancy scoring.
++% Truth is used only here, after the autonomy run. Floor contact is validated
++% by the plant and touchdown model rather than volumetric occupancy truth. Occupied recall is scored
++% on truth-occupied voxels that received the configured repeated physical
++% hit endpoints; ordinary free-ray traversal is not evidence that obstacle
++% interior was observable.
+ truthOcc=false(map.ny,map.nx,map.nz);
+ for iy=1:map.ny
+  for ix=1:map.nx
+@@ -16,13 +18,22 @@
+   end
+  end
+ end
+-loOcc=log(cfg.mapOccupiedProbability/(1-cfg.mapOccupiedProbability));loFree=log(cfg.mapFreeProbability/(1-cfg.mapFreeProbability));
+-mapOcc=map.logOdds>=loOcc;mapFree=map.logOdds<=loFree&map.observationCount>=cfg.mapMinFreeObservations;
++loOcc=log(cfg.mapOccupiedProbability/(1-cfg.mapOccupiedProbability));
++loFree=log(cfg.mapFreeProbability/(1-cfg.mapFreeProbability));
++mapOcc=map.logOdds>=loOcc&map.hitCount>=cfg.mapMinOccupiedObservations;
++mapFree=map.logOdds<=loFree&map.observationCount>=cfg.mapMinFreeObservations;
+ observable=map.observationCount>0;
++if isfield(map,'rawHitCount')
++    occupiedObservable=truthOcc&map.rawHitCount>=cfg.mapMinOccupiedObservations;
++else
++    occupiedObservable=truthOcc&map.hitCount>=cfg.mapMinOccupiedObservations;
++end
+ falseFree=nnz(mapFree&truthOcc);freeDeclared=max(1,nnz(mapFree));
+-occupiedObservable=truthOcc&observable;trueOccupied=max(1,nnz(occupiedObservable));
+-metrics=struct('falseFreeRate',falseFree/freeDeclared,'occupiedRecall',nnz(mapOcc&occupiedObservable)/trueOccupied, ...
++trueOccupied=max(1,nnz(occupiedObservable));
++recall=nnz(mapOcc&occupiedObservable)/trueOccupied;
++metrics=struct('falseFreeRate',falseFree/freeDeclared,'occupiedRecall',recall, ...
+     'observedFraction',nnz(observable)/numel(observable),'knownFreeCount',nnz(mapFree), ...
+     'occupiedCount',nnz(mapOcc),'falseFreeCount',falseFree, ...
+-    'pass',falseFree/freeDeclared<=cfg.mapMaxFalseFreeRate&&nnz(mapOcc&occupiedObservable)/trueOccupied>=cfg.mapMinOccupiedRecall);
++    'occupiedHitObservableCount',nnz(occupiedObservable), ...
++    'pass',falseFree/freeDeclared<=cfg.mapMaxFalseFreeRate&&recall>=cfg.mapMinOccupiedRecall);
+ end

@@ -1,0 +1,10 @@
+S2.4-E coupled active exploration v0.3.6-adversarial-competing-corridors-candidate
+Scenario ACTIVE_COMPETING_CORRIDORS | seed 4 | PASS 1
+Requests 1 | selected 1 | executed 1 | rejected decisions 0
+Unsafe viewpoint execution steps 0 | unknown commitments 0
+Decision records 1 | competing decisions 1 | max frontiers 3
+Target-relevant selections 1 | irrelevant selections 0
+First tier 1 | target relevance 2.733515 | best decoy information 10.565392
+Goal 1 | unreachable 0 | collision 0 | geofence 0
+Exploration pass 1 | mapping pass 1 | mission pass 1
+Final state COMPLETE

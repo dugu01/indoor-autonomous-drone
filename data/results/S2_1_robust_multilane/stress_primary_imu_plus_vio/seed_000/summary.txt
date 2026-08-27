@@ -1,0 +1,8 @@
+Stage S2.1 robust multi-lane navigation
+Scenario: STRESS_PRIMARY_IMU_PLUS_VIO | seed 0
+Max error after 5 s: 0.067625 m
+RMSE: 0.014625 m
+Attitude max: 1.571527 deg
+LiDAR max: 0.021096 m | acceptance 0.8761 | loops 7
+Final lane 2 | switches 1 | degraded 0.000 s | RTL requested 0
+Path clearance 0.624761 m | PASS 1

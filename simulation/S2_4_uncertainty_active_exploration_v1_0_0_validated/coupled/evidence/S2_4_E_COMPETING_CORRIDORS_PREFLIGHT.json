@@ -1,0 +1,26 @@
+{
+  "schema": "S2_4_E_COMPETING_CORRIDORS_PREFLIGHT_V1",
+  "source_mat": "frozen_parent/results/S2_3_online_mapping/v1_0_0_candidate/goal_requires_scan/seed_000/S2_3_v1_0_0_candidate_trial_data.mat",
+  "map_resolution_m": 0.1,
+  "effective_inflation_m": 0.602,
+  "qualifying_snapshot_count": 15,
+  "first_qualifying_snapshot": {
+    "snapshot_index": 8,
+    "snapshot_time_s": 8.040000000000001,
+    "map_version": 134,
+    "active_frontiers": 3,
+    "candidate_count": 112,
+    "target_frontier_count": 1,
+    "distinct_irrelevant_frontier_count": 1,
+    "selected_frontier_track_id": 10,
+    "selected_candidate_id": 60,
+    "selected_tier": 1,
+    "selected_target_relevance": 4.0,
+    "selected_information_gain": 4.0,
+    "best_decoy_frontier_track_id": 4,
+    "best_decoy_information_gain": 21.0,
+    "larger_decoy_information_gain": true
+  },
+  "scope": "legacy_goal_requires_scan_selector_regression_not_literal_world",
+  "pass": true
+}

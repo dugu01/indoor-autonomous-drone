@@ -1,0 +1,792 @@
+{
+  "schema": "S2_4_PYTHON_FIRST_PIPELINE_REPORT_V6",
+  "python_pass": true,
+  "matlab_pass": true,
+  "python_adversarial_policy_contract": {
+    "schema": "S2_4_ADVERSARIAL_POLICY_CONTRACT_V1",
+    "target": {
+      "candidate_id": 11,
+      "frontier_id": 101,
+      "tier": 1,
+      "target_relevance": 4.0,
+      "information_gain": 5.0,
+      "utility": 0.32,
+      "safety_reasons": [],
+      "policy_reasons": []
+    },
+    "decoy": {
+      "candidate_id": 12,
+      "frontier_id": 202,
+      "tier": 3,
+      "target_relevance": 0.0,
+      "information_gain": 12.0,
+      "utility": 0.47,
+      "safety_reasons": [],
+      "policy_reasons": [
+        "IRRELEVANT_EXPLORATION"
+      ]
+    },
+    "selected_candidate_id": 11,
+    "checks": {
+      "target_safety_feasible": true,
+      "decoy_safety_feasible": true,
+      "decoy_policy_only": true,
+      "decoy_more_informative": true,
+      "decoy_raw_utility_higher": true,
+      "target_tier1": true,
+      "decoy_tier3": true,
+      "target_selected": true
+    },
+    "pass": true
+  },
+  "project_compat": {
+    "schema": "S2_4_PROJECT_VALIDATION_COMPAT_V6",
+    "actions": [
+      {
+        "file": "audit_S2_4_E_static.py",
+        "status": "already_compatible",
+        "sha256": "b7ec794d50c95311486aa10dec191a6be342fd675c962df5f7ed7090627184c7"
+      },
+      {
+        "file": "audit_S2_4_E_cumulative_overlay_portable.py",
+        "status": "already_compatible",
+        "sha256": "c23d32d94b154d4f086f955a4b53eda6dd26c646be8024ca5ff2549ee4a30cce"
+      },
+      {
+        "file": "audit_S2_4_E_literal_corridor_geometry.py",
+        "status": "already_compatible",
+        "sha256": "58a4629db1f5539644b965fce6467797cf283af2a812db91b12540fafab5ab06"
+      },
+      {
+        "file": "test_S2_4_E_competing_decision_contract.m",
+        "status": "patched",
+        "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/test_S2_4_E_competing_decision_contract_20260826_235714.m",
+        "sha256": "24469a97a313ba32f77bfc0382eef4ae88687484179b968c8d87db7f4224aa9b"
+      },
+      {
+        "file": "validate_S2_4_E_milestone_2.m",
+        "status": "patched",
+        "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/validate_S2_4_E_milestone_2_20260826_235714.m",
+        "sha256": "f50b3c8657b51893a5f48177dfbb620966906f6948d772ea2ad995594e43d9a1"
+      },
+      {
+        "file": "validate_S2_4_E_competing_corridors_multiseed.m",
+        "status": "patched",
+        "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/validate_S2_4_E_competing_corridors_multiseed_20260826_235714.m",
+        "sha256": "8b2f5aba99cdb90748a77e5ab68cb2b571f209eb8a67aeb7b5947b9aa321e40f"
+      }
+    ]
+  },
+  "matlab_executable": "/Applications/MATLAB_R2026a.app/bin/matlab",
+  "trials": 1000,
+  "winner_count": 1,
+  "best": {
+    "geometry": {
+      "vertical_x": 2.45,
+      "vertical_y": 2.1,
+      "vertical_w": 0.4,
+      "vertical_h": 2.05,
+      "divider_x": 2.85,
+      "divider_y": 3.4,
+      "divider_w": 3.0,
+      "divider_h": 0.4,
+      "goal_x": 5.05,
+      "goal_y": 5.0,
+      "decoy_x": 5.05,
+      "decoy_y": 1.15,
+      "start_x": 1.0,
+      "start_y": 3.0
+    },
+    "pass_contract": true,
+    "selected": {
+      "candidate_id": 706,
+      "frontier_track_id": 14,
+      "rc": [
+        43,
+        16
+      ],
+      "xy": [
+        1.6,
+        4.3
+      ],
+      "yaw": 1.1760052070951352,
+      "path": [
+        [
+          30,
+          10
+        ],
+        [
+          31,
+          11
+        ],
+        [
+          32,
+          11
+        ],
+        [
+          33,
+          11
+        ],
+        [
+          34,
+          12
+        ],
+        [
+          35,
+          12
+        ],
+        [
+          36,
+          13
+        ],
+        [
+          37,
+          13
+        ],
+        [
+          38,
+          14
+        ],
+        [
+          39,
+          14
+        ],
+        [
+          40,
+          15
+        ],
+        [
+          41,
+          15
+        ],
+        [
+          42,
+          15
+        ],
+        [
+          43,
+          16
+        ]
+      ],
+      "visible_unknown": [
+        [
+          49,
+          36
+        ],
+        [
+          50,
+          37
+        ],
+        [
+          51,
+          19
+        ],
+        [
+          51,
+          38
+        ],
+        [
+          52,
+          13
+        ],
+        [
+          53,
+          7
+        ],
+        [
+          53,
+          32
+        ],
+        [
+          53,
+          41
+        ],
+        [
+          54,
+          7
+        ],
+        [
+          54,
+          13
+        ],
+        [
+          54,
+          42
+        ],
+        [
+          55,
+          7
+        ],
+        [
+          55,
+          34
+        ],
+        [
+          56,
+          35
+        ],
+        [
+          57,
+          46
+        ],
+        [
+          58,
+          6
+        ],
+        [
+          58,
+          14
+        ],
+        [
+          59,
+          38
+        ],
+        [
+          59,
+          49
+        ],
+        [
+          60,
+          6
+        ]
+      ],
+      "visible_unknown_proxy": 20.0,
+      "target_relevance_proxy": 1.0,
+      "tier": 1,
+      "utility_proxy": 0.26351331832756003,
+      "safety_reasons": [],
+      "policy_reasons": [],
+      "safety_feasible": true,
+      "accepted": true
+    },
+    "decoy": {
+      "candidate_id": 124,
+      "frontier_track_id": 3,
+      "rc": [
+        17,
+        8
+      ],
+      "xy": [
+        0.8,
+        1.7000000000000002
+      ],
+      "yaw": -1.1760052070951352,
+      "path": [
+        [
+          30,
+          10
+        ],
+        [
+          29,
+          10
+        ],
+        [
+          28,
+          10
+        ],
+        [
+          27,
+          10
+        ],
+        [
+          26,
+          10
+        ],
+        [
+          25,
+          10
+        ],
+        [
+          24,
+          10
+        ],
+        [
+          23,
+          9
+        ],
+        [
+          22,
+          8
+        ],
+        [
+          21,
+          8
+        ],
+        [
+          20,
+          8
+        ],
+        [
+          19,
+          8
+        ],
+        [
+          18,
+          8
+        ],
+        [
+          17,
+          8
+        ]
+      ],
+      "visible_unknown": [
+        [
+          0,
+          23
+        ],
+        [
+          1,
+          14
+        ],
+        [
+          1,
+          38
+        ],
+        [
+          2,
+          22
+        ],
+        [
+          2,
+          37
+        ],
+        [
+          3,
+          36
+        ],
+        [
+          4,
+          21
+        ],
+        [
+          4,
+          35
+        ],
+        [
+          5,
+          21
+        ],
+        [
+          5,
+          34
+        ],
+        [
+          6,
+          13
+        ],
+        [
+          7,
+          13
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          7,
+          32
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "visible_unknown_proxy": 17.0,
+      "target_relevance_proxy": 0.0,
+      "tier": 3,
+      "utility_proxy": 0.19101331832756002,
+      "safety_reasons": [],
+      "policy_reasons": [
+        "IRRELEVANT_EXPLORATION"
+      ],
+      "safety_feasible": true,
+      "accepted": false
+    },
+    "metrics": {
+      "frontiers": 18,
+      "candidates": 919,
+      "accepted": 5,
+      "safety_feasible": 36,
+      "target_frontier_ids": [
+        14,
+        16
+      ],
+      "distinct_irrelevant_frontiers": 8,
+      "clean_policy_decoys": 31,
+      "selected_visible_unknown_proxy": 20.0,
+      "decoy_visible_unknown_proxy": 17.0,
+      "proxy_ratio": 0.85,
+      "selected_target_relevance_proxy": 1.0,
+      "NOTE": "visible_unknown_proxy is structural only; it is not MATLAB entropy information gain",
+      "robust_cases_passed": 11,
+      "robust_cases_total": 11,
+      "min_clean_decoys_robust": 24
+    },
+    "reasons": []
+  },
+  "geometry_sha256": "7f50188c471f99e40ac0c3f7885c0c12f250e5844d7a738a2db08dcf8b3211fd",
+  "previous_geometry_backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_backup/literal_competing_corridors_geometry_20260826_235717.json",
+  "chosen": {
+    "geometry": {
+      "vertical_x": 2.45,
+      "vertical_y": 2.1,
+      "vertical_w": 0.4,
+      "vertical_h": 2.05,
+      "divider_x": 2.85,
+      "divider_y": 3.4,
+      "divider_w": 3.0,
+      "divider_h": 0.4,
+      "goal_x": 5.05,
+      "goal_y": 5.0,
+      "decoy_x": 5.05,
+      "decoy_y": 1.15,
+      "start_x": 1.0,
+      "start_y": 3.0
+    },
+    "pass_contract": true,
+    "selected": {
+      "candidate_id": 706,
+      "frontier_track_id": 14,
+      "rc": [
+        43,
+        16
+      ],
+      "xy": [
+        1.6,
+        4.3
+      ],
+      "yaw": 1.1760052070951352,
+      "path": [
+        [
+          30,
+          10
+        ],
+        [
+          31,
+          11
+        ],
+        [
+          32,
+          11
+        ],
+        [
+          33,
+          11
+        ],
+        [
+          34,
+          12
+        ],
+        [
+          35,
+          12
+        ],
+        [
+          36,
+          13
+        ],
+        [
+          37,
+          13
+        ],
+        [
+          38,
+          14
+        ],
+        [
+          39,
+          14
+        ],
+        [
+          40,
+          15
+        ],
+        [
+          41,
+          15
+        ],
+        [
+          42,
+          15
+        ],
+        [
+          43,
+          16
+        ]
+      ],
+      "visible_unknown": [
+        [
+          49,
+          36
+        ],
+        [
+          50,
+          37
+        ],
+        [
+          51,
+          19
+        ],
+        [
+          51,
+          38
+        ],
+        [
+          52,
+          13
+        ],
+        [
+          53,
+          7
+        ],
+        [
+          53,
+          32
+        ],
+        [
+          53,
+          41
+        ],
+        [
+          54,
+          7
+        ],
+        [
+          54,
+          13
+        ],
+        [
+          54,
+          42
+        ],
+        [
+          55,
+          7
+        ],
+        [
+          55,
+          34
+        ],
+        [
+          56,
+          35
+        ],
+        [
+          57,
+          46
+        ],
+        [
+          58,
+          6
+        ],
+        [
+          58,
+          14
+        ],
+        [
+          59,
+          38
+        ],
+        [
+          59,
+          49
+        ],
+        [
+          60,
+          6
+        ]
+      ],
+      "visible_unknown_proxy": 20.0,
+      "target_relevance_proxy": 1.0,
+      "tier": 1,
+      "utility_proxy": 0.26351331832756003,
+      "safety_reasons": [],
+      "policy_reasons": [],
+      "safety_feasible": true,
+      "accepted": true
+    },
+    "decoy": {
+      "candidate_id": 124,
+      "frontier_track_id": 3,
+      "rc": [
+        17,
+        8
+      ],
+      "xy": [
+        0.8,
+        1.7000000000000002
+      ],
+      "yaw": -1.1760052070951352,
+      "path": [
+        [
+          30,
+          10
+        ],
+        [
+          29,
+          10
+        ],
+        [
+          28,
+          10
+        ],
+        [
+          27,
+          10
+        ],
+        [
+          26,
+          10
+        ],
+        [
+          25,
+          10
+        ],
+        [
+          24,
+          10
+        ],
+        [
+          23,
+          9
+        ],
+        [
+          22,
+          8
+        ],
+        [
+          21,
+          8
+        ],
+        [
+          20,
+          8
+        ],
+        [
+          19,
+          8
+        ],
+        [
+          18,
+          8
+        ],
+        [
+          17,
+          8
+        ]
+      ],
+      "visible_unknown": [
+        [
+          0,
+          23
+        ],
+        [
+          1,
+          14
+        ],
+        [
+          1,
+          38
+        ],
+        [
+          2,
+          22
+        ],
+        [
+          2,
+          37
+        ],
+        [
+          3,
+          36
+        ],
+        [
+          4,
+          21
+        ],
+        [
+          4,
+          35
+        ],
+        [
+          5,
+          21
+        ],
+        [
+          5,
+          34
+        ],
+        [
+          6,
+          13
+        ],
+        [
+          7,
+          13
+        ],
+        [
+          7,
+          20
+        ],
+        [
+          7,
+          32
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          9,
+          19
+        ]
+      ],
+      "visible_unknown_proxy": 17.0,
+      "target_relevance_proxy": 0.0,
+      "tier": 3,
+      "utility_proxy": 0.19101331832756002,
+      "safety_reasons": [],
+      "policy_reasons": [
+        "IRRELEVANT_EXPLORATION"
+      ],
+      "safety_feasible": true,
+      "accepted": false
+    },
+    "metrics": {
+      "frontiers": 18,
+      "candidates": 919,
+      "accepted": 5,
+      "safety_feasible": 36,
+      "target_frontier_ids": [
+        14,
+        16
+      ],
+      "distinct_irrelevant_frontiers": 8,
+      "clean_policy_decoys": 31,
+      "selected_visible_unknown_proxy": 20.0,
+      "decoy_visible_unknown_proxy": 17.0,
+      "proxy_ratio": 0.85,
+      "selected_target_relevance_proxy": 1.0,
+      "NOTE": "visible_unknown_proxy is structural only; it is not MATLAB entropy information gain",
+      "robust_cases_passed": 11,
+      "robust_cases_total": 11,
+      "min_clean_decoys_robust": 24
+    },
+    "reasons": []
+  },
+  "matlab_physical_multiseed_pass": true,
+  "native_matlab_layered_release_gate_pass": true,
+  "installed_geometry_sha256": "6cf2be847a96ccbd6a9bf95bf23d919128bdfe0e6a50c0bee90b965e291b3662"
+}

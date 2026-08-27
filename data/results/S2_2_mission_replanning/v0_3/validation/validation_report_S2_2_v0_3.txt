@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 validation report
+Generated: 2026-07-11 17:00:22
+
+incremental_static_insert | PASS 1 | goal 1 | failsafe 0 | replan 1 | dynamic 0 | vmax 0.3385 | amax 0.0995 | jmax 0.0608 | track 0.0037 | core 111111 | mission 111 | events 111111
+dynamic_crossing_yield | PASS 1 | goal 1 | failsafe 0 | replan 0 | dynamic 56 | vmax 0.3500 | amax 0.7000 | jmax 2.5000 | track 0.4269 | core 111111 | mission 111 | events 111111
+dynamic_blocker_becomes_static | PASS 1 | goal 1 | failsafe 0 | replan 1 | dynamic 60 | vmax 0.3381 | amax 0.7000 | jmax 2.5000 | track 0.0035 | core 111111 | mission 111 | events 111111
+sensor_dropout_recover | PASS 1 | goal 1 | failsafe 0 | replan 0 | dynamic 0 | vmax 0.3390 | amax 0.6935 | jmax 2.5000 | track 0.0028 | core 111111 | mission 111 | events 111111
+sensor_dropout_failsafe | PASS 1 | goal 0 | failsafe 1 | replan 0 | dynamic 0 | vmax 0.1402 | amax 0.6935 | jmax 2.5000 | track 0.0018 | core 111111 | mission 111 | events 111111
+two_dynamic_crossings | PASS 1 | goal 1 | failsafe 0 | replan 0 | dynamic 134 | vmax 0.3500 | amax 0.7000 | jmax 2.5000 | track 0.4269 | core 111111 | mission 111 | events 111111
+trajectory_time_rescale | PASS 1 | goal 1 | failsafe 0 | replan 0 | dynamic 0 | vmax 0.3391 | amax 0.0750 | jmax 0.0339 | track 0.0028 | core 111111 | mission 111 | events 111111
+
+Overall: 7/7 PASS

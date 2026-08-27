@@ -1,0 +1,201 @@
+{
+  "passed": 12,
+  "total": 12,
+  "all_pass": true,
+  "constants": {
+    "room": [
+      6.0,
+      6.0
+    ],
+    "resolution": 0.1,
+    "inflation": 0.602
+  },
+  "source_contracts": {
+    "late_blockage_time": true,
+    "late_blockage_no_extension_requirement": true,
+    "narrow_extension_optional": true
+  },
+  "results": [
+    {
+      "scenario": "unknown_room_nominal",
+      "expected": "reachable",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "acceptance_contract": "extension_optional"
+      }
+    },
+    {
+      "scenario": "hidden_obstacle_replan",
+      "expected": "reachable_replan",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "route_intersection": true,
+        "alternate_route": true,
+        "insertion_active_track": true,
+        "insertion_position": [
+          3.0,
+          0.8
+        ],
+        "sensor_line_of_sight": true,
+        "physical_distance_at_insertion_m": 3.331095915761058,
+        "required_notice_distance_m": 0.8119999999999999,
+        "conservative_earliest_cross_s": 17.779951288348663,
+        "lead_time_s": 5.779951288348663,
+        "acceptance_contract": "safety_replan_required"
+      }
+    },
+    {
+      "scenario": "occluded_obstacle",
+      "expected": "reachable_extension",
+      "feasible": true,
+      "route_length_m": 6.569848480983501,
+      "min_clearance_m": 0.6324555320336764,
+      "contract_pass": true,
+      "details": {
+        "initial_obstacle_visibility": [
+          true,
+          false,
+          false
+        ],
+        "later_route_visibility": [
+          true,
+          true,
+          true
+        ],
+        "occlusion_contract": true,
+        "acceptance_contract": "extension_required"
+      }
+    },
+    {
+      "scenario": "unknown_narrow_passage",
+      "expected": "reachable_extension_optional",
+      "feasible": true,
+      "route_length_m": 4.3999999999999995,
+      "min_clearance_m": 0.75,
+      "contract_pass": true,
+      "details": {
+        "acceptance_contract": "extension_optional"
+      }
+    },
+    {
+      "scenario": "dead_end_recovery",
+      "expected": "reachable_replan",
+      "feasible": true,
+      "route_length_m": 5.228427124746189,
+      "min_clearance_m": 0.6500000000000004,
+      "contract_pass": true,
+      "details": {
+        "acceptance_contract": "replan_required"
+      }
+    },
+    {
+      "scenario": "goal_requires_scan",
+      "expected": "reachable_extension_scan",
+      "feasible": true,
+      "route_length_m": 7.804163056034262,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "goal_visible_from_start": false,
+        "goal_visible_later": true,
+        "direct_route_blocked": true,
+        "scan_contract": true,
+        "acceptance_contract": "scan_and_extension_required"
+      }
+    },
+    {
+      "scenario": "unreachable_goal",
+      "expected": "unreachable",
+      "feasible": false,
+      "route_length_m": null,
+      "min_clearance_m": null,
+      "contract_pass": true,
+      "details": {
+        "acceptance_contract": "safe_refusal_no_extension_required"
+      }
+    },
+    {
+      "scenario": "depth_dropout_lidar",
+      "expected": "reachable_single_sensor",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "dropout_source": "depth",
+        "dropout_duration_s": 16.0,
+        "dropout_contract": true,
+        "acceptance_contract": "single_sensor_continuity"
+      }
+    },
+    {
+      "scenario": "lidar_dropout_depth",
+      "expected": "reachable_single_sensor",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "dropout_source": "lidar",
+        "dropout_duration_s": 16.0,
+        "dropout_contract": true,
+        "acceptance_contract": "single_sensor_continuity"
+      }
+    },
+    {
+      "scenario": "perception_dropout_recover",
+      "expected": "reachable_hold_recover",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "dropout_source": "both",
+        "dropout_duration_s": 1.1999999999999993,
+        "dropout_contract": true,
+        "acceptance_contract": "hold_then_recover"
+      }
+    },
+    {
+      "scenario": "primary_imu_fault_mapping",
+      "expected": "reachable_lane_switch",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "fault_time_s": 10.0,
+        "vio_outage": [
+          10.0,
+          22.0
+        ],
+        "backup_lidar_lane_available": true,
+        "acceptance_contract": "lane_switch_required"
+      }
+    },
+    {
+      "scenario": "dynamic_to_static_mapping",
+      "expected": "reachable_dynamic_promotion",
+      "feasible": true,
+      "route_length_m": 5.4526911934581195,
+      "min_clearance_m": 0.6324555320336763,
+      "contract_pass": true,
+      "details": {
+        "stop_position": [
+          4.48,
+          2.15
+        ],
+        "route_intersection": true,
+        "alternate_route": true,
+        "promotion_qualified": true,
+        "acceptance_contract": "promotion_and_replan"
+      }
+    }
+  ]
+}

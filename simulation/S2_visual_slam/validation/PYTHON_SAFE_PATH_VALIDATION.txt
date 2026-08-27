@@ -1,0 +1,15 @@
+=== PRODUCTION 6-DOF LOCAL ESKF + GLOBAL SCANCONTEXT POSE GRAPH ===
+{"seed": 0, "stress": false, "lidar_local_max": 0.013308482613459852, "lidar_local_rmse": 0.006153215158051263, "lidar_global_max": 0.020684166579297135, "lidar_global_rmse": 0.010254738140297094, "local_return_error": 0.015889496409838253, "global_return_error": 0.0056625969552829905, "lidar_healthy_fraction": 1.0, "loops": 7, "fused_max5": 0.016773915364350418, "fused_rmse5": 0.007076586385356725, "fused_final": 0.0026625543392118415, "att_max5_deg": 0.8571636842197019, "counts": {"vio_acc": 1787, "vio_rej": 14, "lidar_acc": 331, "lidar_rej": 0, "range_acc": 1290, "range_rej": 1, "baro_acc": 1500, "baro_rej": 1}, "pass": true}
+STRESS {"seed": 100, "stress": true, "lidar_local_max": 0.027472887841519664, "lidar_local_rmse": 0.007811393005431171, "lidar_global_max": 0.020369081982490062, "lidar_global_rmse": 0.01046763436611385, "local_return_error": 0.009443878298330438, "global_return_error": 0.008707887844234504, "lidar_healthy_fraction": 1.0, "loops": 7, "fused_max5": 0.0389050688702341, "fused_rmse5": 0.01337688619956992, "fused_final": 0.01421435250971455, "att_max5_deg": 0.8735143753637603, "counts": {"vio_acc": 1573, "vio_rej": 17, "lidar_acc": 331, "lidar_rej": 0, "range_acc": 1141, "range_rej": 1, "baro_acc": 1499, "baro_rej": 2}, "pass": true}
+SUMMARY {
+  "nominal_trials": 1,
+  "nominal_pass": 1,
+  "nominal_worst_fused_max5": 0.016773915364350418,
+  "nominal_worst_lidar_local_max": 0.013308482613459852,
+  "nominal_worst_lidar_global_max": 0.020684166579297135,
+  "nominal_min_loop_closures": 7,
+  "stress_trials": 1,
+  "stress_pass": 1,
+  "stress_worst_fused_max5": 0.0389050688702341,
+  "elapsed_s": 15.314087152481079
+}

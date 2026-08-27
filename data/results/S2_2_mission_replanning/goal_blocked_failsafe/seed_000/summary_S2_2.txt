@@ -1,0 +1,8 @@
+Stage S2.2 v0.1 OMR-FailSafe mission replanning
+Scenario: GOAL_BLOCKED_FAILSAFE | seed 0
+Goal reached: 0 | PASS: 1
+Replans: 1 | hover stops: 1 | failsafe: 1
+Collisions: 0 | geofence violations: 0
+Min obstacle clearance: 1.513275 m
+Min wall clearance: 0.800000 m
+Path length: 0.000000 m | time to goal: NaN s

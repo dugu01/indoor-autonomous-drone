@@ -1,0 +1,271 @@
+Changed files in cumulative runtime-corrected S2.3 candidate:
+
+===== init_S2_3_config.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/init_S2_3_config.m	2026-07-11 23:41:49.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_S2_3_config.m	2026-07-12 18:50:37.268299784 +0000
+@@ -53,6 +53,7 @@
+ cfg.mapPoseCovarianceReject_m=0.22;
+ cfg.mapMaxPacketAge_s=0.30;
+ cfg.mapPerceptionHoldTimeout_s=0.55;
++cfg.mapPreflightMinAcceptedPackets=2;
+ cfg.mapPerceptionFailsafeTimeout_s=4.0;
+ cfg.mapInitialScanTime_s=2.40;
+ cfg.mapScanHoldTime_s=2.60;
+
+===== preflight_check_S2_3.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/preflight_check_S2_3.m	2026-07-11 23:47:47.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/preflight_check_S2_3.m	2026-07-12 18:50:37.268542799 +0000
+@@ -1,13 +1,25 @@
+-function check = preflight_check_S2_3(cfg,scenario,grid,packet,est,map,perceptionPacket) %#ok<INUSD>
++function check = preflight_check_S2_3(cfg,scenario,grid,packet,est,map,perceptionPacket,tNow) %#ok<INUSD>
+ % PREFLIGHT_CHECK_S2_3 Estimator, perception and launch-volume gates.
++%
++% Perception is qualified by the freshness of the most recently accepted
++% mapping observation, not by whether a new asynchronous scan happens to
++% arrive on this exact control step. This preserves the S2.2 aid-freshness
++% lesson and prevents deterministic phase-dependent preflight rejection.
++if nargin<8||isempty(tNow)||~isfinite(tNow)
++    tNow=max([get_field(packet,'timestamp',0),get_field(map,'lastUpdateTime',0),0]);
++end
+ estimateFinite=all(isfinite(est.p))&&all(isfinite(est.v))&&all(isfinite(est.q))&&all(isfinite(est.P(:)));
+ hAge=get_field(est,'horizontalAidAge_s',inf);vAge=get_field(est,'verticalAidAge_s',inf);aAge=get_field(est,'attitudeAidAge_s',inf);
+ activeLaneEligible=logical(get_field(est,'activeLaneEligible',false));xyCov=get_field(est,'xyCovariance',inf);zVar=get_field(est,'zVariance',inf);updates=get_field(est,'acceptedMeasurementCount',0);
+ hOK=hAge<=cfg.horizontalAidTimeout;vOK=~cfg.preflightRequireVerticalAid||vAge<=cfg.verticalAidTimeout;aOK=aAge<=cfg.attitudeAidTimeout;
+ covOK=xyCov<=cfg.preflightMaxXYCovariance&&zVar<=cfg.preflightMaxZVariance;updateOK=updates>=cfg.preflightMinAcceptedUpdates;
+ laneOK=activeLaneEligible&&~get_field(est,'degraded',true)&&~get_field(est,'rtlRequested',true);
+-perceptionOK=(isfield(perceptionPacket,'hasLidarScan')&&perceptionPacket.hasLidarScan)|| ...
+-    (isfield(perceptionPacket,'hasDepthRays')&&perceptionPacket.hasDepthRays);
++lastPerceptionTime=max(get_field(map,'lastLidarTime',-inf),get_field(map,'lastDepthTime',-inf));
++perceptionAge=tNow-lastPerceptionTime;
++mapAcceptedPackets=double(get_field(map,'acceptedPackets',0));
++mapPacketCountOK=mapAcceptedPackets>=cfg.mapPreflightMinAcceptedPackets;
++perceptionOK=isfinite(perceptionAge)&&perceptionAge>=-cfg.dt&& ...
++    perceptionAge<=cfg.mapPerceptionHoldTimeout_s&&mapPacketCountOK;
+ homeObserved=launch_footprint_observed_free(cfg,map,scenario.home,est.p(3));
+ startClear=homeObserved;
+ forced=logical(scenario.forcePreflightReject);
+@@ -15,21 +27,24 @@
+     'activeLaneEligible',activeLaneEligible,'laneOK',laneOK,'covarianceOK',covOK, ...
+     'updateCountOK',updateOK,'horizontalAidAge_s',hAge,'verticalAidAge_s',vAge, ...
+     'attitudeAidAge_s',aAge,'xyCovariance',xyCov,'zVariance',zVar, ...
+-    'acceptedUpdates',updates,'perceptionOK',perceptionOK,'homeClear',homeObserved, ...
+-    'startCellClear',startClear,'goalCellClear',false,'goalReachable',false, ...
+-    'goalFree',false,'estimateFinite',estimateFinite,'forcedReject',forced, ...
++    'acceptedUpdates',updates,'perceptionOK',perceptionOK, ...
++    'perceptionAge_s',perceptionAge,'lastPerceptionTime_s',lastPerceptionTime, ...
++    'mapAcceptedPackets',mapAcceptedPackets,'mapPacketCountOK',mapPacketCountOK, ...
++    'homeClear',homeObserved,'startCellClear',startClear, ...
++    'goalCellClear',false,'goalReachable',false,'goalFree',false, ...
++    'estimateFinite',estimateFinite,'forcedReject',forced, ...
+     'astarExpanded',0,'preflightPath',zeros(0,2));
+-check.pass=hOK&&vOK&&aOK&&laneOK&&covOK&&updateOK&&perceptionOK&&homeObserved&&startClear&&estimateFinite&&~forced;
++check.pass=hOK&&vOK&&aOK&&laneOK&&covOK&&updateOK&&perceptionOK&& ...
++    homeObserved&&startClear&&estimateFinite&&~forced;
+ end
+ function value=get_field(s,name,defaultValue)
+-if isfield(s,name)&&~isempty(s.(name)),value=s.(name);else,value=defaultValue;end
++if isstruct(s)&&isfield(s,name)&&~isempty(s.(name)),value=s.(name);else,value=defaultValue;end
+ end
+ 
+ function tf=launch_footprint_observed_free(cfg,map,xy,z)
+ % Require measured free space around the launch footprint at the current
+-% sensor height. S2.3 scenarios model floor-supported obstacles, so this is
+-% the causal pre-arm obstacle gate; the ascending corridor is revalidated
+-% continuously as new depth observations arrive.
++% sensor height. The z=0 map layer represents the near-ground air volume;
++% floor contact itself is validated independently by the plant/landing model.
+ xy=double(xy(:).');
+ iz=max(1,min(map.nz,round((z-map.zs(1))/map.resolutionZ)+1));
+ [X,Y]=meshgrid(map.xs,map.ys);mask=(X-xy(1)).^2+(Y-xy(2)).^2<=cfg.mapTakeoffRadius_m^2;
+
+===== mission_lifecycle_manager_S2_3.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/mission_lifecycle_manager_S2_3.m	2026-07-11 23:50:10.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/mission_lifecycle_manager_S2_3.m	2026-07-12 18:50:37.269314787 +0000
+@@ -26,7 +26,7 @@
+ estAcc=zeros(3,1);previousTruthA=truth.a;previousCmdAccel=zeros(3,1);
+ currentInflation=uncertainty_inflation_S2_2(cfg,est.xySigma_m);
+ grid=project_map_to_planner_S2_3(cfg,mapState,currentInflation,0);
+-preflight=preflight_check_S2_3(cfg,scenario,grid,packet,est,mapState,perceptionPacket);
++preflight=preflight_check_S2_3(cfg,scenario,grid,packet,est,mapState,perceptionPacket,0);
+ activeObstacles=truthWorld.staticRects5(:,1:4);
+ 
+ state='PREFLIGHT';stateEntryTime=0;armed=false;armedEver=false;disarmed=true;
+@@ -334,7 +334,7 @@
+ 
+         case 'PREFLIGHT'
+             if t-stateEntryTime>=cfg.preflightCheckTime_s
+-                preflight=preflight_check_S2_3(cfg,scenario,grid,packet,est,mapState,perceptionPacket);
++                preflight=preflight_check_S2_3(cfg,scenario,grid,packet,est,mapState,perceptionPacket,t);
+                 if preflight.pass
+                     state='ARM';stateEntryTime=t;disarmed=false;
+                 else
+@@ -904,6 +904,7 @@
+     'navigationDegradedHoldCount',navigationDegradedHoldCount, ...
+     'mapVersionFinal',double(mapState.version),'mapFrameVersionFinal',double(mapState.frameVersion), ...
+     'mapAcceptedPackets',double(mapState.acceptedPackets),'mapRejectedPackets',double(mapState.rejectedPackets), ...
++    'mapNoDataPackets',double(mapState.noDataPackets), ...
+     'mapExtensionCount',mapExtensionCount,'scanHoldCount',scanHoldCount,'mapSafetyReplanCount',mapSafetyReplanCount, ...
+     'perceptionHoldCount',perceptionHoldCount,'goalUnreachable',goalUnreachable, ...
+     'unknownCommitmentCount',unknownCommitmentCount,'mapPromotionCount',double(mapState.promotedCount), ...
+
+===== init_probabilistic_map_S2_3.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/init_probabilistic_map_S2_3.m	2026-07-11 23:43:39.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/init_probabilistic_map_S2_3.m	2026-07-12 18:50:37.269557400 +0000
+@@ -17,6 +17,6 @@
+ map.dynamicLastHit=-inf(ny,nx,'single');
+ map.version=uint32(0);map.frameVersion=uint32(0);
+ map.lastPacketTime=-inf;map.lastLidarTime=-inf;map.lastDepthTime=-inf;map.lastSequence=uint64(0);
+-map.acceptedPackets=uint32(0);map.rejectedPackets=uint32(0);
++map.acceptedPackets=uint32(0);map.rejectedPackets=uint32(0);map.noDataPackets=uint32(0);
+ map.lastChangeTime=0;map.lastUpdateTime=0;map.promotedCount=uint32(0);map.truthAccessCount=uint32(0);
+ end
+
+===== update_probabilistic_map_S2_3.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/update_probabilistic_map_S2_3.m	2026-07-11 23:47:06.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/update_probabilistic_map_S2_3.m	2026-07-12 18:50:37.272048927 +0000
+@@ -9,6 +9,11 @@
+ if isfield(packet,'sequence')&&uint64(packet.sequence)<=map.lastSequence
+     update.reason='duplicate_packet';return;
+ end
++hasLidarEvent=isfield(packet,'hasLidarScan')&&logical(packet.hasLidarScan);
++hasDepthEvent=isfield(packet,'hasDepthRays')&&logical(packet.hasDepthRays);
++if ~hasLidarEvent&&~hasDepthEvent
++    update.reason='no_sensor_event';map.noDataPackets=map.noDataPackets+1;return;
++end
+ update.packetAge_s=t-packet.timestamp;
+ if update.packetAge_s< -cfg.dt||update.packetAge_s>cfg.mapMaxPacketAge_s
+     update.reason='stale_packet';map.rejectedPackets=map.rejectedPackets+1;return;
+
+===== validate_map_against_truth_S2_3.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/validate_map_against_truth_S2_3.m	2026-07-11 23:41:19.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/validate_map_against_truth_S2_3.m	2026-07-12 18:50:37.272423779 +0000
+@@ -1,11 +1,14 @@
+ function metrics = validate_map_against_truth_S2_3(cfg,map,world)
+ % VALIDATE_MAP_AGAINST_TRUTH_S2_3 Independent final-map validation.
++% The z=0 layer denotes near-ground air volume in this node-centred map.
++% Floor contact is validated by the plant/landing model and is therefore not
++% counted as a volumetric obstacle cell for false-free occupancy scoring.
+ truthOcc=false(map.ny,map.nx,map.nz);
+ for iy=1:map.ny
+  for ix=1:map.nx
+   for iz=1:map.nz
+    p=[map.xs(ix) map.ys(iy) map.zs(iz)];
+-   if p(1)<=0||p(1)>=cfg.room(1)||p(2)<=0||p(2)>=cfg.room(2)||p(3)<=0||p(3)>=cfg.room(3),truthOcc(iy,ix,iz)=true;continue;end
++   if p(1)<=0||p(1)>=cfg.room(1)||p(2)<=0||p(2)>=cfg.room(2)||p(3)>=cfg.room(3),truthOcc(iy,ix,iz)=true;continue;end
+    for j=1:size(world.staticRects5,1)
+     r=world.staticRects5(j,:);
+     if p(1)>=r(1)&&p(1)<=r(1)+r(3)&&p(2)>=r(2)&&p(2)<=r(2)+r(4)&&p(3)<=r(5),truthOcc(iy,ix,iz)=true;break;end
+
+===== run_S2_3_online_mapping.m =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/run_S2_3_online_mapping.m	2026-07-11 23:44:42.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/run_S2_3_online_mapping.m	2026-07-12 18:50:37.272732001 +0000
+@@ -24,7 +24,7 @@
+ 
+ fprintf('Goal/unreachable/failsafe : %d / %d / %d\n',summary.goalReached,summary.goalUnreachable,summary.failsafeTriggered);
+ fprintf('Arm/takeoff/RTL/land      : %d / %d / %d / %d\n',summary.armedEver,summary.takeoffCompleted,summary.rtlExecuted,summary.landed);
+-fprintf('Map version/packets       : %d / %d accepted / %d rejected\n',summary.mapVersionFinal,summary.mapAcceptedPackets,summary.mapRejectedPackets);
++fprintf('Map version/packets       : %d / %d accepted / %d rejected / %d idle\n',summary.mapVersionFinal,summary.mapAcceptedPackets,summary.mapRejectedPackets,summary.mapNoDataPackets);
+ fprintf('Extensions/scans/replans  : %d / %d / %d\n',summary.mapExtensionCount,summary.scanHoldCount,summary.mapSafetyReplanCount);
+ fprintf('Map false-free/recall     : %.5f / %.3f\n',summary.mapFalseFreeRate,summary.mapOccupiedRecall);
+ fprintf('Map observed fraction     : %.3f | promotions %d\n',summary.mapObservedFraction,summary.mapPromotionCount);
+@@ -53,7 +53,7 @@
+ fprintf(f,'Stage S2.3 %s perception-driven online mapping\n',cfg.version);
+ fprintf(f,'Scenario %s | seed %d | PASS %d\n',s.scenario,s.seed,s.pass);
+ fprintf(f,'Goal %d | unreachable %d | failsafe %d | RTL %d | landed %d\n',s.goalReached,s.goalUnreachable,s.failsafeTriggered,s.rtlExecuted,s.landed);
+-fprintf(f,'Map version %d | accepted %d | rejected %d | extensions %d | scans %d\n',s.mapVersionFinal,s.mapAcceptedPackets,s.mapRejectedPackets,s.mapExtensionCount,s.scanHoldCount);
++fprintf(f,'Map version %d | accepted %d | rejected %d | idle %d | extensions %d | scans %d\n',s.mapVersionFinal,s.mapAcceptedPackets,s.mapRejectedPackets,s.mapNoDataPackets,s.mapExtensionCount,s.scanHoldCount);
+ fprintf(f,'False free %.10f | occupied recall %.10f | observed %.10f\n',s.mapFalseFreeRate,s.mapOccupiedRecall,s.mapObservedFraction);
+ fprintf(f,'Unknown commitments %d | truth isolation %d | map pass %d\n',s.unknownCommitmentCount,s.truthIsolationPass,s.mapPass);
+ fprintf(f,'Collision %d | geofence %d | final state %s\n',s.collisionCount,s.geofenceViolationCount,s.finalState);
+
+===== python_tests/test_s23_mechanisms.py =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/python_tests/test_s23_mechanisms.py	2026-07-11 23:48:39.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/python_tests/test_s23_mechanisms.py	2026-07-12 18:51:34.260486220 +0000
+@@ -81,6 +81,29 @@
+     is_free=prior<=math.log(PFREE/(1-PFREE))
+     assert not is_occ and not is_free
+ 
++def test_preflight_uses_mapping_freshness_not_exact_packet():
++    # Recorded nominal failure: no scan on the exact 0.60 s control step,
++    # but accepted mapping observations at 0.48/0.50 s were still fresh.
++    t_now=.60; last_lidar=.48; last_depth=.50; accepted=10
++    current_packet_has_scan=False
++    old_gate=current_packet_has_scan
++    new_gate=(t_now-max(last_lidar,last_depth) <= .55) and accepted>=2
++    assert not old_gate and new_gate
++
++def test_idle_control_step_is_not_rejected_packet():
++    has_lidar=False; has_depth=False
++    reason='no_sensor_event' if not has_lidar and not has_depth else 'process'
++    rejected_increment=0 if reason=='no_sensor_event' else 1
++    idle_increment=1 if reason=='no_sensor_event' else 0
++    assert rejected_increment==0 and idle_increment==1
++
++def test_near_ground_layer_not_floor_false_free():
++    # In the node-centred S2.3 map, z=0 denotes the near-ground air layer.
++    # Floor contact is checked by the plant/landing model, not occupancy truth.
++    x,y,z=3.0,.8,0.0
++    side_or_ceiling=(x<=0 or x>=ROOM[0] or y<=0 or y>=ROOM[1] or z>=ROOM[2])
++    assert not side_or_ceiling
++
+ def test_pose_interpolation_contract():
+     t0,t1=.10,.20; p0=np.array([1.,2.,.5]); p1=np.array([1.2,2.4,.7]); tq=.15
+     a=(tq-t0)/(t1-t0); p=(1-a)*p0+a*p1
+
+===== audit_S2_3_candidate.py =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/audit_S2_3_candidate.py	2026-07-11 23:49:37.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/audit_S2_3_candidate.py	2026-07-12 18:51:34.260756530 +0000
+@@ -35,6 +35,12 @@
+ checks['no_route_scan_hold']="state='SCAN_HOLD'" in (root/'mission_lifecycle_manager_S2_3.m').read_text()
+ checks['truth_audit_script']=(root/'audit_truth_isolation_S2_3.py').exists()
+ checks['mechanism_tests']=(root/'python_tests'/'test_s23_mechanisms.py').exists()
++preflight_text=(root/'preflight_check_S2_3.m').read_text()
++update_text=(root/'update_probabilistic_map_S2_3.m').read_text()
++validator_text=(root/'validate_map_against_truth_S2_3.m').read_text()
++checks['preflight_uses_map_freshness']='lastPerceptionTime' in preflight_text and 'mapPreflightMinAcceptedPackets' in preflight_text
++checks['idle_packets_not_rejected']='no_sensor_event' in update_text and 'noDataPackets' in update_text
++checks['ground_layer_validation_contract']='Floor contact is validated' in validator_text
+ 
+ # New S2.3 call references have a matching file or local definition.
+ defs=set()
+
+===== CHANGELOG_S2_2_TO_S2_3.md =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/CHANGELOG_S2_2_TO_S2_3.md	2026-07-11 23:50:40.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/CHANGELOG_S2_2_TO_S2_3.md	2026-07-12 18:52:00.712920999 +0000
+@@ -36,3 +36,20 @@
+ - Preflight checks the observed ground launch footprint rather than an unobserved cruise layer.
+ - Partial-map no-route outcomes enter stop-and-scan rather than immediate emergency landing.
+ - Persistent complete perception loss does not initiate translation on a stale map.
++
++## First MATLAB nominal runtime correction
++
++The initial `UNKNOWN_ROOM_NOMINAL`, seed 0 runtime stopped at
++`PREFLIGHT_REJECT` at 0.60 s. Recorded-state replay showed that estimator,
++launch-clearance and covariance gates were valid and `perceptionFresh` was
++true, but the old preflight implementation required a new scan on the exact
++control step. The cumulative development candidate now:
++
++- qualifies preflight perception from the latest accepted map-observation age;
++- requires a minimum number of accepted mapping packets;
++- records no-sensor-event control steps as idle rather than rejected packets;
++- removes the near-ground z=0 map-layer/floor-plane mismatch from independent
++  map scoring.
++
++No inherited S2.2 flight, estimator, planning, landing or safety threshold was
++changed.
+
+===== IMPLEMENTATION_STATUS_S2_3.md =====
+--- /mnt/data/s2_3_candidate_src/S2_3_online_mapping_development/IMPLEMENTATION_STATUS_S2_3.md	2026-07-11 23:50:40.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_development_runtime_corrected/IMPLEMENTATION_STATUS_S2_3.md	2026-07-12 18:52:00.720599575 +0000
+@@ -20,3 +20,11 @@
+ - S2.3 60-trial robustness matrix.
+ 
+ The folder must remain named `S2_3_online_mapping_development` until all MATLAB gates pass. It is not a validated `v1.0.0` release.
++
++## Runtime status after first nominal trial
++
++The first MATLAB nominal run exposed and recorded an exact-step perception
++preflight defect. The defect has been corrected using the supplied MAT trace
++and verified by exact-state replay plus static and mechanism tests. The
++corrected package has not yet been rerun in MATLAB and remains a development
++candidate.

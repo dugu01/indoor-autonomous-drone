@@ -1,0 +1,18 @@
+{
+  "base": "replay-instrumented candidate",
+  "changed": [
+    "CHANGELOG_S2_2_TO_S2_3.md",
+    "IMPLEMENTATION_STATUS_S2_3.md",
+    "MATLAB_VALIDATION_PROTOCOL_S2_3.md",
+    "PACKAGE_MANIFEST_S2_3.md",
+    "STATIC_AUDIT_S2_3_CANDIDATE.json",
+    "audit_S2_3_candidate.py",
+    "init_probabilistic_map_S2_3.m",
+    "python_tests/test_s23_mechanisms.py",
+    "replay_perception_log_S2_3.m"
+  ],
+  "added": [
+    "KNOWN_BOUNDARY_POLICY_REPLAY_EVIDENCE.md"
+  ],
+  "removed": []
+}

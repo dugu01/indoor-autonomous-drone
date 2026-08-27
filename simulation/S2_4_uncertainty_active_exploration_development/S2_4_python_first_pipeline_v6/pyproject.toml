@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "s24-python-first"
+version = "0.6.0"
+description = "Python-first S2.4 layered policy/physical validation and automated backtest harness"
+requires-python = ">=3.10"
+dependencies = ["numpy", "scipy"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

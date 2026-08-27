@@ -1,0 +1,24 @@
+Stage S2.2 v0.5.3.3 autonomous mission and 6-DOF replanning
+Scenario: ALTERNATE_LANDING_ZONE | seed 7
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Arm 1 | takeoff 1 | RTL execute 1 | landed 1 | disarmed 1
+Preflight reject 0 | emergency land 0 | alternate 1 | site 5.100000 0.900000
+Truth goal/takeoff/land 1 1 1 | complete 1
+Preflight H/V/A/L/C/U/home/goal/route 1 1 1 1 1 1 1 1 1
+Preflight ages XY/Z/att 0.02000000 0.02000000 0.02000000 | accepted 35 | Pxy/Pz 3.83323383e-05 9.85999494e-06
+Replans 0 | inflation replans 0 | brake 1 | retries 1
+Lane final 1 | switches 0
+IMU fault detect/switch/blend NaN NaN NaN
+Estimator max position 0.02768054 | attitude deg 0.98068076
+Estimator observable/trigger/postloss 0.01384850 NaN 0.02768054 | metric 0.02768054
+Navigation degraded holds 0 | emergency horizontal drift 0.00000000
+XY loss time NaN | brake end NaN | brake accel 0.00000000 0.00000000
+Brake release time/speed NaN NaN
+Grid fallback count 0
+Reference XY v/a/j 0.31067980 0.10710851 0.05210439
+Executed XY v/a/j 0.32755236 0.14086356 0.98965179
+Reference Z v/a/j 0.54322235 0.41462879 0.64378093
+Executed Z v/a/j 0.53647460 0.42384271 1.30757356
+Track 0.02554601 | override 2.10905399 | altitude 0.01071890 | tilt 0.78026944 deg
+Clearance obstacle/wall/dynamic 0.78132302 0.68014643 Inf
+Final state COMPLETE | distance goal 4.40749472

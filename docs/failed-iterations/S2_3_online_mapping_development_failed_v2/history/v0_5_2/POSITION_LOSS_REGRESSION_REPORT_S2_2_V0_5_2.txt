@@ -1,0 +1,14 @@
+[PASS] v0.5.2 result namespace
+[PASS] mission pauses immediately when all XY lanes are degraded
+[PASS] degraded hold resumes only after estimator recovery
+[PASS] no stale horizontal position feedback in blind landing
+[PASS] short-term horizontal velocity damping is explicit
+[PASS] post-loss estimator error is reported but not claimed observable
+[PASS] console exposes observable/trigger/post-loss errors and drift
+[PASS] dashboard includes degraded-hold state
+[PASS] velocity damping materially reduces blind horizontal drift — new worst 0.554 m; old undamped 1.776 m
+[PASS] residual speed after local landing is bounded — 0.047 m/s
+[PASS] observed emergency location retains F450 wall margin — predicted remaining 0.906 m; required 0.502 m
+[PASS] frozen estimator failsafe threshold is not relaxed — metric 0.080 m; post-loss diagnostic 0.314 m; bound 0.250 m
+--------------------------------------------------------------------
+POSITION-LOSS EMERGENCY REGRESSION: 12/12 PASS

@@ -1,0 +1,12 @@
+Stage S2.2 v0.4 validation report
+Generated: 2026-07-11 18:42:25
+
+nominal_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6903 | core 1111111 | events 111111
+incremental_static_estimated | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 1 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6934 | core 1111111 | events 111111
+dynamic_crossing_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.1949 | clear 0.6938 | core 1111111 | events 111111
+dynamic_blocker_becomes_static_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 1 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6619 | core 1111111 | events 111111
+obstacle_sensor_dropout_recover_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.1613 | clear 0.6900 | core 1111111 | events 111111
+primary_imu_fault_vio_outage | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 2/1 | est 0.0782/1.371deg | track 0.1219 | clear 0.6862 | core 1111111 | events 111111
+xy_aid_loss_failsafe | PASS 1 | goal 0 | failsafe 1 | RTL 1 | replans 0 | lane 1/0 | est 0.0346/0.920deg | track 0.0402 | clear 0.7766 | core 1111111 | events 111111
+
+Overall: 7/7 PASS

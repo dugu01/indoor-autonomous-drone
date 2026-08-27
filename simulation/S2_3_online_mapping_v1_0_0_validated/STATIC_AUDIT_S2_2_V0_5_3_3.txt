@@ -1,0 +1,35 @@
+[PASS] required init_S2_2_config.m
+[PASS] required mission_lifecycle_manager_S2_2.m
+[PASS] required land_detector_S2_2.m
+[PASS] required geometric_controller_S2_2.m
+[PASS] required quadrotor_dynamics_S2_2.m
+[PASS] required run_S2_2_mission_replanning.m
+[PASS] required validate_S2_2.m
+[PASS] required validate_S2_2_v0_5_3_focus.m
+[PASS] required validate_S2_2_multiseed_robustness.m
+[PASS] required SEED7_EXACT_TRACE_REPLAY_V0_5_3_3.json
+[PASS] required s2_2_v0_5_3_3_touchdown_replay_regression.py
+[PASS] v0.5.3.3 namespace
+[PASS] two landing gates
+[PASS] per-step gate reset
+[PASS] detector receives previous latch
+[PASS] qualified touchdown latch
+[PASS] detector has no truth dependency
+[PASS] v0.4 core hash
+[PASS] v0.4 ESKF hash
+MATLAB source sanity: 54 files checked
+MATLAB SOURCE SANITY: PASS
+[PASS] version namespace: v0.5.3.3
+[PASS] profile-complete gate: normal and emergency descent gated
+[PASS] gated detector call: latch state and gate passed
+[PASS] contact event latch: qualified contact persists
+[PASS] no truth in detector: sensor packet only
+[PASS] brake actually arrested motion: speed near zero=0.0037 m/s
+[PASS] failure was delayed touchdown recognition: delay=13.92 s
+[PASS] first event is fully qualified: z=0.0324 m, vz=-0.0063 m/s
+[PASS] latch acts next control step: transition=21.64 s
+[PASS] exact ground replay drift: extra drift=0.0324 m
+[PASS] exact wall safety replay: wall=1.334 m, required=0.502 m
+S2.2 v0.5.3.3 EXACT-TRACE TOUCHDOWN REPLAY: PASS
+Result: 19/19 static checks passed
+CUMULATIVE S2.2 v0.5.3.3 AUDIT: PASS

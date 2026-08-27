@@ -1,0 +1,13 @@
+Stage S2.2 v0.5 focused audit backtest
+====================================================
+[PASS] accepted-aid freshness preflight — initial invalid=True, ages=(0.0, 0.0, 0.0), accepted=39
+[PASS] asynchronous packet independence — packet=(False, False, False, False), accepted ages=(0.04, 0.0, 0.04)
+[PASS] one-shot XY-loss emergency transition — final state=EMERGENCY_LAND, transitions=2, hold entry=10.00
+[PASS] vertical-only emergency descent — command acceleration=[0.0, 0.0, -2.0]
+[PASS] contact-confirmed land detector — detected at 0.30s after contact began at 0.10s
+[PASS] estimated-state arrival confirmation — declared=True, final dwell=0.30s
+[PASS] vertical C3 profile limits — maxima=[('takeoff', 0.5444444444444444, 0.41554424707191423, 0.6452674897119342), ('landing', 0.4454545454545454, 0.2781742480398765, 0.35341848234410217)], limits=(0.6, 0.65, 1.5)
+[PASS] estimator-only lifecycle decisions — truth access starts only after controller/dynamics for validation
+[PASS] temporal obstacle animation — animation selects static map history by simulation timestamp
+----------------------------------------------------
+Result: 9/9 PASS

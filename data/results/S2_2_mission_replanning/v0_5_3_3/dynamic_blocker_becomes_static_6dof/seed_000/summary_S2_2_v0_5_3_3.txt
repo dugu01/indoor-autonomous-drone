@@ -1,0 +1,13 @@
+Stage S2.2 v0.5.3.3 autonomous mission and 6-DOF replanning
+Scenario: DYNAMIC_BLOCKER_BECOMES_STATIC_6DOF | seed 0
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Replans 1 | inflation replans 0 | brake 1 | retries 6
+Progress recoveries 0 | grid fallback 0 | max rejoin 0.18000000
+Lane final 1 | switches 0
+IMU fault detect/switch/blend NaN NaN NaN
+Estimator max position 0.02515549 | attitude deg 0.91959387
+Reference XY v/a/j 0.31138812 0.07783728 0.03861007
+Executed XY v/a/j 0.33154041 0.65781239 2.65653962
+Track 0.02069718 | override 0.01284882 | altitude 0.00991226 | tilt 3.77436110 deg
+Clearance obstacle/wall/dynamic 0.85854488 0.66186116 0.77825102
+Final state COMPLETE | distance goal 0.17810864

@@ -1,0 +1,4 @@
+72c47f72042bec605d2330aaaab37fab6b442fdae3e04d2d9803a884f54c6c60  ./README_HOTFIX.md
+233d8c0fa27ecfab0acce7a0f60ce528180bc1dfa1edcd5483e8ab5560225220  ./coupled/docs/SCENARIO_2_COMPETING_CORRIDORS.md
+f6baeef2cbb671aceb7a8754302c4ce88fb63da88234995102eeaaac6d9ca8d3  ./coupled/mission/init_S2_4_E_config.m
+fa138103b7f182b420b6cb5a506c71e3428f40f7f6d34f049467e94ec532275e  ./coupled/scenarios/literal_competing_corridors_geometry.json

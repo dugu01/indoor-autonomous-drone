@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 smooth dynamically feasible replanning
+Scenario: DYNAMIC_CROSSING_YIELD | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 0 | promotions 0 | dynamic avoid 56 | no-data holds 0
+Max speed/accel/jerk 0.35000000 / 0.70000000 / 2.50000000
+Trajectory generations 1 | fallbacks 1 | max scale 1.62224513
+Nominal tracking error 0.42689365 | safety-override deviation 0.81254626 | rejoins 3
+Reference C0-C3 jumps 3.972e-15 8.106e-15 1.780e-15 2.267e-16
+Replan p-v-a jumps 0.000e+00 0.000e+00 0.000e+00
+Core gates S D K Ref R T: 1 1 1 1 1 1
+Mission/failsafe/event gates: 1 1 1
+Event gates I D N P TS SE: 1 1 1 1 1 1

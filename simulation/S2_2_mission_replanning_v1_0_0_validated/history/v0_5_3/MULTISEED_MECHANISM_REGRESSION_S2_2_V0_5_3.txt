@@ -1,0 +1,14 @@
+[PASS] version namespace: v0.5.3
+[PASS] frozen baseline retained: v0.4 core present
+[PASS] robust core routed: legacy tests use robust derivative
+[PASS] REJOIN watchdog: watchdog and terminal recovery
+[PASS] raw route fallback: verified route fallback present
+[PASS] fault-aware lane transition: recent NIS + short blend
+[PASS] confidence-limited XY braking: frozen reliable velocity
+[PASS] no stale-position control: absolute XY disabled
+[PASS] open-loop brake feedforward: brake independent of drifting velocity
+[PASS] liveness terminal recovery: recoveries=3, final distance=0.149 m
+[PASS] fault-aware transient bound: old=0.137 m, new=0.040 m
+[PASS] RTL route-before-land hierarchy: fallback=True, emergency=False
+[PASS] XY-loss open-loop braking: worst drift=0.339 m, p99=0.294 m, residual speed=0.088 m/s
+S2.2 v0.5.3 FOCUSED MULTI-SEED REGRESSION: PASS

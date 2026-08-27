@@ -1,0 +1,15 @@
+S2.4-E Scenario 2 cumulative package provenance
+
+Archive revision: v0.3.3-cumulative-repair
+Behavior/config revision: v0.3.2-literal-competing-corridors-candidate
+
+Baseline source:
+- user-uploaded archive: "S2.4-E v0.2.2 — Milestone 1 Validated"
+- baseline-only files are copied byte-for-byte from that archive.
+
+Newer overlay source:
+- S2_4_E_scenario2_literal_competing_corridors_v0_3_2.zip
+- overlapping behavior files and all literal-corridor files are copied byte-for-byte
+  from v0.3.2.
+
+No frozen parent, S2.4 A-D shadow code, project tools, or python_tests are replaced.

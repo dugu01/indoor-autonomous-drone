@@ -1,0 +1,6 @@
+Stage S2.2 v0.2 incremental/dynamic planning
+Scenario: INCREMENTAL_STATIC_INSERT | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 1 | promotions 0 | dynamic avoid steps 0 | no-data holds 0
+D* repair expansions 225 | A* scratch expansions 499
+Min obstacle/wall/dynamic clearance 0.702748 / 0.707808 / Inf m

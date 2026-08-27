@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 smooth dynamically feasible replanning
+Scenario: DYNAMIC_BLOCKER_BECOMES_STATIC | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 1 | promotions 1 | dynamic avoid 60 | no-data holds 0
+Max speed/accel/jerk 0.33811554 / 0.70000000 / 2.50000000
+Trajectory generations 2 | fallbacks 1 | max scale 1.62224513
+Nominal tracking error 0.00351688 | safety-override deviation 0.76138437 | rejoins 1
+Reference C0-C3 jumps 4.441e-15 8.106e-15 2.654e-15 2.972e-16
+Replan p-v-a jumps 0.000e+00 2.629e-15 6.289e-16
+Core gates S D K Ref R T: 1 1 1 1 1 1
+Mission/failsafe/event gates: 1 1 1
+Event gates I D N P TS SE: 1 1 1 1 1 1

@@ -1,0 +1,8 @@
+Stage S2.3 v1.0.0-candidate perception-driven online mapping
+Scenario OCCLUDED_OBSTACLE | seed 0 | PASS 1
+Goal 1 | unreachable 0 | failsafe 0 | RTL 1 | landed 1
+Map version 1731 | accepted 2274 | rejected 0 | idle 4547 | replay records 2274 | extensions completed 2 | planned 2 | scans 2 | route repairs 0 | all replans 2
+False free 0.0004393446 | occupied recall 0.9983449189 | observed 0.9300849648
+Unknown commitments 0 | truth isolation 1 | map pass 1
+Map gates extension 1 | safety replan 1 | scan bound 1 | unreachable 1
+Collision 0 | geofence 0 | final state COMPLETE

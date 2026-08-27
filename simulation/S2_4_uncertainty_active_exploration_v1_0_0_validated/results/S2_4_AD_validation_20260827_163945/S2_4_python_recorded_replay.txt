@@ -1,0 +1,49 @@
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 tools/audit_parent_immutability.py
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 tools/audit_final_parent_manifest.py
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 tools/audit_truth_isolation_s2_4.py
+S2.4 truth/command isolation: PASS
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 tools/matlab_source_sanity_s2_4.py
+MATLAB source files checked: 9
+MATLAB SOURCE SANITY: PASS
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 python_tests/s2_4_ad_contract_backtest.py
+01 scenario_1               PASS 
+02 scenario_2               PASS 
+03 scenario_3               PASS 
+04 scenario_4               PASS 
+05 scenario_5               PASS 
+06 scenario_6               PASS 
+07 scenario_7               PASS 
+08 scenario_8               PASS 
+09 scenario_9               PASS 
+10 scenario_10              PASS 
+11 scenario_11              PASS 
+12 scenario_12              PASS 
+13 scenario_13              PASS 
+14 scenario_14              PASS 
+15 scenario_15              PASS 
+
+$ /Library/Developer/CommandLineTools/usr/bin/python3 python_tests/s2_4_recorded_shadow_replay.py /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_v1_0_0_RC3_clean/frozen_parent/results/S2_3_online_mapping/v1_0_0_candidate/unknown_room_nominal/seed_000/S2_3_v1_0_0_candidate_trial_data.mat --output-dir evidence
+S2.4 A-D recorded S2.3 shadow replay
+scenario: UNKNOWN_ROOM_NOMINAL
+snapshots: 81
+incremental frontier == full: 1
+deterministic repeat: 1
+unsafe accepted candidates: 0
+tracks created: 19
+replay digest: 60216caa557e1679c5bb3b657fd240e574ae33a48a8b8579c781fa5cfd899901
+uncertainty digest: 89e610ed70e9e7a58e869eab637791c142a179eb4f59b0659186b0aaf52fbd6e
+RESULT: PASS
+
+S2.4 A-D PACKAGE STATIC/OFFLINE GATE: PASS

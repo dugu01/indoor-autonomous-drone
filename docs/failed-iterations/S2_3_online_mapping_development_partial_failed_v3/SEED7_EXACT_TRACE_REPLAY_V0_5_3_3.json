@@ -1,0 +1,78 @@
+{
+  "trace_file": "5a05a38b-7654-4847-8bb7-f237dd9e57e7.mat",
+  "dt_s": 0.02,
+  "emergency_land_start_s": 17.12,
+  "profile_complete_s": 21.520000000000003,
+  "first_qualified_touchdown_s": 21.62,
+  "first_touchdown_truth_xy_m": [
+    3.60530535653767,
+    1.3576974461447706
+  ],
+  "first_touchdown_truth_vxy_mps": [
+    -0.050412942098783255,
+    -0.05305281231174233
+  ],
+  "first_touchdown_est_z_m": 0.03241473524593612,
+  "first_touchdown_est_vz_mps": -0.0062936080073548745,
+  "required_persistent_samples": 10,
+  "qualified_contact_intervals": [
+    {
+      "start_s": 21.62,
+      "end_s": 21.62,
+      "samples": 1,
+      "duration_s": 0.02
+    },
+    {
+      "start_s": 24.96,
+      "end_s": 25.080000000000002,
+      "samples": 7,
+      "duration_s": 0.14
+    },
+    {
+      "start_s": 29.82,
+      "end_s": 29.88,
+      "samples": 4,
+      "duration_s": 0.08
+    },
+    {
+      "start_s": 33.58,
+      "end_s": 33.58,
+      "samples": 1,
+      "duration_s": 0.02
+    },
+    {
+      "start_s": 35.36,
+      "end_s": 35.56,
+      "samples": 11,
+      "duration_s": 0.22
+    }
+  ],
+  "current_persistence_detection_s": 35.54,
+  "proposed_latch_state_transition_s": 21.64,
+  "current_touchdown_to_detection_delay_s": 13.919999999999998,
+  "mean_truth_roll_deg_descent_to_touchdown": 0.06750666602015798,
+  "mean_truth_pitch_deg_descent_to_touchdown": -0.05837864497128737,
+  "mean_est_roll_deg_descent_to_touchdown": -3.291382399705244e-05,
+  "mean_est_pitch_deg_descent_to_touchdown": 0.00010126235486131205,
+  "mean_truth_axy_mps2_descent_to_touchdown": [
+    -0.006147855695430976,
+    -0.0076274531674518425
+  ],
+  "truth_speed_at_xy_loss_mps": 0.27349823617688845,
+  "truth_speed_near_brake_zero_mps": 0.003734625872473037,
+  "truth_speed_at_release_mps": 0.025371499210416086,
+  "replay_motor_cut_disarm_duration_s": 0.6,
+  "replay_extra_xy_drift_m": 0.032381878686929134,
+  "replay_final_truth_xy_m": [
+    3.582999385177145,
+    1.3342234241425992
+  ],
+  "replay_min_raw_wall_distance_m": 1.3342234241425992,
+  "replay_wall_margin_beyond_required_m": 0.8322234241425992,
+  "required_wall_distance_m": 0.502,
+  "current_final_truth_xy_m": [
+    2.411794767970323,
+    -0.007124500419016314
+  ],
+  "current_final_raw_wall_distance_m": -0.007124500419016314
+}

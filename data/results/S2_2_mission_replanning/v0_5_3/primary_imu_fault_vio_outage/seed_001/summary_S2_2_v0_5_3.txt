@@ -1,0 +1,13 @@
+Stage S2.2 v0.5.3 autonomous mission and 6-DOF replanning
+Scenario: PRIMARY_IMU_FAULT_VIO_OUTAGE | seed 1
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Replans 0 | inflation replans 0 | brake 0 | retries 0
+Progress recoveries 0 | grid fallback 0 | max rejoin 0.00000000
+Lane final 2 | switches 1
+IMU fault detect/switch/blend 8.56000000 8.32000000 0.08000000
+Estimator max position 0.03811327 | attitude deg 1.02846317
+Reference XY v/a/j 0.31488965 0.05342000 0.01949111
+Executed XY v/a/j 0.33784690 0.22626706 1.72955405
+Track 0.04834849 | override 0.00261130 | altitude 0.00713439 | tilt 1.39562730 deg
+Clearance obstacle/wall/dynamic 0.79723906 0.67122050 Inf
+Final state COMPLETE | distance goal 0.17983603

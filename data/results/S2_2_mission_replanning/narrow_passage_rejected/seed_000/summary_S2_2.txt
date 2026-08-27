@@ -1,0 +1,8 @@
+Stage S2.2 v0.1 OMR-FailSafe mission replanning
+Scenario: NARROW_PASSAGE_REJECTED | seed 0
+Goal reached: 0 | PASS: 1
+Replans: 0 | hover stops: 0 | failsafe: 1
+Collisions: 0 | geofence violations: 0
+Min obstacle clearance: 1.868154 m
+Min wall clearance: 0.800000 m
+Path length: 0.000000 m | time to goal: NaN s

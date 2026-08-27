@@ -1,0 +1,38 @@
+{
+  "schema": "S2_4_PROJECT_VALIDATION_COMPAT_V6",
+  "actions": [
+    {
+      "file": "audit_S2_4_E_static.py",
+      "status": "already_compatible",
+      "sha256": "b7ec794d50c95311486aa10dec191a6be342fd675c962df5f7ed7090627184c7"
+    },
+    {
+      "file": "audit_S2_4_E_cumulative_overlay_portable.py",
+      "status": "already_compatible",
+      "sha256": "c23d32d94b154d4f086f955a4b53eda6dd26c646be8024ca5ff2549ee4a30cce"
+    },
+    {
+      "file": "audit_S2_4_E_literal_corridor_geometry.py",
+      "status": "already_compatible",
+      "sha256": "58a4629db1f5539644b965fce6467797cf283af2a812db91b12540fafab5ab06"
+    },
+    {
+      "file": "test_S2_4_E_competing_decision_contract.m",
+      "status": "patched",
+      "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/test_S2_4_E_competing_decision_contract_20260826_235714.m",
+      "sha256": "24469a97a313ba32f77bfc0382eef4ae88687484179b968c8d87db7f4224aa9b"
+    },
+    {
+      "file": "validate_S2_4_E_milestone_2.m",
+      "status": "patched",
+      "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/validate_S2_4_E_milestone_2_20260826_235714.m",
+      "sha256": "f50b3c8657b51893a5f48177dfbb620966906f6948d772ea2ad995594e43d9a1"
+    },
+    {
+      "file": "validate_S2_4_E_competing_corridors_multiseed.m",
+      "status": "patched",
+      "backup": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/project_compat_backup/validate_S2_4_E_competing_corridors_multiseed_20260826_235714.m",
+      "sha256": "8b2f5aba99cdb90748a77e5ab68cb2b571f209eb8a67aeb7b5947b9aa321e40f"
+    }
+  ]
+}

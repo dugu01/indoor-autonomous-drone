@@ -1,0 +1,42 @@
+{
+  "mat_file": "/mnt/data/S2_3_v1_0_0_candidate_trial_data(1).mat",
+  "recorded_trace": {
+    "goal_unreachable_time_s": 48.980000000000004,
+    "map_extension_count_reported": 12,
+    "max_displacement_before_unreachable_m": 0.05695155767010682,
+    "track_outbound_time_before_unreachable_s": 1.5399999999999672,
+    "scan_hold_time_before_unreachable_s": 34.57999999999926,
+    "replan_count": 2255,
+    "replan_brake_count": 53,
+    "trajectory_generation_count": 2243,
+    "landing_descent_start_s": 216.3,
+    "landing_duration_s": 5.5,
+    "simulation_horizon_s": 220.0,
+    "map_false_free_rate": 0.02301454138702461,
+    "map_occupied_recall": 0.5812115891132572,
+    "promotion_count": 11740,
+    "max_reference_speed_mps": 0.3200990585421507,
+    "max_estimator_attitude_error_deg": 2.655394708848637
+  },
+  "diagnosis_checks": {
+    "false_extension_exhaustion_supported": true,
+    "replan_storm_supported": true,
+    "landing_horizon_exhaustion_supported": true,
+    "map_quality_failure_supported": true,
+    "hard_speed_contract_mismatch_supported": true,
+    "scan_attitude_issue_supported": true
+  },
+  "candidate_source_corrections": {
+    "route_aware_repair": true,
+    "extension_plan_completion_split": true,
+    "scan_progress_not_map_version": true,
+    "continuous_scan_yaw": true,
+    "endpoint_voxel_excluded": true,
+    "unique_static_promotion": true,
+    "strict_trajectory_adapter": true,
+    "scan_rate_35_deg_s": true,
+    "horizon_not_increased_after_failure": true
+  },
+  "pass": true,
+  "note": "PASS means the failing trace is reproduced and candidate mechanisms are present; it is not a MATLAB validation result."
+}

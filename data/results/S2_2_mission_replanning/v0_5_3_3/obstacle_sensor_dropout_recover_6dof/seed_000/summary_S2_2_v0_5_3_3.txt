@@ -1,0 +1,13 @@
+Stage S2.2 v0.5.3.3 autonomous mission and 6-DOF replanning
+Scenario: OBSTACLE_SENSOR_DROPOUT_RECOVER_6DOF | seed 0
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Replans 0 | inflation replans 0 | brake 1 | retries 1
+Progress recoveries 1 | grid fallback 0 | max rejoin 2.00000000
+Lane final 1 | switches 0
+IMU fault detect/switch/blend NaN NaN NaN
+Estimator max position 0.02515549 | attitude deg 0.91959387
+Reference XY v/a/j 0.31138812 0.08856990 0.02392524
+Executed XY v/a/j 0.31534093 0.36850874 2.62664633
+Track 0.02069718 | override 0.04203513 | altitude 0.00991226 | tilt 2.03380880 deg
+Clearance obstacle/wall/dynamic 0.79537468 0.69344299 Inf
+Final state COMPLETE | distance goal 0.17603214

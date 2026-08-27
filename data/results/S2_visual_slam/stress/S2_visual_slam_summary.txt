@@ -1,0 +1,23 @@
+Stage S2 visual SLAM / 6-DOF production estimator - STRESS
+Seed: 100
+Stress trial: 1
+Fused max after 5 s [m]: 0.02497028
+Fused RMSE after 5 s [m]: 0.00901309
+Fused final error [m]: 0.01271217
+Attitude max after 5 s [deg]: 0.91802564
+Local LiDAR max [m]: 0.02246667
+Local LiDAR RMSE [m]: 0.00894172
+Global LiDAR max [m]: 0.02207880
+LiDAR healthy fraction: 1.00000000
+Verified loop closures: 7
+Local return error [m]: 0.01209991
+Global return error [m]: 0.00742179
+Unhealthy samples: 0
+Reference path length [m]: 19.92616384
+Minimum static clearance [m]: 0.62476100
+Reference path safe: 1
+VIO accepted/rejected: 1570/20
+LiDAR accepted/rejected: 331/0
+Range accepted/rejected: 1132/0
+Barometer accepted/rejected: 1498/3
+PASS: 1

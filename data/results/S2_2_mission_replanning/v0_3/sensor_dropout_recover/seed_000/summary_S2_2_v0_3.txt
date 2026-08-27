@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 smooth dynamically feasible replanning
+Scenario: SENSOR_DROPOUT_RECOVER | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 0 | promotions 0 | dynamic avoid 0 | no-data holds 1
+Max speed/accel/jerk 0.33895325 / 0.69354432 / 2.50000000
+Trajectory generations 2 | fallbacks 2 | max scale 1.62224513
+Nominal tracking error 0.00281971 | safety-override deviation 0.00000000 | rejoins 0
+Reference C0-C3 jumps 1.293e-14 8.106e-15 1.780e-15 2.267e-16
+Replan p-v-a jumps 0.000e+00 2.184e-15 9.546e-16
+Core gates S D K Ref R T: 1 1 1 1 1 1
+Mission/failsafe/event gates: 1 1 1
+Event gates I D N P TS SE: 1 1 1 1 1 1

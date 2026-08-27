@@ -1,0 +1,59 @@
+
+$ /opt/pyvenv/bin/python3 tools/audit_parent_immutability.py
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+
+$ /opt/pyvenv/bin/python3 tools/audit_final_parent_manifest.py
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+
+$ /opt/pyvenv/bin/python3 tools/audit_truth_isolation_s2_4.py
+S2.4 truth/command isolation: PASS
+
+$ /opt/pyvenv/bin/python3 tools/matlab_source_sanity_s2_4.py
+MATLAB source files checked: 9
+MATLAB SOURCE SANITY: PASS
+
+$ /opt/pyvenv/bin/python3 python_tests/s2_4_ad_contract_backtest.py
+01 scenario_1               PASS 
+02 scenario_2               PASS 
+03 scenario_3               PASS 
+04 scenario_4               PASS 
+05 scenario_5               PASS 
+06 scenario_6               PASS 
+07 scenario_7               PASS 
+08 scenario_8               PASS 
+09 scenario_9               PASS 
+10 scenario_10              PASS 
+11 scenario_11              PASS 
+12 scenario_12              PASS 
+13 scenario_13              PASS 
+14 scenario_14              PASS 
+15 scenario_15              PASS 
+
+S2.4 A-D PACKAGE STATIC/OFFLINE GATE: PASS
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+Coupled MATLAB files checked: 12
+Decision truth/command isolation: PASS
+Mission-request schema: PASS
+Frozen-parent output isolation: PASS
+S2.4-E STATIC GATE: PASS
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_E_coupled_candidate/tools/run_all_checks.py
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_E_coupled_candidate/coupled/validation/audit_S2_4_E_static.py
+
+Goal-requires-scan recorded preflight: PASS
+Snapshots: 103 | accepted candidates: 15 | unsafe: 0
+
+S2.4-E AGGREGATE STATIC/OFFLINE GATE: PASS
+MATLAB coupled mission execution: PENDING LOCAL MATLAB RUN

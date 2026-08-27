@@ -1,0 +1,44 @@
+{
+  "metrics": {
+    "seed": 0,
+    "scenario": "primary_imu_freeze",
+    "max_error_m": 0.05457702777368923,
+    "rmse_m": 0.010007512668907939,
+    "final_error_m": 0.017177055998001418,
+    "attitude_max_deg": 1.9273031770781301,
+    "lidar_local_max_m": 0.09109326808105213,
+    "lidar_local_rmse_m": 0.035193988765475,
+    "lidar_global_max_m": 0.09109326808105213,
+    "lidar_acceptance": 1.0,
+    "verified_loops": 0,
+    "switches": 1,
+    "final_lane": 2,
+    "max_switch_jump_m": 0.0,
+    "degraded_duration_s": 0.0,
+    "rtl_requested": false,
+    "path_safe": true,
+    "min_clearance_m": 0.6247610040909329,
+    "navigation_pass": true,
+    "selector_pass": true,
+    "pass": true
+  },
+  "switch_log": [
+    {
+      "time": 25.990000000000002,
+      "from": 1,
+      "to": 2,
+      "old_score": 0.6419395629062183,
+      "new_score": 0.16248628074743957,
+      "reason": "healthy"
+    }
+  ],
+  "safety": {
+    "safe": true,
+    "path_length_m": 19.92616383839613,
+    "min_wall_clearance_m": 1.1000002193245333,
+    "min_obstacle_clearance_m": 0.6247610040909329,
+    "min_static_clearance_m": 0.6247610040909329,
+    "required_clearance_m": 0.502,
+    "vertical_safe": true
+  }
+}

@@ -1,0 +1,11 @@
+Stage S2.2 v0.4 estimator-in-the-loop 6-DOF replanning
+Scenario: NOMINAL_6DOF | seed 0
+Goal 1 | failsafe 0 | RTL 0 | PASS 1
+Replans 0 | promotions 0 | inflation replans 0 | dynamic avoid 0
+Replan brake 0 | retries 0
+Lane final 1 | switches 0
+Estimator max position 0.02515549 | attitude deg 0.91959387
+Reference v/a/j 0.31138812 0.05723540 0.02164885
+Executed v/a/j 0.31380817 0.09373886 0.73931903
+Track 0.02069718 | override 0.00363585 | altitude 0.00991226 | tilt 0.55093592 deg
+Clearance obstacle/wall/dynamic 0.80298737 0.69031821 Inf

@@ -1,0 +1,6 @@
+Stage S2.2 v0.2 incremental/dynamic planning
+Scenario: SENSOR_DROPOUT_FAILSAFE | seed 0
+Goal 0 | failsafe 1 | PASS 1
+Replans 0 | promotions 0 | dynamic avoid steps 0 | no-data holds 1
+D* repair expansions 0 | A* scratch expansions 0
+Min obstacle/wall/dynamic clearance 1.517659 / 0.804839 / Inf m

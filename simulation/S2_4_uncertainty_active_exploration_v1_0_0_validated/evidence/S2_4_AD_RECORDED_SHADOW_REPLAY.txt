@@ -1,0 +1,10 @@
+S2.4 A-D recorded S2.3 shadow replay
+scenario: UNKNOWN_ROOM_NOMINAL
+snapshots: 81
+incremental frontier == full: 1
+deterministic repeat: 1
+unsafe accepted candidates: 0
+tracks created: 19
+replay digest: 60216caa557e1679c5bb3b657fd240e574ae33a48a8b8579c781fa5cfd899901
+uncertainty digest: 89e610ed70e9e7a58e869eab637791c142a179eb4f59b0659186b0aaf52fbd6e
+RESULT: PASS

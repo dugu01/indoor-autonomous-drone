@@ -1,0 +1,10 @@
+Stage S2.2 v0.5.2 autonomous mission and 6-DOF replanning
+Scenario: XY_AID_LOSS_FAILSAFE | seed 0
+Goal 0 | failsafe 1 | RTL request 1 | PASS 1
+Replans 0 | inflation replans 0 | brake 0 | retries 0
+Lane final 1 | switches 0
+Estimator max position 0.03460457 | attitude deg 0.91959387
+Reference XY v/a/j 0.31138812 0.05723540 0.02164885
+Executed XY v/a/j 0.29405713 0.09373886 0.73931903
+Track 0.04016185 | override 0.03118563 | altitude 0.00991226 | tilt 0.55093592 deg
+Clearance obstacle/wall/dynamic 1.51294942 0.77658117 Inf

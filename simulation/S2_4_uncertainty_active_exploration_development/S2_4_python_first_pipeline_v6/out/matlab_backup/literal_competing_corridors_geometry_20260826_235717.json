@@ -1,0 +1,68 @@
+{
+  "schema": "S2_4_E_LITERAL_COMPETING_CORRIDORS_GEOMETRY_V1",
+  "room_xy_m": [
+    6.0,
+    6.0
+  ],
+  "grid_resolution_m": 0.1,
+  "design_inflation_m": 0.602,
+  "start_xy_m": [
+    1.0,
+    3.0
+  ],
+  "home_xy_m": [
+    1.0,
+    3.0
+  ],
+  "goal_xy_m": [
+    5.05,
+    5.0
+  ],
+  "decoy_probe_xy_m": [
+    5.05,
+    1.15
+  ],
+  "junction_xy_m": [
+    2.05,
+    3.0
+  ],
+  "obstacle_height_m": 2.3,
+  "obstacles_xywh_m": [
+    [
+      2.45,
+      2.1,
+      0.4,
+      2.05
+    ],
+    [
+      2.85,
+      3.4,
+      3.0,
+      0.4
+    ]
+  ],
+  "obstacle_names": [
+    "fork_occluder",
+    "east_branch_divider"
+  ],
+  "target_branch_y_m": [
+    3.8,
+    6.0
+  ],
+  "decoy_branch_y_m": [
+    0.0,
+    3.4
+  ],
+  "branch_analysis_x_min_m": 3.55,
+  "alternate_landing_zones_xy_m": [
+    [
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      5.0
+    ]
+  ],
+  "design_intent": "An asymmetric T-shaped occluding fork preserves safe routes while deliberately giving the irrelevant lower branch a wider mouth and larger visible unknown region than the target branch. The goal remains reachable only through the upper branch; both branches are initially occluded from launch."
+}

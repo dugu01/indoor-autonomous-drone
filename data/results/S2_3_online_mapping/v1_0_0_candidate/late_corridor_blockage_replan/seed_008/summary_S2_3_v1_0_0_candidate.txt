@@ -1,0 +1,8 @@
+Stage S2.3 v1.0.0-candidate perception-driven online mapping
+Scenario LATE_CORRIDOR_BLOCKAGE_REPLAN | seed 8 | PASS 1
+Goal 1 | unreachable 0 | failsafe 0 | RTL 1 | landed 1
+Map version 1167 | accepted 1515 | rejected 0 | idle 3030 | replay records 1515 | extensions completed 1 | planned 2 | scans 2 | route repairs 1 | all replans 1
+False free 0.0016021137 | occupied recall 0.9927966102 | observed 0.8354247204
+Unknown commitments 0 | truth isolation 1 | map pass 1
+Map gates extension 1 | safety replan 1 | scan bound 1 | unreachable 1
+Collision 0 | geofence 0 | final state COMPLETE

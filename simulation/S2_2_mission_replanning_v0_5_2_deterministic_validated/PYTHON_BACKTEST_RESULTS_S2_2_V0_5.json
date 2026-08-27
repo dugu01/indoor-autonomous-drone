@@ -1,0 +1,1302 @@
+[
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 0,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2571155230538107,
+    "final_xy": [
+      3.0094202938915533,
+      0.9094202938915534
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 50.64999999999926
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 1,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25717537735413776,
+    "final_xy": [
+      3.013920481561521,
+      0.9139204815615211
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 53.199999999999115
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 2,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2569500143667296,
+    "final_xy": [
+      3.0107427146561774,
+      0.9107427146561772
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 50.24999999999928
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 3,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.256697902993944,
+    "final_xy": [
+      3.0147526139527856,
+      0.9147526139527854
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.79999999999914
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 4,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25677891870024305,
+    "final_xy": [
+      3.0148790117580146,
+      0.9148790117580147
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.79999999999914
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 5,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2572399249120466,
+    "final_xy": [
+      3.017587571631867,
+      0.9175875716318671
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 51.39999999999922
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 6,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2565399593825419,
+    "final_xy": [
+      3.0085558391119074,
+      0.9085558391119074
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 50.84999999999925
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 7,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2564747678859598,
+    "final_xy": [
+      3.0149743696976423,
+      0.914974369697642
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.499999999999154
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 8,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25633100426111277,
+    "final_xy": [
+      3.013630503578227,
+      0.9136305035782267
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.89999999999913
+  },
+  {
+    "scenario": "full_mission_nominal",
+    "seed": 9,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2567296550553323,
+    "final_xy": [
+      3.0158301484326886,
+      0.9158301484326884
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 51.99999999999918
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 0,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.2571155230538107,
+    "final_xy": [
+      3.1175471017742646,
+      0.8175471017742642
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.44999999999916
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 1,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25717537735413776,
+    "final_xy": [
+      3.108743566435574,
+      0.8087435664355741
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 55.199999999999
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 2,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.2574862360081587,
+    "final_xy": [
+      3.114749799395204,
+      0.8147497993952038
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.04999999999918
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 3,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25807887273652097,
+    "final_xy": [
+      3.1153112020862346,
+      0.8153112020862343
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 54.74999999999903
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 4,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25802477778544386,
+    "final_xy": [
+      3.1155142362569124,
+      0.8155142362569121
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 54.74999999999903
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 5,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.2572551566575816,
+    "final_xy": [
+      3.113132784193885,
+      0.8131327841938851
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 53.29999999999911
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 6,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25749583112264096,
+    "final_xy": [
+      3.1080143134625717,
+      0.8080143134625715
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 52.69999999999914
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 7,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25771724151931874,
+    "final_xy": [
+      3.1120993581835656,
+      0.8120993581835655
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 54.449999999999044
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 8,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.25633100426111277,
+    "final_xy": [
+      3.1146392948004924,
+      0.8146392948004919
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 54.84999999999902
+  },
+  {
+    "scenario": "rtl_obstacle_replan",
+    "seed": 9,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 1,
+    "collision": 0,
+    "min_clearance": 0.2567296550553323,
+    "final_xy": [
+      3.117605097582755,
+      0.8176050975827547
+    ],
+    "selected_landing": [
+      3.0,
+      0.8
+    ],
+    "duration_s": 53.899999999999075
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 0,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2571155230538107,
+    "final_xy": [
+      5.113035927809079,
+      1.0130359278090795
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 47.399999999999444
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 1,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25717537735413776,
+    "final_xy": [
+      5.109727099092396,
+      1.0097270990923959
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 49.74999999999931
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 2,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2574862360081587,
+    "final_xy": [
+      5.111076115113046,
+      1.0110761151130452
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 47.049999999999464
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 3,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25807887273652097,
+    "final_xy": [
+      5.117888547644172,
+      1.017888547644172
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 49.34999999999933
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 4,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25802477778544386,
+    "final_xy": [
+      5.117879358033568,
+      1.017879358033567
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 49.34999999999933
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 5,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2572551566575816,
+    "final_xy": [
+      5.116819095913999,
+      1.0168190959139982
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 48.099999999999405
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 6,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25749583112264096,
+    "final_xy": [
+      5.108767138111575,
+      1.0087671381115744
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 47.59999999999943
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 7,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25771724151931874,
+    "final_xy": [
+      5.114112710324981,
+      1.0141127103249794
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 49.09999999999935
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 8,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.25633100426111277,
+    "final_xy": [
+      5.115969924112426,
+      1.0159699241124265
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 49.44999999999933
+  },
+  {
+    "scenario": "alternate_landing_zone",
+    "seed": 9,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": true,
+    "rtl": true,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": false,
+    "alternate_land": true,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.2567296550553323,
+    "final_xy": [
+      5.114456723496438,
+      1.0144567234964388
+    ],
+    "selected_landing": [
+      5.1,
+      0.9
+    ],
+    "duration_s": 48.64999999999937
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 0,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 1,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 2,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 3,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 4,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 5,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 6,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 7,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 8,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "preflight_reject_unsafe_home",
+    "seed": 9,
+    "passed": true,
+    "armed": false,
+    "takeoff": false,
+    "goal": false,
+    "rtl": false,
+    "landed": false,
+    "disarmed": true,
+    "preflight_reject": true,
+    "emergency_land": false,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": Infinity,
+    "final_xy": [
+      3.0,
+      0.8
+    ],
+    "selected_landing": [
+      NaN,
+      NaN
+    ],
+    "duration_s": 0.65
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 0,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.42616559273305965,
+    "final_xy": [
+      4.633344280239886,
+      2.7333442802398844
+    ],
+    "selected_landing": [
+      4.633344280239886,
+      2.7333442802398844
+    ],
+    "duration_s": 22.85000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 1,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4578781602196781,
+    "final_xy": [
+      4.516546004087688,
+      2.616546004087688
+    ],
+    "selected_landing": [
+      4.516546004087688,
+      2.616546004087688
+    ],
+    "duration_s": 22.90000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 2,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.40206792125431134,
+    "final_xy": [
+      4.6639768979043845,
+      2.763976897904384
+    ],
+    "selected_landing": [
+      4.6639768979043845,
+      2.763976897904384
+    ],
+    "duration_s": 22.90000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 3,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4579843821930186,
+    "final_xy": [
+      4.51516608503625,
+      2.61516608503625
+    ],
+    "selected_landing": [
+      4.51516608503625,
+      2.61516608503625
+    ],
+    "duration_s": 22.80000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 4,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.457982417158007,
+    "final_xy": [
+      4.484878882505203,
+      2.5848788825052034
+    ],
+    "selected_landing": [
+      4.484878882505203,
+      2.5848788825052034
+    ],
+    "duration_s": 22.650000000000187
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 5,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4583790600289249,
+    "final_xy": [
+      4.593824410676962,
+      2.6938244106769615
+    ],
+    "selected_landing": [
+      4.593824410676962,
+      2.6938244106769615
+    ],
+    "duration_s": 22.85000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 6,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.43365304269841853,
+    "final_xy": [
+      4.624231137536686,
+      2.724231137536686
+    ],
+    "selected_landing": [
+      4.624231137536686,
+      2.724231137536686
+    ],
+    "duration_s": 22.85000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 7,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4580724232096214,
+    "final_xy": [
+      4.500179911279657,
+      2.6001799112796573
+    ],
+    "selected_landing": [
+      4.500179911279657,
+      2.6001799112796573
+    ],
+    "duration_s": 22.650000000000187
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 8,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4579728385240742,
+    "final_xy": [
+      4.533114707357004,
+      2.6331147073570036
+    ],
+    "selected_landing": [
+      4.533114707357004,
+      2.6331147073570036
+    ],
+    "duration_s": 22.90000000000019
+  },
+  {
+    "scenario": "xy_loss_emergency_land",
+    "seed": 9,
+    "passed": true,
+    "armed": true,
+    "takeoff": true,
+    "goal": false,
+    "rtl": false,
+    "landed": true,
+    "disarmed": true,
+    "preflight_reject": false,
+    "emergency_land": true,
+    "alternate_land": false,
+    "rtl_replans": 0,
+    "collision": 0,
+    "min_clearance": 0.4582151195923977,
+    "final_xy": [
+      4.544868535536424,
+      2.644868535536423
+    ],
+    "selected_landing": [
+      4.544868535536424,
+      2.644868535536423
+    ],
+    "duration_s": 22.75000000000019
+  }
+]

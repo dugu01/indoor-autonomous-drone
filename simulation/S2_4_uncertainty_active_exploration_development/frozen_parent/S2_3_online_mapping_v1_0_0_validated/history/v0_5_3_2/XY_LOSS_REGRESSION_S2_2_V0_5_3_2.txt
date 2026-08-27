@@ -1,0 +1,16 @@
+[PASS] v0.5.3.2 namespace
+[PASS] post-loss velocity damping disabled in config
+[PASS] post-loss command returns damping false
+[PASS] jerk-settle interval configured
+[PASS] descent waits for jerk settle
+[PASS] blind-mode flag exists
+[PASS] speed guard has two blind-mode bypasses
+[PASS] both speed-guard calls retained for observable flight
+[PASS] reduced-model worst residual speed <= 0.020 m/s
+[PASS] reduced-model 99th-percentile drift <= 0.20 m
+[PASS] reduced-model worst drift <= 0.25 m
+worst residual speed: 0.0149 m/s
+99th-percentile drift: 0.1741 m
+worst drift: 0.2239 m
+Result: 11/11 checks passed
+S2.2 v0.5.3.2 XY-LOSS REGRESSION: PASS

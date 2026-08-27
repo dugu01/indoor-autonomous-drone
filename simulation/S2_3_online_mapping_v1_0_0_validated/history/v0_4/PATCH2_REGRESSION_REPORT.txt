@@ -1,0 +1,3 @@
+PATCH 2 REGRESSION: PASS
+rejoin max executed speed: 0.4337 m/s; max jerk 3.2760 m/s^3
+brake-before-replan eligible: 1.22 s; peak speed 0.2907 m/s

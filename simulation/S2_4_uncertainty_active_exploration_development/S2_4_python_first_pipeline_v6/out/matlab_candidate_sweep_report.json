@@ -1,0 +1,749 @@
+[
+  {
+    "candidate_index": 1,
+    "python": {
+      "geometry": {
+        "vertical_x": 2.45,
+        "vertical_y": 2.1,
+        "vertical_w": 0.4,
+        "vertical_h": 2.05,
+        "divider_x": 2.85,
+        "divider_y": 3.4,
+        "divider_w": 3.0,
+        "divider_h": 0.4,
+        "goal_x": 5.05,
+        "goal_y": 5.0,
+        "decoy_x": 5.05,
+        "decoy_y": 1.15,
+        "start_x": 1.0,
+        "start_y": 3.0
+      },
+      "pass_contract": true,
+      "selected": {
+        "candidate_id": 706,
+        "frontier_track_id": 14,
+        "rc": [
+          43,
+          16
+        ],
+        "xy": [
+          1.6,
+          4.3
+        ],
+        "yaw": 1.1760052070951352,
+        "path": [
+          [
+            30,
+            10
+          ],
+          [
+            31,
+            11
+          ],
+          [
+            32,
+            11
+          ],
+          [
+            33,
+            11
+          ],
+          [
+            34,
+            12
+          ],
+          [
+            35,
+            12
+          ],
+          [
+            36,
+            13
+          ],
+          [
+            37,
+            13
+          ],
+          [
+            38,
+            14
+          ],
+          [
+            39,
+            14
+          ],
+          [
+            40,
+            15
+          ],
+          [
+            41,
+            15
+          ],
+          [
+            42,
+            15
+          ],
+          [
+            43,
+            16
+          ]
+        ],
+        "visible_unknown": [
+          [
+            49,
+            36
+          ],
+          [
+            50,
+            37
+          ],
+          [
+            51,
+            19
+          ],
+          [
+            51,
+            38
+          ],
+          [
+            52,
+            13
+          ],
+          [
+            53,
+            7
+          ],
+          [
+            53,
+            32
+          ],
+          [
+            53,
+            41
+          ],
+          [
+            54,
+            7
+          ],
+          [
+            54,
+            13
+          ],
+          [
+            54,
+            42
+          ],
+          [
+            55,
+            7
+          ],
+          [
+            55,
+            34
+          ],
+          [
+            56,
+            35
+          ],
+          [
+            57,
+            46
+          ],
+          [
+            58,
+            6
+          ],
+          [
+            58,
+            14
+          ],
+          [
+            59,
+            38
+          ],
+          [
+            59,
+            49
+          ],
+          [
+            60,
+            6
+          ]
+        ],
+        "visible_unknown_proxy": 20.0,
+        "target_relevance_proxy": 1.0,
+        "tier": 1,
+        "utility_proxy": 0.26351331832756003,
+        "safety_reasons": [],
+        "policy_reasons": [],
+        "safety_feasible": true,
+        "accepted": true
+      },
+      "decoy": {
+        "candidate_id": 124,
+        "frontier_track_id": 3,
+        "rc": [
+          17,
+          8
+        ],
+        "xy": [
+          0.8,
+          1.7000000000000002
+        ],
+        "yaw": -1.1760052070951352,
+        "path": [
+          [
+            30,
+            10
+          ],
+          [
+            29,
+            10
+          ],
+          [
+            28,
+            10
+          ],
+          [
+            27,
+            10
+          ],
+          [
+            26,
+            10
+          ],
+          [
+            25,
+            10
+          ],
+          [
+            24,
+            10
+          ],
+          [
+            23,
+            9
+          ],
+          [
+            22,
+            8
+          ],
+          [
+            21,
+            8
+          ],
+          [
+            20,
+            8
+          ],
+          [
+            19,
+            8
+          ],
+          [
+            18,
+            8
+          ],
+          [
+            17,
+            8
+          ]
+        ],
+        "visible_unknown": [
+          [
+            0,
+            23
+          ],
+          [
+            1,
+            14
+          ],
+          [
+            1,
+            38
+          ],
+          [
+            2,
+            22
+          ],
+          [
+            2,
+            37
+          ],
+          [
+            3,
+            36
+          ],
+          [
+            4,
+            21
+          ],
+          [
+            4,
+            35
+          ],
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            34
+          ],
+          [
+            6,
+            13
+          ],
+          [
+            7,
+            13
+          ],
+          [
+            7,
+            20
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            8,
+            7
+          ],
+          [
+            8,
+            13
+          ],
+          [
+            9,
+            19
+          ]
+        ],
+        "visible_unknown_proxy": 17.0,
+        "target_relevance_proxy": 0.0,
+        "tier": 3,
+        "utility_proxy": 0.19101331832756002,
+        "safety_reasons": [],
+        "policy_reasons": [
+          "IRRELEVANT_EXPLORATION"
+        ],
+        "safety_feasible": true,
+        "accepted": false
+      },
+      "metrics": {
+        "frontiers": 18,
+        "candidates": 919,
+        "accepted": 5,
+        "safety_feasible": 36,
+        "target_frontier_ids": [
+          14,
+          16
+        ],
+        "distinct_irrelevant_frontiers": 8,
+        "clean_policy_decoys": 31,
+        "selected_visible_unknown_proxy": 20.0,
+        "decoy_visible_unknown_proxy": 17.0,
+        "proxy_ratio": 0.85,
+        "selected_target_relevance_proxy": 1.0,
+        "NOTE": "visible_unknown_proxy is structural only; it is not MATLAB entropy information gain",
+        "robust_cases_passed": 11,
+        "robust_cases_total": 11,
+        "min_clean_decoys_robust": 24
+      },
+      "reasons": []
+    },
+    "geometry_audit_pass": true,
+    "seeds": [
+      {
+        "returncode": 0,
+        "elapsed_s": 53.31121206283569,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_000.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_000.json",
+        "gate": {
+          "seed": 0,
+          "requireBenchmarkActivation": true,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": true,
+          "targetSelected": true,
+          "selectedInformationGain": 17.793070137500763,
+          "selectedTargetRelevance": 1.9643858075141907,
+          "selectedTier": 1,
+          "decoyInformationGain": 9.96438580751419,
+          "decoyTier": 3,
+          "decoyFrontierTrackId": 2,
+          "decoyCandidateId": 100,
+          "decoyRejectionReasons": [
+            "IRRELEVANT_EXPLORATION"
+          ],
+          "informationGainRatio": 0.5600149794561424,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": true,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 46.94724988937378,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_001.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_001.json",
+        "gate": {
+          "seed": 1,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 20.733514606952667,
+          "selectedTargetRelevance": 3,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 45.35926795005798,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_002.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_002.json",
+        "gate": {
+          "seed": 2,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 21.725034773349762,
+          "selectedTargetRelevance": 2.8674915432929993,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 47.57208180427551,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_003.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_003.json",
+        "gate": {
+          "seed": 3,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": true,
+          "targetSelected": true,
+          "selectedInformationGain": 20.92877161502838,
+          "selectedTargetRelevance": 3,
+          "selectedTier": 1,
+          "decoyInformationGain": 9.801549971103668,
+          "decoyTier": 3,
+          "decoyFrontierTrackId": 2,
+          "decoyCandidateId": 101,
+          "decoyRejectionReasons": [
+            "IRRELEVANT_EXPLORATION"
+          ],
+          "informationGainRatio": 0.46832896604717317,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": true,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 52.9960880279541,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_004.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_004.json",
+        "gate": {
+          "seed": 4,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": true,
+          "targetSelected": true,
+          "selectedInformationGain": 21.432883501052856,
+          "selectedTargetRelevance": 2.7335146069526672,
+          "selectedTier": 1,
+          "decoyInformationGain": 10.565391957759857,
+          "decoyTier": 3,
+          "decoyFrontierTrackId": 2,
+          "decoyCandidateId": 99,
+          "decoyRejectionReasons": [
+            "IRRELEVANT_EXPLORATION"
+          ],
+          "informationGainRatio": 0.49295242785418253,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": true,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 46.21093511581421,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_005.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_005.json",
+        "gate": {
+          "seed": 5,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 21.62667202949524,
+          "selectedTargetRelevance": 2,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 43.4314820766449,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_006.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_006.json",
+        "gate": {
+          "seed": 6,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 20.69936889410019,
+          "selectedTargetRelevance": 1.8674915432929993,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 42.93053412437439,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_007.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_007.json",
+        "gate": {
+          "seed": 7,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": true,
+          "targetSelected": true,
+          "selectedInformationGain": 18.66228622198105,
+          "selectedTargetRelevance": 2,
+          "selectedTier": 1,
+          "decoyInformationGain": 10.760648965835571,
+          "decoyTier": 3,
+          "decoyFrontierTrackId": 2,
+          "decoyCandidateId": 100,
+          "decoyRejectionReasons": [
+            "IRRELEVANT_EXPLORATION"
+          ],
+          "informationGainRatio": 0.5765986459451752,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": true,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 43.288536071777344,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_008.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_008.json",
+        "gate": {
+          "seed": 8,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 20.83187735080719,
+          "selectedTargetRelevance": 3,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      },
+      {
+        "returncode": 0,
+        "elapsed_s": 41.2679660320282,
+        "log": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_009.matlab.log",
+        "json": "/Users/doodle/Downloads/S2_4_python_first_pipeline_v6/out/matlab_candidate_sweep/candidate_001/seed_009.json",
+        "gate": {
+          "seed": 9,
+          "requireBenchmarkActivation": false,
+          "geometryPass": true,
+          "missionPass": true,
+          "goalReached": true,
+          "rtlAndLanding": true,
+          "zeroCollision": true,
+          "zeroGeofence": true,
+          "zeroUnknownCommitment": true,
+          "zeroUnsafeExecution": true,
+          "truthIsolation": true,
+          "requestGenerated": true,
+          "viewpointExecuted": true,
+          "noIrrelevantSelection": true,
+          "cleanDecoyFound": false,
+          "targetSelected": true,
+          "selectedInformationGain": 20.893157422542572,
+          "selectedTargetRelevance": 3,
+          "selectedTier": 1,
+          "decoyInformationGain": null,
+          "decoyTier": null,
+          "decoyFrontierTrackId": 0,
+          "decoyCandidateId": 0,
+          "decoyRejectionReasons": [],
+          "informationGainRatio": null,
+          "decoyMoreInformative": false,
+          "physicalDecoyMoreInformativeObserved": false,
+          "benchmarkActivationPass": false,
+          "conditionalPriorityPass": true,
+          "pass": true
+        }
+      }
+    ],
+    "all_seed_pass": true
+  }
+]

@@ -1,0 +1,19 @@
+Stage S2.2 v0.5.2 autonomous mission and 6-DOF replanning
+Scenario: RTL_OBSTACLE_REPLAN | seed 7
+Goal 1 | failsafe 0 | RTL request 0 | PASS 1
+Arm 1 | takeoff 1 | RTL execute 1 | landed 1 | disarmed 1
+Preflight reject 0 | emergency land 0 | alternate 0 | site 3.000000 0.800000
+Truth goal/takeoff/land 1 1 1 | complete 1
+Preflight H/V/A/L/C/U/home/goal/route 1 1 1 1 1 1 1 1 1
+Preflight ages XY/Z/att 0.02000000 0.02000000 0.02000000 | accepted 35 | Pxy/Pz 3.83323383e-05 9.85999494e-06
+Replans 1 | inflation replans 0 | brake 2 | retries 4
+Lane final 1 | switches 0
+Estimator max position 0.02768054 | attitude deg 0.98068076
+Estimator observable/trigger/postloss 0.01384850 NaN 0.02768054 | metric 0.02768054
+Navigation degraded holds 0 | emergency horizontal drift 0.00000000
+Reference XY v/a/j 0.31067984 0.10710851 0.03819483
+Executed XY v/a/j 0.32755236 0.27906784 2.17724845
+Reference Z v/a/j 0.54322235 0.41462879 0.64378093
+Executed Z v/a/j 0.53647460 0.42384271 1.30757356
+Track 0.02554601 | override 0.14822466 | altitude 0.01037924 | tilt 1.54722688 deg
+Clearance obstacle/wall/dynamic 0.78132302 0.65436979 Inf

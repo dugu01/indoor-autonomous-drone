@@ -1,0 +1,12 @@
+[PASS] version namespace: v0.5.3.3
+[PASS] profile-complete gate: normal and emergency descent gated
+[PASS] gated detector call: latch state and gate passed
+[PASS] contact event latch: qualified contact persists
+[PASS] no truth in detector: sensor packet only
+[PASS] brake actually arrested motion: speed near zero=0.0037 m/s
+[PASS] failure was delayed touchdown recognition: delay=13.92 s
+[PASS] first event is fully qualified: z=0.0324 m, vz=-0.0063 m/s
+[PASS] latch acts next control step: transition=21.64 s
+[PASS] exact ground replay drift: extra drift=0.0324 m
+[PASS] exact wall safety replay: wall=1.334 m, required=0.502 m
+S2.2 v0.5.3.3 EXACT-TRACE TOUCHDOWN REPLAY: PASS

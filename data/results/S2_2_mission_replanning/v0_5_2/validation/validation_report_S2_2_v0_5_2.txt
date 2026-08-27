@@ -1,0 +1,17 @@
+Stage S2.2 v0.5.2 validation report
+Generated: 2026-07-12 01:44:40
+
+nominal_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6903
+incremental_static_estimated | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 1 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6934
+dynamic_crossing_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.1949 | clear 0.6938
+dynamic_blocker_becomes_static_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 1 | lane 1/0 | est 0.0252/0.920deg | track 0.0207 | clear 0.6619
+obstacle_sensor_dropout_recover_6dof | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 1/0 | est 0.0252/0.920deg | track 0.1613 | clear 0.6900
+primary_imu_fault_vio_outage | PASS 1 | goal 1 | failsafe 0 | RTL 0 | replans 0 | lane 2/1 | est 0.0782/1.371deg | track 0.1219 | clear 0.6862
+xy_aid_loss_failsafe | PASS 1 | goal 0 | failsafe 1 | RTL 1 | replans 0 | lane 1/0 | est 0.0346/0.920deg | track 0.0402 | clear 0.7766
+full_mission_nominal | PASS 1 | goal 1 | fail 0 | arm 1 | takeoff 1 | RTL 1 | land 1 | disarm 1 | emergency 0 | alternate 0 | complete 1 | truth G/T/L 1/1/1 | replans 0 | preflight H/V/A/L/C/U/home/goal/route 1/1/1/1/1/1/1/1/1 | est total/metric 0.0252/0.0252 | drift 0.0000 | clear 0.6691 | Zexec 0.536/0.432/1.244
+rtl_obstacle_replan | PASS 1 | goal 1 | fail 0 | arm 1 | takeoff 1 | RTL 1 | land 1 | disarm 1 | emergency 0 | alternate 0 | complete 1 | truth G/T/L 1/1/1 | replans 1 | preflight H/V/A/L/C/U/home/goal/route 1/1/1/1/1/1/1/1/1 | est total/metric 0.0252/0.0252 | drift 0.0000 | clear 0.6691 | Zexec 0.536/0.432/1.244
+alternate_landing_zone | PASS 1 | goal 1 | fail 0 | arm 1 | takeoff 1 | RTL 1 | land 1 | disarm 1 | emergency 0 | alternate 1 | complete 1 | truth G/T/L 1/1/1 | replans 0 | preflight H/V/A/L/C/U/home/goal/route 1/1/1/1/1/1/1/1/1 | est total/metric 0.0252/0.0252 | drift 0.0000 | clear 0.6691 | Zexec 0.536/0.432/2.225
+preflight_reject_unsafe_home | PASS 1 | goal 0 | fail 0 | arm 0 | takeoff 0 | RTL 0 | land 0 | disarm 1 | emergency 0 | alternate 0 | complete 0 | truth G/T/L 0/0/0 | replans 0 | preflight H/V/A/L/C/U/home/goal/route 1/1/1/1/1/1/0/1/0 | est total/metric 0.0252/0.0252 | drift 0.0000 | clear -0.3200 | Zexec 0.000/0.000/0.000
+xy_loss_emergency_land | PASS 1 | goal 0 | fail 1 | arm 1 | takeoff 1 | RTL 0 | land 1 | disarm 1 | emergency 1 | alternate 0 | complete 1 | truth G/T/L 0/1/1 | replans 0 | preflight H/V/A/L/C/U/home/goal/route 1/1/1/1/1/1/1/1/1 | est total/metric 0.3344/0.0519 | drift 0.2841 | clear 0.7949 | Zexec 0.536/0.432/1.244
+
+Overall: 12/12 PASS

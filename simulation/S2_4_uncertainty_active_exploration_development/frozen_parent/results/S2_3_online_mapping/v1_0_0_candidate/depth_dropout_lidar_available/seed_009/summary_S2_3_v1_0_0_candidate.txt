@@ -1,0 +1,8 @@
+Stage S2.3 v1.0.0-candidate perception-driven online mapping
+Scenario DEPTH_DROPOUT_LIDAR_AVAILABLE | seed 9 | PASS 1
+Goal 1 | unreachable 0 | failsafe 0 | RTL 1 | landed 1
+Map version 947 | accepted 1229 | rejected 0 | idle 2861 | replay records 1229 | extensions completed 1 | planned 1 | scans 1 | route repairs 0 | all replans 0
+False free 0.0014117647 | occupied recall 0.9936833794 | observed 0.8550844479
+Unknown commitments 0 | truth isolation 1 | map pass 1
+Map gates extension 1 | safety replan 1 | scan bound 1 | unreachable 1
+Collision 0 | geofence 0 | final state COMPLETE

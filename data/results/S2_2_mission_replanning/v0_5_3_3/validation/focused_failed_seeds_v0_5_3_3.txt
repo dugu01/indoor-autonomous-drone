@@ -1,0 +1,15 @@
+Stage S2.2 v0.5.3.3 focused former-failure regression
+Total 12/12 PASS
+
+dynamic_crossing_6dof seed 1: PASS
+dynamic_crossing_6dof seed 7: PASS
+primary_imu_fault_vio_outage seed 1: PASS
+primary_imu_fault_vio_outage seed 2: PASS
+primary_imu_fault_vio_outage seed 6: PASS
+primary_imu_fault_vio_outage seed 9: PASS
+rtl_obstacle_replan seed 2: PASS
+xy_loss_emergency_land seed 2: PASS
+xy_loss_emergency_land seed 3: PASS
+xy_loss_emergency_land seed 6: PASS
+xy_loss_emergency_land seed 7: PASS
+xy_loss_emergency_land seed 9: PASS

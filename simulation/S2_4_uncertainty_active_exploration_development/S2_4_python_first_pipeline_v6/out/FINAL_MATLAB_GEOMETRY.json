@@ -1,0 +1,88 @@
+{
+  "schema": "S2_4_E_LITERAL_COMPETING_CORRIDORS_GEOMETRY_V1",
+  "room_xy_m": [
+    6.0,
+    6.0
+  ],
+  "grid_resolution_m": 0.1,
+  "design_inflation_m": 0.602,
+  "start_xy_m": [
+    1.0,
+    3.0
+  ],
+  "home_xy_m": [
+    1.0,
+    3.0
+  ],
+  "goal_xy_m": [
+    5.05,
+    5.0
+  ],
+  "decoy_probe_xy_m": [
+    5.05,
+    1.15
+  ],
+  "junction_xy_m": [
+    2.05,
+    3.0
+  ],
+  "obstacle_height_m": 2.3,
+  "obstacles_xywh_m": [
+    [
+      2.45,
+      2.1,
+      0.4,
+      2.05
+    ],
+    [
+      2.85,
+      3.4,
+      3.0,
+      0.4
+    ]
+  ],
+  "obstacle_names": [
+    "fork_occluder",
+    "east_branch_divider"
+  ],
+  "target_branch_y_m": [
+    3.8,
+    6.0
+  ],
+  "decoy_branch_y_m": [
+    0.0,
+    3.4
+  ],
+  "branch_analysis_x_min_m": 3.55,
+  "alternate_landing_zones_xy_m": [
+    [
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      5.0
+    ]
+  ],
+  "python_structural_backtest_contract": {
+    "frontiers": 18,
+    "candidates": 919,
+    "accepted": 5,
+    "safety_feasible": 36,
+    "target_frontier_ids": [
+      14,
+      16
+    ],
+    "distinct_irrelevant_frontiers": 8,
+    "clean_policy_decoys": 31,
+    "selected_visible_unknown_proxy": 20.0,
+    "decoy_visible_unknown_proxy": 17.0,
+    "proxy_ratio": 0.85,
+    "selected_target_relevance_proxy": 1.0,
+    "NOTE": "visible_unknown_proxy is structural only; it is not MATLAB entropy information gain",
+    "robust_cases_passed": 11,
+    "robust_cases_total": 11,
+    "min_clean_decoys_robust": 24
+  },
+  "design_intent": "v6 Python structural physical pre-screen. MATLAB physical entropy is observed; controlled adversarial IG_D>IG_T is validated separately."
+}

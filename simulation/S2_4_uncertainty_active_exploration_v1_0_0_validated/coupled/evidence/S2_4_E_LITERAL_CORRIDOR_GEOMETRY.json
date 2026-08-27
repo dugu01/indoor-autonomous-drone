@@ -1,0 +1,54 @@
+{
+  "schema": "S2_4_E_LITERAL_CORRIDOR_GEOMETRY_AUDIT_V1",
+  "validator_contract": "S2_4_E_LAYERED_V5",
+  "source_geometry": "coupled/scenarios/literal_competing_corridors_geometry.json",
+  "checks": {
+    "schema": true,
+    "two_truth_walls": true,
+    "walls_inside_room": true,
+    "upper_fork_positive_clearance": true,
+    "lower_fork_positive_clearance": true,
+    "target_branch_positive_clearance": true,
+    "decoy_branch_positive_clearance": true,
+    "decoy_branch_wider_than_target": true,
+    "target_initially_occluded": true,
+    "decoy_initially_occluded": true,
+    "start_free_after_inflation": true,
+    "goal_free_after_inflation": true,
+    "decoy_probe_free_after_inflation": true,
+    "target_route_exists": true,
+    "decoy_route_exists": true,
+    "target_route_uses_upper_fork": true,
+    "decoy_route_uses_lower_fork": true,
+    "east_branches_disconnected": true,
+    "decoy_free_area_larger": true
+  },
+  "metrics": {
+    "inflation_m": 0.602,
+    "upper_fork_safe_width_m": 0.6459999999999997,
+    "lower_fork_safe_width_m": 0.8960000000000001,
+    "target_branch_safe_width_m": 0.9960000000000002,
+    "decoy_branch_safe_width_m": 2.1959999999999997,
+    "target_route_length_m": 5.414213562373093,
+    "decoy_route_length_m": 5.255634918610403,
+    "target_east_free_cells": 162,
+    "decoy_east_free_cells": 378,
+    "decoy_to_target_free_area_ratio": 2.3333333333333335,
+    "inflated_obstacles_xywh_m": [
+      [
+        1.8480000000000003,
+        1.4980000000000002,
+        1.604,
+        3.2539999999999996
+      ],
+      [
+        2.248,
+        2.798,
+        4.204,
+        1.604
+      ]
+    ]
+  },
+  "pass": true,
+  "scope": "static physical-geometry contract only; coupled MATLAB mission remains unvalidated"
+}

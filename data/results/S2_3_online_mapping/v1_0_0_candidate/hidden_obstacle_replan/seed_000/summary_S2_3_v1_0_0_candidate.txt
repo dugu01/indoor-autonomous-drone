@@ -1,0 +1,8 @@
+Stage S2.3 v1.0.0-candidate perception-driven online mapping
+Scenario HIDDEN_OBSTACLE_REPLAN | seed 0 | PASS 0
+Goal 0 | unreachable 1 | failsafe 0 | RTL 0 | landed 0
+Map version 1471 | accepted 3667 | rejected 0 | idle 7333 | replay records 3667 | extensions completed 0 | planned 3 | scans 75 | route repairs 0 | all replans 1
+False free 0.0150095769 | occupied recall 0.9831154684 | observed 0.6993157340
+Unknown commitments 0 | truth isolation 1 | map pass 0
+Map gates extension 0 | safety replan 0 | scan bound 0 | unreachable 0
+Collision 10061 | geofence 0 | final state SCAN_HOLD

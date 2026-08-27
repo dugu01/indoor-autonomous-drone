@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 smooth dynamically feasible replanning
+Scenario: INCREMENTAL_STATIC_INSERT | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 1 | promotions 0 | dynamic avoid 0 | no-data holds 0
+Max speed/accel/jerk 0.33852533 / 0.09945888 / 0.06084097
+Trajectory generations 2 | fallbacks 1 | max scale 1.62224513
+Nominal tracking error 0.00371333 | safety-override deviation 0.00000000 | rejoins 0
+Reference C0-C3 jumps 3.972e-15 1.431e-14 1.780e-15 9.585e-16
+Replan p-v-a jumps 0.000e+00 7.289e-16 4.192e-17
+Core gates S D K Ref R T: 1 1 1 1 1 1
+Mission/failsafe/event gates: 1 1 1
+Event gates I D N P TS SE: 1 1 1 1 1 1

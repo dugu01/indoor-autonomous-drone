@@ -1,0 +1,8 @@
+Stage S2.2 v0.1 OMR-FailSafe mission replanning
+Scenario: UNKNOWN_OBSTACLE_APPEARS | seed 0
+Goal reached: 1 | PASS: 1
+Replans: 1 | hover stops: 1 | failsafe: 0
+Collisions: 0 | geofence violations: 0
+Min obstacle clearance: 0.614347 m
+Min wall clearance: 0.756565 m
+Path length: 5.562438 m | time to goal: 23.300 s

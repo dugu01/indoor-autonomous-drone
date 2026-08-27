@@ -1,0 +1,40 @@
+
+S2.4-E MATLAB PATH SETUP: PASS
+ run_S2_4_coupled             : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_development/coupled/mission/run_S2_4_coupled.m
+ exploration_request_S2_4    : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_development/coupled/mission/exploration_request_S2_4.m
+ validate_S2_4_E_all          : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_development/coupled/validation/validate_S2_4_E_all.m
+
+
+S2.4-E LITERAL CORRIDOR GEOMETRY CONTRACT: PASS
+Safe fork width upper/lower   : 0.646 / 0.896 m
+Safe branch width target/decoy: 0.996 / 2.196 m
+Obstacle schema source          : inherited:hidden_obstacle_replan
+Physical obstacle overlay:
+    2.4500    2.1000    0.4000    2.0500
+    2.8500    3.4000    3.0000    0.4000
+
+
+============================================================
+ S2.4-E v0.3.6-adversarial-competing-corridors-candidate COUPLED ACTIVE EXPLORATION
+ seed=9 | scenario=ACTIVE_COMPETING_CORRIDORS | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_4_uncertainty_active_exploration_development/results/S2_4_coupled/v0_3_6_adversarial_competing_corridors_candidate/active_competing_corridors/seed_009
+============================================================
+Goal/unreachable/failsafe       : 1 / 0 / 0
+Exploration request/selected    : 1 / 1
+Viewpoints executed             : 1
+Competing decisions/frontiers   : 1 / 3
+Target/irrelevant selections    : 1 / 0
+First selected tier/relevance   : 1 / 3.000
+Best decoy information gain     : 8.735
+Unsafe viewpoint execution steps: 0
+Unknown commitments             : 0
+Collision / geofence            : 0 / 0
+Exploration / mapping / mission : 1 / 1 / 1
+Final state                     : COMPLETE
+RESULT                          : PASS
+
+
+PYTHON-FIRST MATLAB PHYSICAL GATE v6 | seed=9 | benchmark=0 | PASS
+selected IG / target relevance / tier : 20.893157 / 3.000000 / 1
+clean Tier-3 decoy present              : 0
+benchmark activation / conditional priority: 0 / 1

@@ -1,0 +1,35 @@
+{
+  "metrics": {
+    "seed": 1,
+    "scenario": "baro_drift",
+    "max_error_m": 0.015507306675646211,
+    "rmse_m": 0.006368416669793511,
+    "final_error_m": 0.008724369654943834,
+    "attitude_max_deg": 0.7396493822365595,
+    "lidar_local_max_m": 0.10787274087784318,
+    "lidar_local_rmse_m": 0.037080362357115225,
+    "lidar_global_max_m": 0.10787274087784318,
+    "lidar_acceptance": 0.9939577039274925,
+    "verified_loops": 0,
+    "switches": 0,
+    "final_lane": 1,
+    "max_switch_jump_m": 0.0,
+    "degraded_duration_s": 0.0,
+    "rtl_requested": false,
+    "path_safe": true,
+    "min_clearance_m": 0.6247610040909329,
+    "navigation_pass": true,
+    "selector_pass": true,
+    "pass": true
+  },
+  "switch_log": [],
+  "safety": {
+    "safe": true,
+    "path_length_m": 19.92616383839613,
+    "min_wall_clearance_m": 1.1000002193245333,
+    "min_obstacle_clearance_m": 0.6247610040909329,
+    "min_static_clearance_m": 0.6247610040909329,
+    "required_clearance_m": 0.502,
+    "vertical_safe": true
+  }
+}

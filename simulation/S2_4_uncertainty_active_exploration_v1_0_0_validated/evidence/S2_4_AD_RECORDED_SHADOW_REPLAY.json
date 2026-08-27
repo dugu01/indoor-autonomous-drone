@@ -1,0 +1,43 @@
+{
+  "schema": "S2_4_AD_RECORDED_SHADOW_REPLAY_V1",
+  "mat_file": "S2_3_v1_0_0_candidate_trial_data.mat",
+  "scenario": "UNKNOWN_ROOM_NOMINAL",
+  "snapshots": 81,
+  "map_resolution_m": 0.1,
+  "effective_inflation_m": 0.602,
+  "incremental_frontier_equals_full": true,
+  "accepted_candidates": 0,
+  "unsafe_accepted_candidates": 0,
+  "max_active_frontiers": 14,
+  "tracks_created": 19,
+  "source_evidence": {
+    "records": 1342,
+    "accepted": 1342,
+    "rejected": 0,
+    "lidar_packets": 671,
+    "depth_packets": 806,
+    "lidar_rays": 80520,
+    "depth_rays": 95914,
+    "lidar_hits": 80437,
+    "depth_hits": 83220
+  },
+  "uncertainty": {
+    "entropy_min": 0.12997927466630485,
+    "entropy_max": 1.0,
+    "finite_entropy": true,
+    "observation_total": 5528341,
+    "stale_free_cells": 710,
+    "static_confidence_range": [
+      0.0,
+      1.0
+    ],
+    "dynamic_confidence_range": [
+      0.0,
+      0.5
+    ],
+    "digest": "89e610ed70e9e7a58e869eab637791c142a179eb4f59b0659186b0aaf52fbd6e"
+  },
+  "replay_digest": "60216caa557e1679c5bb3b657fd240e574ae33a48a8b8579c781fa5cfd899901",
+  "pass": true,
+  "deterministic_repeat_match": true
+}

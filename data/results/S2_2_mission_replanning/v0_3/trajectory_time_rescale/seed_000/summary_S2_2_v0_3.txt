@@ -1,0 +1,12 @@
+Stage S2.2 v0.3 smooth dynamically feasible replanning
+Scenario: TRAJECTORY_TIME_RESCALE | seed 0
+Goal 1 | failsafe 0 | PASS 1
+Replans 0 | promotions 0 | dynamic avoid 0 | no-data holds 0
+Max speed/accel/jerk 0.33909189 / 0.07498982 / 0.03391344
+Trajectory generations 1 | fallbacks 1 | max scale 5.79366264
+Nominal tracking error 0.00282171 | safety-override deviation 0.00000000 | rejoins 0
+Reference C0-C3 jumps 3.972e-15 1.135e-14 3.567e-15 5.692e-16
+Replan p-v-a jumps 0.000e+00 0.000e+00 0.000e+00
+Core gates S D K Ref R T: 1 1 1 1 1 1
+Mission/failsafe/event gates: 1 1 1
+Event gates I D N P TS SE: 1 1 1 1 1 1

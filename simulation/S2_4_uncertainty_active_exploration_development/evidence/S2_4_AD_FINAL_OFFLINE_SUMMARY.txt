@@ -1,0 +1,38 @@
+S2.4 A-D OFFLINE/SHADOW CANDIDATE FINAL SUMMARY
+
+Parent archive SHA-256:
+7b898ce312821958cddb6d87152c8728f7f7614b46c3c56920dfe069839c2226
+
+PARENT AND INHERITED GATES
+- frozen parent identity: 208/208 files exact
+- inherited final closure manifest: 203/203 paths exact
+- inherited S2.3 static audit: PASS
+- inherited S2.3 truth-isolation audit: PASS
+- inherited MATLAB source sanity: 85 files PASS
+- inherited mechanism tests: 23/23 PASS
+- inherited Python contracts: 12/12 PASS
+
+S2.4 A-D OFFLINE GATES
+- S2.4 truth and command isolation: PASS
+- S2.4 MATLAB textual sanity: 9 files PASS
+- combined scenario contracts: 15/15 PASS
+- exact geometry contract: 0.10 m XY / 0.20 m Z / 0.602 m inflation
+- dynamic scenario 8 predicted space-time crossing risk: 1.0
+- final nominal raw trace replay: PASS
+- nominal map snapshots: 81
+- incremental frontier == full extraction: 81/81
+- deterministic Python replay repeat: PASS
+- frontier tracks created: 19, bounded
+- accepted candidates in final nominal trace: 0
+- unsafe accepted candidates: 0
+- commands issued: 0
+- replay digest: 60216caa557e1679c5bb3b657fd240e574ae33a48a8b8579c781fa5cfd899901
+- uncertainty digest: 94924c22cc335af6051f722614f4b727cf63d92569c6d47ceec987cbd0a0e8e4
+
+NOT CLAIMED
+- MATLAB execution was unavailable in the generation environment.
+- Compatible final raw difficult-scenario MAT traces were not present in the
+  uploaded source release; their full replay remains pending.
+- Coupled S2.4 flight, final MATLAB 15/15 and coupled 60/60 are disabled.
+
+RESULT: S2.4 A-D OFFLINE/SHADOW CANDIDATE PASS

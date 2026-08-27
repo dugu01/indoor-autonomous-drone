@@ -1,0 +1,69 @@
+S2.3 cumulative candidate static audit
+inherited_files_present               : PASS
+inherited_files_unchanged             : PASS
+s23_entry_point                       : PASS
+s23_lifecycle_separate                : PASS
+frozen_s22_entry_retained             : PASS
+tabbed_single_dashboard               : PASS
+raw_lidar_stream                      : PASS
+raw_depth_stream                      : PASS
+unknown_fail_closed                   : PASS
+map_version_contract                  : PASS
+timestamp_pose_interpolation          : PASS
+duplicate_packet_rejection            : PASS
+free_changes_increment_version        : PASS
+safe_stop_gate                        : PASS
+no_route_scan_hold                    : PASS
+truth_audit_script                    : PASS
+mechanism_tests                       : PASS
+preflight_uses_map_freshness          : PASS
+idle_packets_not_rejected             : PASS
+ground_layer_validation_contract      : PASS
+known_boundary_contract               : PASS
+route_aware_map_repair                : PASS
+extension_plan_completion_split       : PASS
+map_version_not_progress_proxy        : PASS
+continuous_scan_yaw                   : PASS
+strict_trajectory_adapter             : PASS
+endpoint_voxel_exclusion              : PASS
+height_aware_dynamic_layer            : PASS
+unique_static_promotion               : PASS
+recorded_trace_crosscheck             : PASS
+metric_radius_inflation               : PASS
+persistent_static_latch               : PASS
+latest_recorded_trace_crosscheck      : PASS
+all_s23_calls_resolved                : PASS
+summary_fields_unique                 : PASS
+S2.3 STATIC AUDIT: PASS
+S2.3 truth-isolation static audit
+TRUTH ISOLATION STATIC AUDIT: PASS
+MATLAB source sanity: 82 files checked
+MATLAB SOURCE SANITY: PASS
+test_dynamic_layer_is_height_aware: PASS
+test_endpoint_voxel_never_receives_free_update: PASS
+test_extension_counted_on_arrival_not_selection: PASS
+test_far_map_change_does_not_affect_route: PASS
+test_idle_control_step_is_not_rejected_packet: PASS
+test_known_free_is_disjoint_from_static_occupancy: PASS
+test_known_room_boundary_is_registered_persistent_static: PASS
+test_launch_footprint_after_preflight_scan: PASS
+test_metric_inflation_preserves_configured_radius: PASS
+test_near_ground_layer_not_floor_false_free: PASS
+test_old_half_voxel_method_overlaps_endpoint_about_half_the_time: PASS
+test_persistent_static_latch_survives_free_rays: PASS
+test_pose_interpolation_contract: PASS
+test_preflight_uses_mapping_freshness_not_exact_packet: PASS
+test_promotion_clamps_once_to_occupied: PASS
+test_raycast_geometry: PASS
+test_scan_progress_not_map_version_proxy: PASS
+test_scan_yaw_is_continuous_and_rate_reduced: PASS
+test_source_uses_metric_inflation_and_static_latch: PASS
+test_strict_trajectory_adapter_preserves_hard_limit: PASS
+20/20 mechanism checks PASS
+capture_schema                  : PASS
+capture_packet                  : PASS
+capture_pose                    : PASS
+capture_call_time               : PASS
+summary_count                   : PASS
+replay_actual_mapper            : PASS
+replay_production_validator     : PASS

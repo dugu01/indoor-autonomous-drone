@@ -1,0 +1,9 @@
+S2.4 v1.0.0 CLEAN RELEASE-CANDIDATE FINAL VERIFICATION
+request contracts: 1
+policy contract: 1
+geometry contract: 1
+milestone 1: 1
+milestone 2: 1
+multiseed 0:9: 1
+reference parity: 1
+PASS: 1

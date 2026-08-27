@@ -1,0 +1,37 @@
+S2.3 cumulative candidate static audit
+inherited_files_present               : PASS
+inherited_files_unchanged             : PASS
+s23_entry_point                       : PASS
+s23_lifecycle_separate                : PASS
+frozen_s22_entry_retained             : PASS
+tabbed_single_dashboard               : PASS
+raw_lidar_stream                      : PASS
+raw_depth_stream                      : PASS
+unknown_fail_closed                   : PASS
+map_version_contract                  : PASS
+timestamp_pose_interpolation          : PASS
+duplicate_packet_rejection            : PASS
+free_changes_increment_version        : PASS
+safe_stop_gate                        : PASS
+no_route_scan_hold                    : PASS
+truth_audit_script                    : PASS
+mechanism_tests                       : PASS
+preflight_uses_map_freshness          : PASS
+idle_packets_not_rejected             : PASS
+ground_layer_validation_contract      : PASS
+all_s23_calls_resolved                : PASS
+summary_fields_unique                 : PASS
+S2.3 STATIC AUDIT: PASS
+S2.3 truth-isolation static audit
+TRUTH ISOLATION STATIC AUDIT: PASS
+MATLAB source sanity: 79 files checked
+MATLAB SOURCE SANITY: PASS
+test_free_change_is_version_relevant: PASS
+test_idle_control_step_is_not_rejected_packet: PASS
+test_launch_footprint_after_preflight_scan: PASS
+test_near_ground_layer_not_floor_false_free: PASS
+test_pose_interpolation_contract: PASS
+test_preflight_uses_mapping_freshness_not_exact_packet: PASS
+test_raycast_geometry: PASS
+test_unknown_not_free: PASS
+8/8 mechanism checks PASS

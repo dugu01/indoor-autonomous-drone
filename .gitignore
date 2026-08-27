@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+.pytest_cache/
+
+# ROS2
+build/
+install/
+log/
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Large data
+data/raw/
+data/large/
+
+# Models
+*.pt
+*.pth
+*.onnx
+
+# ROS bags
+*.bag
+*.db3
+
+# MATLAB / large simulation artifacts (regenerable; see data/README.md)
+*.mat
+*.fig
+*.asv
+*.slxc
+slprj/
+
+# Archives / packaged snapshots (regenerable; see data/README.md)
+*.zip
