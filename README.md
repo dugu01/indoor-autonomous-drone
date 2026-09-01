@@ -284,7 +284,6 @@ README for its validated entry points and acceptance scripts.
 ## Contact
 
 Durgesh Singh — durgeshsingh0104@gmail.com  
-Supervisor: Prof. Shubhendu Bhasin, Department of Electrical Engineering, IIT Delhi  
-CoE-BIRD, Indian Institute of Technology Delhi
+Supervisor: Prof. Shubhendu Bhasin, Department of Electrical Engineering, IIT Delhi
 
 ---
