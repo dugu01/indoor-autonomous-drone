@@ -96,15 +96,18 @@ isolation**).
 | **S2.2** | `S2_2_mission_replanning_*` | Fly a mission and replan in the air: go to a goal, come home, land; reroute around new obstacles; safe failsafe / return-to-launch | D* Lite [7] + A* [8] on an inflated grid; minimum-snap trajectories [9][10]; velocity-obstacle idea for moving blockers [11] | ✅ validated (12/12 deterministic; multi-seed) |
 | **S2.3** | `S2_3_online_mapping_*` | Fly safely in a room you have never seen: build a probabilistic map online; only move through space proven free; scan-and-advance toward the goal | Log-odds occupancy with explicit unknown space (OctoMap-style) [12]; keep a stopping solution in known-free space (FASTER idea) [13]; separate map from planner (Voxblox idea) [14] | ✅ validated |
 | **S2.4** | `S2_4_uncertainty_active_exploration_*` | Look before you leap: read-only uncertainty / frontier reasoning over the map; generate target-directed viewpoints; prefer *goal-relevant* looking over generic exploration | Frontier Information Structure (FUEL) [15]; modular gain/cost/evaluator split (mav_active_3d_planning) [16] | ✅ validated (10/10 physical seed sweep) |
-| **S2.4-F** | `S2_4_execution_time_safety_revalidation_*` | Keep checking while executing: an exploration "authority" is re-checked every step (route still free? still able to stop? retreat still valid?) and revoked if not | Execution-time safety supervision; leased authority with a short time-to-live | 🟡 candidate — offline gates PASS, **coupled MATLAB pending** |
-| **S2.4-G** | `S2_4_full_closed_loop_mission_qualification_*` | Prove the whole S2.2–S2.4 loop end-to-end under a fault matrix (5 no-fault + 75 fault runs), with correct pass/fail semantics | Full closed-loop qualification; bounded yaw-rate reference to protect the attitude estimator | 🟡 candidate v1.0.4 — last MATLAB run **71/75**, yaw-slew fix pending re-run |
+| **S2.4-F** | `S2_4_execution_time_safety_revalidation_*` | Keep checking while executing: an exploration "authority" is re-checked every step (route still free? still able to stop? retreat still valid?) and revoked if not | Execution-time safety supervision; leased authority with a short time-to-live | ✅ validated (coupled MATLAB gate PASS, F2–F14, 2026-08-29) |
+| **S2.4-G** | `S2_4_full_closed_loop_mission_qualification_*` | Prove the whole S2.2–S2.4 loop end-to-end under a fault matrix (5 no-fault + 75 fault runs), with correct pass/fail semantics | Full closed-loop qualification; bounded yaw-rate reference to protect the attitude estimator | ✅ validated (v1.0.4: 5/5 no-fault + **75/75** critical PASS, max attitude 1.46° < 2.0°, 2026-08-30) |
 | **S2.5** | `S2_5_estimation_perception_robustness_*` | Stress the estimator + perception under injected sensor faults (VIO / LiDAR / IMU / depth dropout, outliers, stale packets, range spikes) and confirm safe recovery or safe abort | Qualifies the S2.1–S2.4 robustness mechanisms under fault; recovery-behaviour design informed by Nav2 recovery trees [18] | 🟠 **active development** — offline gates PASS, **coupled MATLAB in progress** (see §6) |
 | **S3** | `S3_obstacle_avoidance/` | Reactive avoidance of fast / dynamic obstacles | *planned* | ⚪ not started |
 | **S4** | `S4_aruco_landing/` | Precision landing on an ArUco marker | *planned* | ⚪ not started |
 
-`✅ validated` = passes its own MATLAB scenario matrix and is frozen as the parent
-for the next stage. `🟡 candidate` = code complete, offline checks pass, waiting on
-the full coupled MATLAB run. `🟠 active development` = being worked on right now.
+`✅ validated` = passes its own coupled MATLAB scenario matrix and is frozen as
+the parent for the next stage. `🟠 active development` = being worked on right
+now. (S2.4-F / S2.4-G folder names still carry a `candidate` suffix from before
+their MATLAB runs; the coupled evidence for both is recorded — F in
+`S2_4_..._G_.../evidence/S2_4_F_USER_MATLAB_VALIDATION_PASS.txt`, G in
+`S2_5_..._r1/s2_5/evidence/S2_4_G_USER_MATLAB_VALIDATION_SUMMARY.txt`.)
 
 ---
 
@@ -182,17 +185,21 @@ never the first response.
 ```
 S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
                                           |
-                             S2.4-F 🟡 -- S2.4-G 🟡 -->  S2.5 🟠  (you are here)
+                             S2.4-F ✅ -- S2.4-G ✅ -->  S2.5 🟠  (you are here)
                                                               |
                                                         S3 ⚪   S4 ⚪
 ```
 
-- **Validated baseline:** S2.4 `v1.0.0` (uncertainty-aware active exploration).
-- **In MATLAB qualification:** S2.4-F (execution-time safety revalidation) and
-  S2.4-G (`v1.0.4`, full closed-loop fault matrix). Both pass all offline Python
-  gates and byte-identity checks; the last user MATLAB campaign for S2.4-G was
-  **71/75**, with the remaining 4 traced to a yaw-reference transient that
-  `v1.0.4` fixes with a bounded yaw-rate slew (no estimator threshold relaxed).
+- **Validated baseline:** S2.4-G `v1.0.4` — the full closed-loop mission
+  qualification. Coupled MATLAB campaign (2026-08-30): 5/5 no-fault baselines
+  PASS, **75/75** critical fault runs PASS (F2/F3/F6/F9/F10 × early/mid/late ×
+  seeds 0–4), mission completion / hard safety / truth isolation / frozen-parent
+  integrity all PASS. The v1.0.3→v1.0.4 change was a bounded exploration
+  yaw-rate reference that brought the four residual F2/F3/F9/F10 mid seed=3 cases
+  from an estimator attitude-gate miss (~2.14°) back to ~1.46° < 2.0° without
+  relaxing the estimator threshold. S2.4-F (execution-time safety revalidation,
+  F2–F14) passed its own coupled MATLAB gate on 2026-08-29 and is the runtime
+  baseline that G is built on.
 - **Actively being worked on: S2.5** (`v1.0.4-parallel-candidate-r1`) — injects
   deterministic sensor / perception faults and checks that the inherited
   four-lane ESKF and mapping/lifecycle mechanisms recover safely. Offline gates
@@ -220,16 +227,17 @@ S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
 - `S1_dynamics_pid/` and `S2_visual_slam/` have no stage `README.md` (only inline
   file headers and, for S2, `README_F450_ANIMATION.md`).
 - `S3_obstacle_avoidance/` and `S4_aruco_landing/` contain only a `.gitkeep`.
-- The top-level project README's stage table stops at S2.4 and does not yet list
-  S2.4-F, S2.4-G or S2.5.
+- The S2.4-F / S2.4-G folder names still say `candidate`, and their in-package
+  `VERSION.txt` / `MATLAB_FINAL_VERIFICATION.md` were written before the runs and
+  still read "pending"; the actual PASS evidence lives in the files named above.
 
 ---
 
 ## 7. Further plan (roadmap)
 
-1. **Close S2.4-F / S2.4-G** — reproduce PASS on the full coupled MATLAB campaign
-   (5 no-fault + 75 fault for G; F1–F14 for F), then freeze both as the S2.4
-   qualified baseline.
+1. **Tidy S2.4-F / S2.4-G packaging** — rename the folders to drop `candidate`
+   and refresh their in-package `VERSION.txt` to record the coupled MATLAB PASS
+   (2026-08-29 / 2026-08-30). No code change.
 2. **Close S2.5** — land the recovery / abort behaviour above, get the 71-run
    coupled matrix (5 baseline + 60 recoverable + 6 fail-safe) to full PASS, then
    freeze `S2_5_estimation_perception_robustness_v1_0_0_validated`.
