@@ -283,7 +283,7 @@ README for its validated entry points and acceptance scripts.
 
 ## Contact
 
-Durgesh Singh — durgeshsingh0104@gmail.com  
+Durgesh Singh — durgeshsingh0104@gmail.com  / eea253026@iitd.ac.in
 Supervisor: Prof. Shubhendu Bhasin, Department of Electrical Engineering, IIT Delhi
 
 ---
