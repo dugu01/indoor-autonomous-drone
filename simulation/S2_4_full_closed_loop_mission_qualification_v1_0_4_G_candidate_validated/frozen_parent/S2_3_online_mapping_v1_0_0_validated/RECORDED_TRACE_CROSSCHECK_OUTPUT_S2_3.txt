@@ -1,0 +1,39 @@
+{
+  "mat_file": "/mnt/data/S2_3_v1_0_0_candidate_trial_data(2).mat",
+  "recorded_and_backtested": {
+    "mission_complete": true,
+    "goal_unreachable": true,
+    "goal_unreachable_time_s": 70.34,
+    "completed_extensions": 2,
+    "planned_extensions": 2,
+    "replan_count": 1,
+    "old_goal_occupied_with_ceil_inflation": true,
+    "goal_occupied_with_metric_inflation": false,
+    "metric_route_exists_from_unreachable_position": true,
+    "latched_metric_route_exists": true,
+    "recorded_false_free_rate": 0.006758939442884477,
+    "recorded_occupied_recall": 0.9142538975501113,
+    "latched_false_free_rate_backtest": 0.0044795716087840795,
+    "latched_occupied_recall_backtest": 0.9825538233110617,
+    "false_free_limit": 0.005,
+    "occupied_recall_limit": 0.95
+  },
+  "checks": {
+    "latest_run_completed_safely": true,
+    "ceil_quantisation_blocks_goal": true,
+    "metric_inflation_restores_goal": true,
+    "metric_route_exists": true,
+    "latch_does_not_destroy_route": true,
+    "recorded_map_metrics_fail": true,
+    "latched_map_metrics_pass": true
+  },
+  "candidate_source_corrections": {
+    "metric_inflation_present": true,
+    "static_latch_initialized": true,
+    "free_rays_preserve_latched_static": true,
+    "hits_latch_static": true,
+    "validator_uses_static_latch": true
+  },
+  "pass": true,
+  "note": "PASS cross-checks the recorded failure and isolated corrections; MATLAB must rerun the coupled candidate."
+}

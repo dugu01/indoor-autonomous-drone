@@ -1,0 +1,86 @@
+S2.4 PYTHON-FIRST LAYERED PIPELINE v6 — LOCAL BACKTEST REPORT
+============================================================
+
+Reason for v6
+-------------
+The user's v5 run produced:
+- benchmark seed 0: PASS, clean Tier-3 decoy present;
+- seed 1: mission/safety/truth/target-selection PASS, but cleanDecoyFound=false.
+
+v5 treated clean-decoy appearance as mandatory in every seed, so it stopped at
+seed 1. That duplicated the benchmark-activation requirement inside a stochastic
+robustness sweep.
+
+Corrected layered semantics
+---------------------------
+1. Controlled adversarial policy contract remains mandatory:
+   IG_D > IG_T, raw utility_D > utility_T, clean safety-feasible Tier-3 decoy,
+   Tier-1 target selected.
+2. Fixed physical benchmark seed (default seed 0) must instantiate a clean
+   Tier-3 decoy and select the Tier-1 target in the same recorded decision.
+3. Every robustness seed must still pass mission, target selection, execution,
+   hard safety, truth isolation, and zero irrelevant selection.
+4. Clean-decoy non-appearance alone is not a robustness failure.
+5. Whenever a clean decoy appears in any robustness seed, its decision evidence
+   is checked conditionally for target-priority.
+
+Backtests executed in this environment
+--------------------------------------
+A. pytest regression suite: 14/14 PASS
+   - controlled adversarial IG/utility contract
+   - truth-isolation decision invariance
+   - unknown-space visibility occlusion
+   - v4/v5 physical benchmark fixture
+   - v6 seed0/seed1 layered multiseed fixture
+   - benchmark seed still requires clean decoy
+   - collision or irrelevant selection in any robustness seed still fails
+   - exact MATLAB V1 geometry JSON schema
+   - A* no-route audit returns normal FAIL/N/A instead of traceback
+   - current v0.3.6 structural geometry 11/11 robustness
+   - v6 MATLAB source-layer semantics
+   - MATLAB bridge benchmark/robustness flag generation
+   - native multiseed call carries explicit benchmark seed
+
+B. Full Python pipeline without MATLAB: PASS
+   - controlled adversarial policy contract PASS
+   - current physical structural baseline PASS
+   - 11/11 structural robustness PASS
+   - current geometry reused; no unnecessary search
+   - pipeline report/export generation PASS
+
+C. Reconstructed cumulative S2.4-E compatibility backtest: PASS where portable
+   - v5 validation files detected and migrated to v6
+   - geometry audit PASS with current v0.3.6 geometry
+   - cumulative portable overlay audit PASS
+   - Python syntax PASS
+   - decision truth/command isolation source audit PASS
+   - mission-request schema source audit PASS
+   Parent-byte audit cannot run in the reconstructed overlay because the full
+   frozen_parent tree is intentionally not present; on the user's real project,
+   that gate already passed before the v5 MATLAB run.
+
+D. End-to-end fake-MATLAB harness: PASS
+   A fake MATLAB executable was used to reproduce the exact failure pattern:
+   - seed 0: benchmark=true, cleanDecoyFound=true -> PASS
+   - seed 1: benchmark=false, cleanDecoyFound=false but all mission/safety/
+     target-selection checks true -> PASS
+   - additional robustness seeds without clean decoy -> PASS
+   The pipeline continued through all seeds, invoked the native release stage,
+   and completed successfully.
+
+E. Negative regressions: PASS
+   - benchmark seed with no clean decoy -> FAIL
+   - any robustness seed with collision -> FAIL
+   - any robustness seed with irrelevant selection -> FAIL
+
+F. Source/build checks: PASS
+   - all Python files py_compile
+   - MATLAB files contain no `endfunction` artifact and have valid top-level
+     function declarations by lexical inspection
+
+Remaining execution boundary
+----------------------------
+MATLAB is not installed in this environment, so the actual .m files cannot be
+executed here. The user's Mac remains the MATLAB runtime authority. v6 has been
+backtested with source-level compatibility, Python regression fixtures, the
+user-observed seed0/seed1 semantics, and an end-to-end fake-MATLAB harness.

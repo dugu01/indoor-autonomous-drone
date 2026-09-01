@@ -1,0 +1,5 @@
+Uploaded baseline archive used for S2.4-F development
+sandbox filename: S2_4_uncertainty_active_exploration_v1_0_0_RC3_clean(1).zip
+SHA-256: 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+Extracted baseline file count: 305
+Rule: frozen_parent/S2_3_online_mapping_v1_0_0_validated remains byte-identical.

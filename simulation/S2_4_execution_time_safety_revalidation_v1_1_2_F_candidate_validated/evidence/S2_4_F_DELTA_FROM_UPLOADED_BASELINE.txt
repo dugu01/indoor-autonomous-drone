@@ -1,0 +1,38 @@
+S2.4-F v1.1.2 exact delta from uploaded validated S2.4-E baseline
+Baseline ZIP SHA-256: 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+
+CHANGED EXISTING FILES: 2
+  coupled/execution/validate_exploration_request_S2_4.m
+    baseline ed4614b57750e2a11647bc2270d903b2f1a1fa02740725f66686a7e00013a5ce
+    F v1.1.2 f340a85b80de66e86767ec869a3a6900ec07a14e329e60496cf3edfbee0e8177
+  coupled/mission/mission_lifecycle_manager_S2_4.m
+    baseline 1c69494cce82f8367cd9e097ef6dde15c20751dc4dcbbb5d3a54620c201aa72c
+    F v1.1.2 4d2ff497e602dcb8fbaa33c5d49898d4eca77242da3e4080dfcc6df1a8a27310
+
+ADDED FILES: 19
+  coupled/docs/S2_4_F_EXECUTION_SAFETY.md  c53ecf4303dd1d265627a48ce59ef7d23b230e89f2e9896b4dfee2cc27aebb24
+  coupled/execution/apply_validation_fault_S2_4_F.m  bbefafacaa21219846fe0cd85bf063055fc5b309b6cdc794f38e7f746be4b850
+  coupled/execution/revalidate_active_exploration_request_S2_4_F.m  9f3108c79dbcbd934194716909360bf0a8569404695be2ba1941a879645d6d99
+  coupled/mission/init_S2_4_F_config.m  7f4ec8d72702442cb2f9dc0fc1d90e0e119c09620a430752e6564f39eaf06dd9
+  coupled/mission/run_S2_4_F_fault_case.m  865b2e0c2559600abd8f1d28132134a19bb5da686303ee13ee617ee2d294af7d
+  coupled/validation/audit_S2_4_F_static.py  49b8bd4e444ca669039c54751bdcbb559418dac31a7a2dafd5ea83d4404de117
+  coupled/validation/backtest_S2_4_F_fault_model.py  cc00115c25bf1fcf4ca2ec3fffa65a2cee87d2fc9825f12643b2c39d2beef7cc
+  coupled/validation/run_all_checks_S2_4_F.py  4d17862dbd2260372503ec956dce6c041349874ed6db0abeb16497017408911d
+  coupled/validation/test_S2_4_F_revalidation_contracts.m  24a28707fd3b4c4b610d5fb308cde991480e4080fd34c35d2cb8c41d4c3a4457
+  coupled/validation/validate_S2_4_F_all.m  fa0e2037863734cc5b13c7f415042f84cbd5118213bbf8dd3ff1cef081a5ffa4
+  evidence/S2_4_E_BASELINE_PACKAGE_PROVENANCE.txt  dc04d6c8377c596944e4225c3328d8bdfaae0c33ce8b34528a48477bc9df2b04
+  evidence/S2_4_E_BASELINE_VERSION.txt  71e7244b5b871def6066da9f71e2c510530489dd0a8e4643e1265e2bf802238d
+  evidence/S2_4_F_LOCAL_BACKTEST.txt  31095d34bbe3c358ba170d32c3ae4bb395c780fbbc6c776b401746758cc9df65
+  evidence/S2_4_F_v1_1_0_MATLAB_REMEDIATION.md  fe9f6c553ebf94f34c40cb8139f526d8ab94b26b6f99eb98446700c4741b5431
+  evidence/S2_4_F_v1_1_1_MATLAB_REMEDIATION.md  7ed83c86b7c2219974ae3ba5668e58503326cc94263092a30e89ec6e2a79a915
+  evidence/SHA256SUMS_S2_4_E_BASELINE.txt  f2e2107468319abadf29545d4bc3f891378a82a2535cbe96d66abf95e4f878f6
+  evidence/UPLOADED_S2_4_E_ARCHIVE_SHA256.txt  29a4851d420bd24d3d64ac68a928459bb55c5575c6ab08e8c5525f68e8f5342b
+  run_validate_S2_4_F_all.m  10a2ed22bfc230a53792a434f31730499119ee2430718ebec148eeb9045a93c3
+  setup_S2_4_F_path.m  1f69b97354391d1d581fc146453998068a2fa98f4583a83ef60834956cea9428
+
+MISSING BASELINE FILES: 0
+
+Functional pre-existing S2.4 files intentionally changed:
+  coupled/mission/mission_lifecycle_manager_S2_4.m
+  coupled/execution/validate_exploration_request_S2_4.m
+All frozen_parent content is required to remain byte-identical and is separately audited.

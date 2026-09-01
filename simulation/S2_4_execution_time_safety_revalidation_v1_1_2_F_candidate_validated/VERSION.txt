@@ -1,0 +1,10 @@
+S2.4-F — Execution-Time Safety Revalidation
+Candidate package: v1.1.2-F-candidate
+Runtime behavior ID: v0.4.2-execution-safety-revalidation-candidate
+Baseline: exact uploaded S2.4-E v1.0.0-RC3 clean tree
+Baseline ZIP SHA-256: 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+Frozen parent: S2_3_online_mapping_v1_0_0_validated (208/208 byte-identical in local audit)
+Reason for v1.1.2: fixes the v1.1.1 coupled false invalidation caused by reusing the S2.3 planning-time terminal stop gate at runtime
+Local status: complete inherited A-E static/offline regression PASS; source-faithful F stop/fault-model PASS including false-abort and insufficient-stop regressions
+MATLAB coupled F1-F14 runtime qualification: PENDING rerun on MATLAB
+F15 predictive moving-obstacle qualification: N/A; live predictive interface not connected

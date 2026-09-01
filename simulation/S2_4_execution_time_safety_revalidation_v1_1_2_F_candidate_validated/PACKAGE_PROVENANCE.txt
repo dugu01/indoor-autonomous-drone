@@ -1,0 +1,79 @@
+S2.4-F v1.1.2 cumulative candidate provenance
+
+Baseline
+--------
+Built from a copy of the exact uploaded S2.4-E archive:
+  S2_4_uncertainty_active_exploration_v1_0_0_RC3_clean(1).zip
+  SHA-256 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+The baseline VERSION, PACKAGE_PROVENANCE and SHA256SUMS are retained under evidence/.
+
+Frozen parent
+-------------
+The directory frozen_parent/S2_3_online_mapping_v1_0_0_validated was not edited.
+Local audit: 208 checked; missing=0; changed=0; extra=0. Final closure manifest PASS.
+
+Original F audit result
+-----------------------
+S2.3/S2.4-E already contained future-route newly-blocked-cell checking, braking/replanning,
+planning-time known-free stopping support, perception-degraded hold, scan hold, RTL, landing and
+failsafe. The actual request-level gap was post-acceptance execution authority: expiry, remaining
+route, viewpoint/hold support and retreat authority were not revalidated during TRACK_OUTBOUND.
+The E admission validator also lacked full retreat-route geometry validation.
+
+First coupled MATLAB result -> v1.1.1
+------------------------------------
+The user's v1.1.0 run preserved E PASS but exposed authority-relative fault-timing and fixture
+issues. v1.1.1 changed only F scheduling/fixtures and kept E geometry and the frozen parent intact.
+
+Second coupled MATLAB result -> v1.1.2
+------------------------------------
+The user's v1.1.1 run again preserved the full E MATLAB gate. F1 then failed before any validation
+fault could inject: three exploration authority generations were revoked with
+KNOWN_FREE_STOP_INVALID. The same pre-fault invalidation prevented F2-F14 hooks from reaching their
+intended execution conditions.
+
+Source audit localized the defect to F's runtime revalidator. It was re-running frozen
+validate_known_free_stop_S2_3 on every active execution sample. That helper is used by inherited
+S2.3 planning to certify a newly planned terminal stop and includes terminal endpoint footprint
+clearance; it is not the inherited live route-change supervisor.
+
+v1.1.2 correction
+-----------------
+- Frozen validate_known_free_stop_S2_3 remains byte-identical and remains in the planning path.
+- Runtime F no longer calls that planning-time terminal gate every cycle.
+- Runtime stopping support uses the same conservative first-principles stop distance
+  v^2/(2*a_decel) + v*t_delay + margin against the current remaining route on the already-inflated
+  execution grid.
+- When remaining route length is shorter than d_stop, only the shortfall must be supported by a
+  known-free terminal overrun disk around the validated viewpoint.
+- A negative backtest rejects a high-speed short-route case when the required overrun region is
+  unavailable, so the safety condition is not weakened just to recover E parity.
+- The independent Python backtest now includes stopping support; the old model omitted it and was
+  insufficient evidence for v1.1.1.
+- MATLAB failure diagnostics now expose d_stop, remaining route length, route reserve, overrun
+  shortfall, and terminal-overrun result if any case still fails.
+
+Scope preserved
+---------------
+No new obstacle-avoidance planner was added. D*/A*, A*, trajectory generation, geometric
+controller, plant, RTL, landing and failsafe remain inherited. FASTER/MADER algorithms are not
+copied. Validation hooks use only autonomy-visible estimated grid/map/request data and no truth.
+F15 remains explicitly unqualified because a live future dynamic-prediction interface is not
+connected to coupled execution.
+
+Local validation status
+-----------------------
+PASS: frozen S2.3 byte identity and final closure manifest.
+PASS: truth/command isolation static audit.
+PASS: S2.4 A-D 15/15 static/offline regression.
+PASS: S2.4-E aggregate static/offline regression and exact literal-corridor geometry parity.
+PASS: S2.4-F source/static audit.
+PASS: source-faithful F1-F14 + scheduler + stop semantic backtest.
+PASS: R1 regression reproduces the v1.1.1 false-abort mechanism and verifies the corrected rule.
+PASS: STOP regression verifies genuinely insufficient stopping support remains fail-closed.
+MATLAB/Octave: unavailable in packaging environment; coupled v1.1.2 runtime qualification pending.
+
+One-command MATLAB rerun
+------------------------
+From the extracted project root:
+  gate = run_validate_S2_4_F_all();

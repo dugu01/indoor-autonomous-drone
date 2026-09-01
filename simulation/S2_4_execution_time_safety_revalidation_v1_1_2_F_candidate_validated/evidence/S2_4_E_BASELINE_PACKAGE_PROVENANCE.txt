@@ -1,0 +1,34 @@
+S2.4 v1.0.0 clean release-candidate provenance
+
+Parent
+------
+Exact validated S2.3 source retained under:
+  frozen_parent/S2_3_online_mapping_v1_0_0_validated
+
+Only the historical S2.3 goal_requires_scan/seed_000 trace required by the
+legacy recorded-map selector regression is retained from frozen-parent results.
+
+S2.4 lineage
+------------
+A-D:
+  uncertainty sidecar, persistent frontiers, safe viewpoint candidates,
+  target-directed ranking, deterministic shadow/offline validation.
+
+E:
+  exploration requests, latest-map request validation, known-free execution,
+  scan/replan mission integration, controlled policy contract, literal
+  competing-corridor benchmark and 10-seed coupled validation.
+
+Cleanup
+-------
+No existing algorithm/runtime/coupled validation source was changed while
+forming this clean tree. Development history, backup files, caches, old result
+trees, old milestone archives and the Python-first V6 development harness were
+excluded. A top-level MATLAB release-candidate runner was added solely to
+orchestrate the existing validation functions and compare discrete release
+metrics against the last validated result.
+
+Freeze rule
+-----------
+Freeze only after this extracted clean tree reproduces the expected MATLAB
+result in evidence/final/PRE_CLEANUP_VALIDATION_REFERENCE.md.

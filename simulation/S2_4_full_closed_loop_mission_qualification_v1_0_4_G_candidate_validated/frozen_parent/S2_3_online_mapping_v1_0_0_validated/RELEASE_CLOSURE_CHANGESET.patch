@@ -1,0 +1,609 @@
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md	2026-07-13 06:52:11.220690052 +0000
+@@ -0,0 +1,20 @@
++# S2.3 release-closing backtest report
++
++The revised deterministic geometries were checked on a 0.10 m grid using the
++unchanged 0.602 m physical inflation radius and 8-connected A* with diagonal
++corner-cut prevention.
++
++| Scenario | Truth-map result | Minimum centre clearance |
++|---|---:|---:|
++| Occluded obstacle | Feasible | 0.632 m |
++| Unknown narrow passage | Feasible | 0.750 m |
++| Goal requires scan | Feasible | 0.632 m |
++| Hidden obstacle before insertion | Feasible | — |
++| Hidden obstacle after insertion | Alternate route feasible | 0.632 m |
++| Unreachable goal | No route, as intended | — |
++
++The pre-insertion hidden-obstacle route intersects the delayed obstacle's
++inflated footprint, so the scenario can exercise genuine active-route repair.
++
++This is a mechanism-level feasibility test only. Coupled MATLAB validation is
++still required.
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_CHANGESET.patch /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_CHANGESET.patch
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_CHANGESET.patch	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_CHANGESET.patch	2026-07-13 06:52:11.240318258 +0000
+@@ -0,0 +1,24 @@
++diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md
++--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md	1970-01-01 00:00:00.000000000 +0000
+++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_BACKTEST_REPORT_S2_3.md	2026-07-13 06:52:11.220690052 +0000
++@@ -0,0 +1,20 @@
+++# S2.3 release-closing backtest report
+++
+++The revised deterministic geometries were checked on a 0.10 m grid using the
+++unchanged 0.602 m physical inflation radius and 8-connected A* with diagonal
+++corner-cut prevention.
+++
+++| Scenario | Truth-map result | Minimum centre clearance |
+++|---|---:|---:|
+++| Occluded obstacle | Feasible | 0.632 m |
+++| Unknown narrow passage | Feasible | 0.750 m |
+++| Goal requires scan | Feasible | 0.632 m |
+++| Hidden obstacle before insertion | Feasible | — |
+++| Hidden obstacle after insertion | Alternate route feasible | 0.632 m |
+++| Unreachable goal | No route, as intended | — |
+++
+++The pre-insertion hidden-obstacle route intersects the delayed obstacle's
+++inflated footprint, so the scenario can exercise genuine active-route repair.
+++
+++This is a mechanism-level feasibility test only. Coupled MATLAB validation is
+++still required.
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_PLAN_S2_3.md /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_PLAN_S2_3.md
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_PLAN_S2_3.md	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_PLAN_S2_3.md	2026-07-13 06:52:11.206175917 +0000
+@@ -0,0 +1,68 @@
++# Stage S2.3 release-closing plan
++
++## Status at candidate creation
++
++- Nominal coupled mission: PASS.
++- Exact perception-mapper replay: PASS.
++- Nominal map false-free/recall: PASS.
++- Previous deterministic matrix: 7/12 PASS.
++- Five failures were traced to four scenario/acceptance defects rather than
++  estimator, controller, mapper, planner-core, or landing defects.
++
++## Release-closing changes
++
++1. `hidden_obstacle_replan`
++   - Replaced the time-zero static obstacle with a truth-only delayed obstacle
++     inserted at 18.0 s.
++   - The initial truth-map route intersects the inserted inflated footprint.
++   - A post-insertion alternate truth-map route remains available.
++   - Acceptance now requires at least one route-corridor safety repair.
++
++2. `occluded_obstacle`
++   - Replaced the infeasible geometry with a collinear front/rear obstacle
++     arrangement that preserves initial occlusion and a feasible truth route.
++
++3. `unknown_narrow_passage`
++   - Increased the physical opening to 1.50 m.
++   - The unchanged 0.602 m inflation leaves a narrow but feasible centreline.
++
++4. `goal_requires_scan`
++   - Replaced the infeasible double-barrier geometry with a single tall screen.
++   - The direct route is blocked, the upper passage is feasible, and at least
++     one scan hold plus one completed map extension is required.
++
++5. `unreachable_goal`
++   - Retained the enclosed goal.
++   - Removed the invalid requirement for a completed forward extension.
++   - Added a bounded scan-count acceptance contract.
++
++6. Validation/reporting
++   - Added explicit extension, safety-replan, scan-bound, unreachable, and
++     truth-isolation gates.
++   - Added a deterministic end-of-run gate table.
++   - Clarified the dashboard tracking-error label.
++
++## Frozen components
++
++No numerical implementation changes were made to:
++
++- rigid-body plant or actuators;
++- multi-lane ESKF or lane selection;
++- online mapper or known-boundary policy;
++- map projection or uncertainty inflation;
++- D* Lite or A*;
++- polynomial trajectory generation or strict adapter;
++- geometric controller;
++- landing, touchdown latch, disarm, or emergency landing;
++- any inherited safety threshold.
++
++## Required MATLAB closure sequence
++
++1. Run the five revised scenarios individually.
++2. Require 5/5 PASS.
++3. Run `validate_S2_3(false)` and require 12/12 PASS.
++4. Rerun the nominal exact mapper replay and require PASS.
++5. Run `validate_S2_3_legacy_regression()` and require the frozen S2.2
++   12/12 + 12/12 + 60/60 evidence.
++6. Run `validate_S2_3_multiseed(0:9)` and require 60/60 PASS.
++7. Freeze as S2.3 v1.0.0 only after all evidence files are reviewed.
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_SCENARIO_BACKTEST.txt /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_SCENARIO_BACKTEST.txt
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_SCENARIO_BACKTEST.txt	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_SCENARIO_BACKTEST.txt	2026-07-13 06:51:13.476232876 +0000
+@@ -0,0 +1,9 @@
++S2.3 release-closing scenario backtest
++grid=0.10 m | physical inflation=0.602 m
++occluded_obstacle           : PASS | nodes= 58 length=6.570 m min_clearance=0.632 m
++unknown_narrow_passage      : PASS | nodes= 45 length=4.400 m min_clearance=0.750 m
++goal_requires_scan          : PASS | nodes= 72 length=7.804 m min_clearance=0.632 m
++hidden_obstacle_replan       : PASS | initial_route=True intersects_insert=True alternate_route=True
++unreachable_goal            : PASS | no truth-map route expected
++
++RESULT: PASS
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_STATIC_CHECKS.txt /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_STATIC_CHECKS.txt
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/RELEASE_CLOSURE_STATIC_CHECKS.txt	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/RELEASE_CLOSURE_STATIC_CHECKS.txt	2026-07-13 06:51:24.588652323 +0000
+@@ -0,0 +1,62 @@
++S2.3 cumulative candidate static audit
++inherited_files_present               : PASS
++inherited_files_unchanged             : PASS
++s23_entry_point                       : PASS
++s23_lifecycle_separate                : PASS
++frozen_s22_entry_retained             : PASS
++tabbed_single_dashboard               : PASS
++raw_lidar_stream                      : PASS
++raw_depth_stream                      : PASS
++unknown_fail_closed                   : PASS
++map_version_contract                  : PASS
++timestamp_pose_interpolation          : PASS
++duplicate_packet_rejection            : PASS
++free_changes_increment_version        : PASS
++safe_stop_gate                        : PASS
++no_route_scan_hold                    : PASS
++truth_audit_script                    : PASS
++mechanism_tests                       : PASS
++preflight_uses_map_freshness          : PASS
++idle_packets_not_rejected             : PASS
++ground_layer_validation_contract      : PASS
++known_boundary_contract               : PASS
++route_aware_map_repair                : PASS
++extension_plan_completion_split       : PASS
++map_version_not_progress_proxy        : PASS
++continuous_scan_yaw                   : PASS
++strict_trajectory_adapter             : PASS
++endpoint_voxel_exclusion              : PASS
++height_aware_dynamic_layer            : PASS
++unique_static_promotion               : PASS
++recorded_trace_crosscheck             : PASS
++metric_radius_inflation               : PASS
++persistent_static_latch               : PASS
++latest_recorded_trace_crosscheck      : PASS
++all_s23_calls_resolved                : PASS
++summary_fields_unique                 : PASS
++S2.3 STATIC AUDIT: PASS
++S2.3 truth-isolation static audit
++TRUTH ISOLATION STATIC AUDIT: PASS
++MATLAB source sanity: 82 files checked
++MATLAB SOURCE SANITY: PASS
++test_dynamic_layer_is_height_aware: PASS
++test_endpoint_voxel_never_receives_free_update: PASS
++test_extension_counted_on_arrival_not_selection: PASS
++test_far_map_change_does_not_affect_route: PASS
++test_idle_control_step_is_not_rejected_packet: PASS
++test_known_free_is_disjoint_from_static_occupancy: PASS
++test_known_room_boundary_is_registered_persistent_static: PASS
++test_launch_footprint_after_preflight_scan: PASS
++test_metric_inflation_preserves_configured_radius: PASS
++test_near_ground_layer_not_floor_false_free: PASS
++test_old_half_voxel_method_overlaps_endpoint_about_half_the_time: PASS
++test_persistent_static_latch_survives_free_rays: PASS
++test_pose_interpolation_contract: PASS
++test_preflight_uses_mapping_freshness_not_exact_packet: PASS
++test_promotion_clamps_once_to_occupied: PASS
++test_raycast_geometry: PASS
++test_scan_progress_not_map_version_proxy: PASS
++test_scan_yaw_is_continuous_and_rate_reduced: PASS
++test_source_uses_metric_inflation_and_static_latch: PASS
++test_strict_trajectory_adapter_preserves_hard_limit: PASS
++20/20 mechanism checks PASS
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/mission_lifecycle_manager_S2_3.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/mission_lifecycle_manager_S2_3.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/mission_lifecycle_manager_S2_3.m	2026-07-12 20:09:54.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/mission_lifecycle_manager_S2_3.m	2026-07-13 06:50:16.511410593 +0000
+@@ -932,13 +932,27 @@
+ end
+ finalWorld=truth_world_S2_3(cfg,scenario,T(end),truthContext);
+ mapMetrics=validate_map_against_truth_S2_3(cfg,mapState,finalWorld);
+-mapExtensionPass=~scenario.expectedMapExtensions||mapExtensionCount>=1;
++minMapExtensions=double(scenario.expectedMapExtensions);
++if isfield(scenario,'expectedMinMapExtensions')
++    minMapExtensions=max(minMapExtensions,double(scenario.expectedMinMapExtensions));
++end
++minSafetyReplans=0;
++if isfield(scenario,'expectedMinMapSafetyReplans')
++    minSafetyReplans=double(scenario.expectedMinMapSafetyReplans);
++end
++minScanHolds=0;maxScanHolds=inf;
++if isfield(scenario,'expectedMinScanHolds'),minScanHolds=double(scenario.expectedMinScanHolds);end
++if isfield(scenario,'expectedMaxScanHolds'),maxScanHolds=double(scenario.expectedMaxScanHolds);end
++mapExtensionPass=mapExtensionCount>=minMapExtensions;
+ mapReplanPass=~scenario.expectedMapReplan||(mapSafetyReplanCount>=1||replanCount>=1);
++mapSafetyReplanPass=mapSafetyReplanCount>=minSafetyReplans;
++scanHoldPass=scanHoldCount>=minScanHolds&&scanHoldCount<=maxScanHolds;
+ perceptionHoldPass=~scenario.expectedPerceptionHold||perceptionHoldCount>=1;
+ promotionPassS23=~scenario.expectedDynamicPromotion||double(mapState.promotedCount)>=1;
+ unreachablePass=(goalUnreachable==scenario.expectedGoalUnreachable);
+ truthIsolationPass=mapState.truthAccessCount==0&&unknownCommitmentCount==0;
+-mappingPass=mapMetrics.pass&&mapExtensionPass&&mapReplanPass&&perceptionHoldPass&& ...
++mappingPass=mapMetrics.pass&&mapExtensionPass&&mapReplanPass&& ...
++    mapSafetyReplanPass&&scanHoldPass&&perceptionHoldPass&& ...
+     promotionPassS23&&unreachablePass&&truthIsolationPass;
+ pass=missionLifecyclePass&&trajectoryGate&&controllerGate&&estimatorGate&&continuityPass&&uncertaintyPass&&staticGate&&mappingPass&&~stateTimeoutTriggered;
+ 
+@@ -966,6 +980,9 @@
+     'mapFalseFreeRate',mapMetrics.falseFreeRate,'mapOccupiedRecall',mapMetrics.occupiedRecall, ...
+     'mapObservedFraction',mapMetrics.observedFraction,'mapPass',mapMetrics.pass, ...
+     'mapExtensionPass',mapExtensionPass,'mapReplanPass',mapReplanPass, ...
++    'mapSafetyReplanPass',mapSafetyReplanPass,'scanHoldPass',scanHoldPass, ...
++    'requiredMinMapExtensions',minMapExtensions,'requiredMinMapSafetyReplans',minSafetyReplans, ...
++    'requiredMinScanHolds',minScanHolds,'requiredMaxScanHolds',maxScanHolds, ...
+     'perceptionHoldPass',perceptionHoldPass,'mapPromotionPass',promotionPassS23, ...
+     'goalUnreachablePass',unreachablePass,'truthIsolationPass',truthIsolationPass, ...
+     'xyLossDetectionTime_s',xyLossStartTime,'xyLossVelocityTrustEnd_s',xyLossVelocityTrustEnd, ...
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/plot_S2_3_dashboard.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/plot_S2_3_dashboard.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/plot_S2_3_dashboard.m	2026-07-11 23:44:42.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/plot_S2_3_dashboard.m	2026-07-13 06:50:46.680802121 +0000
+@@ -50,7 +50,7 @@
+ 
+ % Tracking and kinematics.
+ tab=uitab(G,'Title','Control & limits');
+-ax1=axes(tab,'Position',[.07 .55 .88 .37]);hold(ax1,'on');grid(ax1,'on');plot(ax1,log.t,log.trackingError,'LineWidth',1.1);plot(ax1,log.t,abs(log.truthP(:,3)-log.pRef(:,3)),'LineWidth',1.0);yline(ax1,cfg.maxPositionTrackingError_m,'--');ylabel(ax1,'Error [m]');legend(ax1,{'Reference deviation','Altitude error','Tracking limit'});title(ax1,'Tracking performance');
++ax1=axes(tab,'Position',[.07 .55 .88 .37]);hold(ax1,'on');grid(ax1,'on');plot(ax1,log.t,log.trackingError,'LineWidth',1.1);plot(ax1,log.t,abs(log.truthP(:,3)-log.pRef(:,3)),'LineWidth',1.0);yline(ax1,cfg.maxPositionTrackingError_m,'--');ylabel(ax1,'Error [m]');legend(ax1,{'Trajectory tracking error','Altitude error','Tracking limit'});title(ax1,'Tracking performance');
+ ax2=axes(tab,'Position',[.07 .10 .88 .34]);hold(ax2,'on');grid(ax2,'on');plot(ax2,log.t,vecnorm(log.truthV(:,1:2),2,2));plot(ax2,log.t,vecnorm(log.truthA(:,1:2),2,2));plot(ax2,log.t,vecnorm(log.truthJ(:,1:2),2,2));xlabel(ax2,'Time [s]');ylabel(ax2,'XY v/a/j');legend(ax2,{'Speed','Acceleration','Jerk'});title(ax2,'Executed horizontal kinematics');
+ 
+ % Safety.
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/python_tests/release_closure_scenario_backtest.py /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/python_tests/release_closure_scenario_backtest.py
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/python_tests/release_closure_scenario_backtest.py	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/python_tests/release_closure_scenario_backtest.py	2026-07-13 06:51:12.354580879 +0000
+@@ -0,0 +1,188 @@
++#!/usr/bin/env python3
++"""Release-closing truth-map feasibility checks for revised S2.3 scenarios.
++
++This is a mechanism/backtest only. It does not claim coupled MATLAB validation.
++"""
++from __future__ import annotations
++import heapq
++import math
++from dataclasses import dataclass
++from pathlib import Path
++from typing import Iterable
++
++import numpy as np
++
++ROOM = (6.0, 6.0)
++RES = 0.10
++INFLATION = 0.602
++XS = np.arange(0.0, ROOM[0] + 0.5 * RES, RES)
++YS = np.arange(0.0, ROOM[1] + 0.5 * RES, RES)
++NX, NY = len(XS), len(YS)
++NEIGHBORS = (
++    (1, 0, 1.0), (-1, 0, 1.0), (0, 1, 1.0), (0, -1, 1.0),
++    (1, 1, math.sqrt(2.0)), (1, -1, math.sqrt(2.0)),
++    (-1, 1, math.sqrt(2.0)), (-1, -1, math.sqrt(2.0)),
++)
++
++Rect = tuple[float, float, float, float, float]
++
++@dataclass(frozen=True)
++class Case:
++    name: str
++    start: tuple[float, float]
++    goal: tuple[float, float]
++    rects: tuple[Rect, ...]
++
++
++def point_rect_distance(x: np.ndarray, y: np.ndarray, rect: Rect) -> np.ndarray:
++    rx, ry, w, d, _ = rect
++    dx = np.maximum.reduce((rx - x, np.zeros_like(x), x - (rx + w)))
++    dy = np.maximum.reduce((ry - y, np.zeros_like(y), y - (ry + d)))
++    return np.hypot(dx, dy)
++
++
++def occupancy(rects: Iterable[Rect]) -> np.ndarray:
++    xx, yy = np.meshgrid(XS, YS)
++    occ = ((xx < INFLATION - 1e-12) | (xx > ROOM[0] - INFLATION + 1e-12) |
++           (yy < INFLATION - 1e-12) | (yy > ROOM[1] - INFLATION + 1e-12))
++    for rect in rects:
++        occ |= point_rect_distance(xx, yy, rect) <= INFLATION + 1e-12
++    return occ
++
++
++def index(point: tuple[float, float]) -> tuple[int, int]:
++    return round(point[0] / RES), round(point[1] / RES)
++
++
++def astar(case: Case) -> np.ndarray | None:
++    occ = occupancy(case.rects)
++    sx, sy = index(case.start)
++    gx, gy = index(case.goal)
++    if not (0 <= gx < NX and 0 <= gy < NY) or occ[gy, gx]:
++        return None
++    if occ[sy, sx]:
++        return None
++    score = np.full((NY, NX), np.inf)
++    score[sy, sx] = 0.0
++    came: dict[tuple[int, int], tuple[int, int]] = {}
++    queue = [(math.hypot(sx - gx, sy - gy), 0.0, sx, sy)]
++    closed: set[tuple[int, int]] = set()
++    while queue:
++        _, g, x, y = heapq.heappop(queue)
++        if (x, y) in closed:
++            continue
++        closed.add((x, y))
++        if (x, y) == (gx, gy):
++            cells = []
++            cur = (x, y)
++            while True:
++                cells.append(cur)
++                if cur == (sx, sy):
++                    break
++                cur = came[cur]
++            cells.reverse()
++            return np.asarray([(XS[ix], YS[iy]) for ix, iy in cells])
++        for dx, dy, cost in NEIGHBORS:
++            nx, ny = x + dx, y + dy
++            if not (0 <= nx < NX and 0 <= ny < NY):
++                continue
++            if occ[ny, nx] or (nx, ny) in closed:
++                continue
++            if dx and dy and (occ[y, nx] or occ[ny, x]):
++                continue
++            ng = g + cost
++            if ng < score[ny, nx]:
++                score[ny, nx] = ng
++                came[(nx, ny)] = (x, y)
++                h = math.hypot(nx - gx, ny - gy)
++                heapq.heappush(queue, (ng + h, ng, nx, ny))
++    return None
++
++
++def min_clearance(path: np.ndarray, rects: Iterable[Rect]) -> float:
++    result = math.inf
++    for x, y in path:
++        result = min(result, x, ROOM[0] - x, y, ROOM[1] - y)
++        for rect in rects:
++            result = min(result, float(point_rect_distance(np.asarray(x), np.asarray(y), rect)))
++    return result
++
++
++def intersects_inflated(path: np.ndarray, rect: Rect) -> bool:
++    return any(float(point_rect_distance(np.asarray(x), np.asarray(y), rect)) <= INFLATION + 1e-12
++               for x, y in path)
++
++
++def main() -> int:
++    base: tuple[Rect, ...] = (
++        (1.00, 1.00, 0.50, 0.50, 1.80),
++        (4.00, 3.50, 0.50, 0.50, 1.80),
++    )
++    inserted: Rect = (3.65, 2.10, 0.45, 0.80, 1.90)
++    cases = (
++        Case('occluded_obstacle', (3.0, 0.8), (5.3, 5.3), (
++            (3.15, 1.65, 0.50, 0.65, 1.90),
++            (3.40, 2.75, 0.55, 0.75, 1.90),
++            (4.40, 4.10, 0.40, 0.50, 1.90),
++        )),
++        Case('unknown_narrow_passage', (3.0, 0.8), (3.0, 5.25), (
++            (0.80, 2.45, 1.45, 0.45, 1.90),
++            (3.75, 2.45, 1.45, 0.45, 1.90),
++        )),
++        Case('goal_requires_scan', (0.85, 0.85), (5.15, 5.15), (
++            (2.50, 1.20, 0.45, 3.00, 1.90),
++        )),
++    )
++    failures: list[str] = []
++    print('S2.3 release-closing scenario backtest')
++    print(f'grid={RES:.2f} m | physical inflation={INFLATION:.3f} m')
++    for case in cases:
++        path = astar(case)
++        passed = path is not None
++        if not passed:
++            failures.append(f'{case.name}: no truth-map route')
++            print(f'{case.name:28s}: FAIL — no truth-map route')
++            continue
++        clearance = min_clearance(path, case.rects)
++        if clearance + 1e-12 < INFLATION:
++            failures.append(f'{case.name}: clearance {clearance:.3f} < {INFLATION:.3f}')
++            passed = False
++        length = float(np.linalg.norm(np.diff(path, axis=0), axis=1).sum())
++        print(f'{case.name:28s}: {"PASS" if passed else "FAIL"} | '
++              f'nodes={len(path):3d} length={length:.3f} m min_clearance={clearance:.3f} m')
++
++    before = Case('hidden_before', (3.0, 0.8), (5.3, 5.3), base)
++    after = Case('hidden_after', (3.0, 0.8), (5.3, 5.3), base + (inserted,))
++    path_before = astar(before)
++    path_after = astar(after)
++    hidden_ok = (path_before is not None and path_after is not None and
++                 intersects_inflated(path_before, inserted))
++    if not hidden_ok:
++        failures.append('hidden_obstacle_replan: initial route/intersection/alternate-route contract failed')
++    print(f'hidden_obstacle_replan       : {"PASS" if hidden_ok else "FAIL"} | '
++          f'initial_route={path_before is not None} intersects_insert={path_before is not None and intersects_inflated(path_before, inserted)} '
++          f'alternate_route={path_after is not None}')
++
++    # The unreachable goal must remain unreachable at the same frozen radius.
++    unreachable = Case('unreachable_goal', (3.0, 0.8), (4.9, 4.9), (
++        (4.20, 4.20, 1.40, 0.30, 2.20),
++        (4.20, 5.30, 1.40, 0.30, 2.20),
++        (4.20, 4.20, 0.30, 1.40, 2.20),
++        (5.30, 4.20, 0.30, 1.40, 2.20),
++    ))
++    unreachable_ok = astar(unreachable) is None
++    if not unreachable_ok:
++        failures.append('unreachable_goal: truth-map route unexpectedly exists')
++    print(f'unreachable_goal            : {"PASS" if unreachable_ok else "FAIL"} | no truth-map route expected')
++
++    if failures:
++        print('\nFAILURES:')
++        for failure in failures:
++            print(' -', failure)
++        return 1
++    print('\nRESULT: PASS')
++    return 0
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/run_S2_3_online_mapping.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/run_S2_3_online_mapping.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/run_S2_3_online_mapping.m	2026-07-12 20:10:26.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/run_S2_3_online_mapping.m	2026-07-13 06:50:44.168056699 +0000
+@@ -37,6 +37,9 @@
+ fprintf('Reference XY v/a/j        : %.3f / %.3f / %.3f\n',summary.maxReferenceSpeed_mps,summary.maxReferenceAccel_mps2,summary.maxReferenceJerk_mps3);
+ fprintf('Executed XY v/a/j         : %.3f / %.3f / %.3f\n',summary.maxExecutedSpeed_mps,summary.maxExecutedAccel_mps2,summary.maxExecutedJerk_mps3);
+ fprintf('Mapping/event/mission     : %d / %d / %d\n',summary.mapPass,summary.eventPass,summary.missionOutcomePass);
++fprintf('Map gates M/E/R/S/U/T     : %d / %d / %d / %d / %d / %d\n', ...
++    summary.mapPass,summary.mapExtensionPass,summary.mapSafetyReplanPass, ...
++    summary.scanHoldPass,summary.goalUnreachablePass,summary.truthIsolationPass);
+ fprintf('Final state               : %s\n',summary.finalState);
+ fprintf('RESULT                    : %s\n\n',ternary(summary.pass,'PASS','FAIL'));
+ 
+@@ -61,6 +64,8 @@
+     s.mapExtensionCount,s.mapExtensionPlanCount,s.scanHoldCount,s.mapSafetyReplanCount,s.replanCount);
+ fprintf(f,'False free %.10f | occupied recall %.10f | observed %.10f\n',s.mapFalseFreeRate,s.mapOccupiedRecall,s.mapObservedFraction);
+ fprintf(f,'Unknown commitments %d | truth isolation %d | map pass %d\n',s.unknownCommitmentCount,s.truthIsolationPass,s.mapPass);
++fprintf(f,'Map gates extension %d | safety replan %d | scan bound %d | unreachable %d\n', ...
++    s.mapExtensionPass,s.mapSafetyReplanPass,s.scanHoldPass,s.goalUnreachablePass);
+ fprintf(f,'Collision %d | geofence %d | final state %s\n',s.collisionCount,s.geofenceViolationCount,s.finalState);
+ end
+ function o=ternary(c,a,b),if c,o=a;else,o=b;end,end
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/scenario_S2_3.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/scenario_S2_3.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/scenario_S2_3.m	2026-07-11 23:41:19.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/scenario_S2_3.m	2026-07-13 06:50:15.151818125 +0000
+@@ -17,6 +17,10 @@
+ scenario.perceptionLidarDropoutWindows=zeros(0,2);
+ scenario.expectedMapExtensions=false;
+ scenario.expectedMapReplan=false;
++scenario.expectedMinMapExtensions=0;
++scenario.expectedMinMapSafetyReplans=0;
++scenario.expectedMinScanHolds=0;
++scenario.expectedMaxScanHolds=inf;
+ scenario.expectedGoalUnreachable=false;
+ scenario.expectedPerceptionHold=false;
+ scenario.expectedDynamicPromotion=false;
+@@ -36,20 +40,36 @@
+ 
+     case {'hidden_obstacle_replan','hidden'}
+         scenario.name='HIDDEN_OBSTACLE_REPLAN';
+-        scenario.truthStaticObstacles=[scenario.truthStaticObstacles;3.25 2.10 0.35 1.15 1.90];
++        % The obstacle is absent when the first route is committed and is
++        % introduced during outbound tracking. Its inflated footprint
++        % intersects the nominal future route while a safe alternate route
++        % remains available. This tests genuine perception-driven repair.
++        scenario.truthInsertedObstacles(1)=struct( ...
++            'time',18.0,'rect5',[3.65 2.10 0.45 0.80 1.90]);
+         scenario.expectedMapExtensions=true;
+         scenario.expectedMapReplan=true;
++        scenario.expectedMinMapSafetyReplans=1;
++        scenario.expectedMaxScanHolds=8;
+ 
+     case {'occluded_obstacle','occlusion'}
+         scenario.name='OCCLUDED_OBSTACLE';
+-        scenario.truthStaticObstacles=[1.80 1.65 0.60 0.55 1.90;2.55 2.30 0.45 0.80 1.90;4.20 4.25 0.55 0.45 1.90];
++        % Front and rear obstacles are approximately collinear from launch,
++        % so the rear obstacle is initially occluded. The truth-map route
++        % remains feasible at the frozen 0.602 m inflation radius.
++        scenario.truthStaticObstacles=[3.15 1.65 0.50 0.65 1.90; ...
++            3.40 2.75 0.55 0.75 1.90;4.40 4.10 0.40 0.50 1.90];
+         scenario.expectedMapExtensions=true;
++        scenario.expectedMaxScanHolds=8;
+ 
+     case {'unknown_narrow_passage','narrow'}
+         scenario.name='UNKNOWN_NARROW_PASSAGE';
+-        scenario.truthStaticObstacles=[0.95 2.45 1.75 0.45 1.90;3.35 2.45 1.70 0.45 1.90];
++        % Physical opening is 1.50 m. After applying the unchanged 0.602 m
++        % radius on both sides, a narrow but non-zero centre corridor remains.
++        scenario.truthStaticObstacles=[0.80 2.45 1.45 0.45 1.90; ...
++            3.75 2.45 1.45 0.45 1.90];
+         scenario.goal=[3.0 5.25];
+         scenario.expectedMapExtensions=true;
++        scenario.expectedMaxScanHolds=8;
+ 
+     case {'dead_end_recovery','dead_end'}
+         scenario.name='DEAD_END_RECOVERY';
+@@ -61,8 +81,13 @@
+     case {'goal_requires_scan','scan'}
+         scenario.name='GOAL_REQUIRES_SCAN';
+         scenario.start=[0.85 0.85];scenario.home=scenario.start;scenario.goal=[5.15 5.15];
+-        scenario.truthStaticObstacles=[2.45 0.80 0.40 3.55 1.90;3.35 2.10 0.40 3.05 1.90];
++        % A tall screen blocks the direct route and hides the free passage
++        % around its upper end. The passage is truth-map feasible but cannot
++        % be committed until the vehicle advances and scans.
++        scenario.truthStaticObstacles=[2.50 1.20 0.45 3.00 1.90];
+         scenario.expectedMapExtensions=true;
++        scenario.expectedMinScanHolds=1;
++        scenario.expectedMaxScanHolds=8;
+ 
+     case {'unreachable_goal','unreachable'}
+         scenario.name='UNREACHABLE_GOAL';
+@@ -70,7 +95,11 @@
+         scenario.truthStaticObstacles=[4.20 4.20 1.40 0.30 2.20;4.20 5.30 1.40 0.30 2.20;4.20 4.20 0.30 1.40 2.20;5.30 4.20 0.30 1.40 2.20];
+         scenario.expectedGoalReached=false;
+         scenario.expectedGoalUnreachable=true;
+-        scenario.expectedMapExtensions=true;
++        % Safe refusal is the required result. A forward extension is not
++        % mandatory when the goal is correctly proven unreachable.
++        scenario.expectedMapExtensions=false;
++        scenario.expectedMinScanHolds=1;
++        scenario.expectedMaxScanHolds=24;
+         scenario.expectedRTLExecuted=true;
+         scenario.expectedLanding=true;
+ 
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/validate_S2_3.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/validate_S2_3.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/validate_S2_3.m	2026-07-11 23:44:42.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/validate_S2_3.m	2026-07-13 06:50:45.372870460 +0000
+@@ -19,5 +19,24 @@
+ end
+ cfg=init_S2_3_config();validationDir=fullfile(cfg.resultsRoot,'validation');if ~exist(validationDir,'dir'),mkdir(validationDir);end
+ save(fullfile(validationDir,'validation_report_S2_3_candidate.mat'),'report');
++nPass=sum([report.pass]);
++fprintf('\n============================================================\n');
++fprintf(' S2.3 DETERMINISTIC VALIDATION: %d / %d PASS\n',nPass,numel(report));
++for j=1:numel(report)
++    if isempty(report(j).summary)
++        fprintf('%-34s : ERROR\n',report(j).scenario);
++    else
++        s=report(j).summary;
++        fprintf('%-34s : %s | M/E/R/S/U/T=%d/%d/%d/%d/%d/%d\n', ...
++            report(j).scenario,ternary_local(report(j).pass,'PASS','FAIL'), ...
++            s.mapPass,s.mapExtensionPass,s.mapSafetyReplanPass,s.scanHoldPass, ...
++            s.goalUnreachablePass,s.truthIsolationPass);
++    end
++end
++fprintf('============================================================\n');
+ if ~all([report.pass]),error('S2_3:ValidationFailed','S2.3 deterministic validation failed.');end
+ end
++
++function o=ternary_local(c,a,b)
++if c,o=a;else,o=b;end
++end
+diff -ruN /mnt/data/s2_3_current_src/S2_3_online_mapping_development/validate_S2_3_release_focus.m /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/validate_S2_3_release_focus.m
+--- /mnt/data/s2_3_current_src/S2_3_online_mapping_development/validate_S2_3_release_focus.m	1970-01-01 00:00:00.000000000 +0000
++++ /mnt/data/S2_3_release_closure_candidate/S2_3_online_mapping_development/validate_S2_3_release_focus.m	2026-07-13 06:52:11.229191287 +0000
+@@ -0,0 +1,23 @@
++function report = validate_S2_3_release_focus(makePlots)
++% VALIDATE_S2_3_RELEASE_FOCUS Re-run only the five release-closing cases.
++if nargin<1,makePlots=false;end
++scenarios={'hidden_obstacle_replan','occluded_obstacle', ...
++    'unknown_narrow_passage','goal_requires_scan','unreachable_goal'};
++report=struct('scenario',{},'pass',{},'summary',{},'error',{});
++for i=1:numel(scenarios)
++    fprintf('\n[S2.3 RELEASE FOCUS %02d/%02d] %s\n',i,numel(scenarios),scenarios{i});
++    report(i).scenario=scenarios{i};report(i).pass=false;report(i).summary=[];report(i).error='';
++    try
++        r=run_S2_3_online_mapping(0,scenarios{i},makePlots,false);
++        report(i).summary=r.summary;report(i).pass=r.summary.pass;
++    catch ME
++        report(i).error=getReport(ME,'extended','hyperlinks','off');
++        fprintf(2,'%s\n',report(i).error);
++    end
++end
++cfg=init_S2_3_config();d=fullfile(cfg.resultsRoot,'validation');if ~exist(d,'dir'),mkdir(d);end
++save(fullfile(d,'release_focus_report_S2_3_candidate.mat'),'report');
++nPass=sum([report.pass]);
++fprintf('\nS2.3 RELEASE FOCUS: %d / %d PASS\n',nPass,numel(report));
++if ~all([report.pass]),error('S2_3:ReleaseFocusFailed','S2.3 release focus failed.');end
++end

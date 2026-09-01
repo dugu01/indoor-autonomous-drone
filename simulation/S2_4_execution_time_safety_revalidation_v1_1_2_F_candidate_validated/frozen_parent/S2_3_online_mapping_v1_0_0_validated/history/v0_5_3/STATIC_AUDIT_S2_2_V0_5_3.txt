@@ -1,0 +1,31 @@
+Stage S2.2 v0.5.3 cumulative audit
+================================================================
+[PASS] required files — complete
+[PASS] public interface
+[PASS] v0.5.3 result namespace
+[PASS] frozen v0.4 core preserved
+[PASS] frozen v0.4 estimator preserved
+[PASS] robust derivative routed
+[PASS] robust estimator isolated
+[PASS] REJOIN liveness watchdog
+[PASS] route-before-land fallback
+[PASS] fault-aware lane transition
+[PASS] position-loss reliable-velocity capture
+[PASS] blind descent ignores drifting velocity
+[PASS] no stale position feedback
+[PASS] explicit feedforward brake
+[PASS] multi-seed validator matrix
+[PASS] focused former-failure matrix
+[PASS] MATLAB file/function consistency — 54 files
+[PASS] internal calls resolve — all resolve
+[PASS] configuration fields complete
+[PASS] scenario fields complete
+[PASS] portable source paths
+[PASS] source integrity
+[PASS] Python lifecycle/grid matrix — This is a focused high-level state-machine/grid-planning regression. MATLAB runtime validation remains required for the 6-DOF/ESKF integration.
+[PASS] focused v0.5.3 mechanisms — S2.2 v0.5.3 FOCUSED MULTI-SEED REGRESSION: PASS
+[PASS] preserved v0.4 mechanism tests — 6-DOF response max v/a/j/tilt: 0.4034 / 0.6397 / 2.7115 / 3.8256; brake-before-replan eligible: 1.22 s; peak speed 0.2907 m/s
+[PASS] MATLAB source sanity — MATLAB SOURCE SANITY: PASS
+----------------------------------------------------------------
+Result: 26/26 checks passed
+CUMULATIVE S2.2 v0.5.3 AUDIT: PASS

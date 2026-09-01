@@ -1,0 +1,183 @@
+{
+  "schema": "S2_4_AD_CONTRACT_BACKTEST_V1",
+  "grid_resolution_m": 0.1,
+  "effective_inflation_m": 0.602,
+  "passed": 15,
+  "total": 15,
+  "pass": true,
+  "results": [
+    {
+      "id": 1,
+      "name": "scenario_1",
+      "pass": true,
+      "detail": {
+        "selected": 1,
+        "relevance": 4.0,
+        "candidate": [
+          31,
+          24
+        ]
+      },
+      "error": ""
+    },
+    {
+      "id": 2,
+      "name": "scenario_2",
+      "pass": true,
+      "detail": {
+        "selected_centroid": [
+          43.5,
+          37.0
+        ],
+        "target_relevance": 4.0
+      },
+      "error": ""
+    },
+    {
+      "id": 3,
+      "name": "scenario_3",
+      "pass": true,
+      "detail": {
+        "selected_cell": [
+          40,
+          28
+        ],
+        "visible": 1,
+        "occluded_rejections": 3
+      },
+      "error": ""
+    },
+    {
+      "id": 4,
+      "name": "scenario_4",
+      "pass": true,
+      "detail": {
+        "irrelevant_rejections": 13,
+        "selected_relevance": 3.0,
+        "largest_irrelevant_gain": 13.0
+      },
+      "error": ""
+    },
+    {
+      "id": 5,
+      "name": "scenario_5",
+      "pass": true,
+      "detail": {
+        "action": "HOLD_AND_RESCAN_STALE_ROUTE",
+        "stale_cells_on_route": 11
+      },
+      "error": ""
+    },
+    {
+      "id": 6,
+      "name": "scenario_6",
+      "pass": true,
+      "detail": {
+        "failed": 2,
+        "alternative": 1,
+        "alternative_tier": 2
+      },
+      "error": ""
+    },
+    {
+      "id": 7,
+      "name": "scenario_7",
+      "pass": true,
+      "detail": {
+        "terminal": "USEFUL_EXPLORATION_EXHAUSTED",
+        "exhausted_tracks": 1
+      },
+      "error": ""
+    },
+    {
+      "id": 8,
+      "name": "scenario_8",
+      "pass": true,
+      "detail": {
+        "action": "WAIT_OR_REPLAN",
+        "dynamic_rejections": 15,
+        "predicted_space_time_risk": 1.0
+      },
+      "error": ""
+    },
+    {
+      "id": 9,
+      "name": "scenario_9",
+      "pass": true,
+      "detail": {
+        "action": "INCREASE_CLEARANCE",
+        "covariance_growth": 4.961249999999998
+      },
+      "error": ""
+    },
+    {
+      "id": 10,
+      "name": "scenario_10",
+      "pass": true,
+      "detail": {
+        "retained": true,
+        "timeout_policy": "CONSERVATIVE_UNTIL_EXPIRED"
+      },
+      "error": ""
+    },
+    {
+      "id": 11,
+      "name": "scenario_11",
+      "pass": true,
+      "detail": {
+        "selected": 24,
+        "depth_quality": 0.2,
+        "information_gain": 4.0
+      },
+      "error": ""
+    },
+    {
+      "id": 12,
+      "name": "scenario_12",
+      "pass": true,
+      "detail": {
+        "selected": 24,
+        "lidar_quality": 0.1,
+        "depth_quality": 0.6,
+        "degraded_gain": 2.4,
+        "healthy_gain": 4.0
+      },
+      "error": ""
+    },
+    {
+      "id": 13,
+      "name": "scenario_13",
+      "pass": true,
+      "detail": {
+        "action": "SAFE_HOLD",
+        "digest": "549a477684098ec54194c23cc8b9d0d2320cd732739c5e236fbafdce149cb1d0"
+      },
+      "error": ""
+    },
+    {
+      "id": 14,
+      "name": "scenario_14",
+      "pass": true,
+      "detail": {
+        "rejected": true,
+        "candidate_count": 156
+      },
+      "error": ""
+    },
+    {
+      "id": 15,
+      "name": "scenario_15",
+      "pass": true,
+      "detail": {
+        "goal_reached": true,
+        "scan_selections": [
+          1,
+          2,
+          3
+        ],
+        "tracks_created": 3
+      },
+      "error": ""
+    }
+  ]
+}

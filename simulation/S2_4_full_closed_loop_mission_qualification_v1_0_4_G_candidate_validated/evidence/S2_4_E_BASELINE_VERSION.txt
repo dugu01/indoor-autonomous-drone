@@ -1,0 +1,5 @@
+S2.4 — Uncertainty-Aware Target-Directed Active Exploration
+Release: v1.0.0-RC3 clean release candidate
+Status: FINAL MATLAB PARITY CHECK PENDING
+Parent: S2_3_online_mapping_v1_0_0_validated
+Validated internal behavior ID retained: v0.3.6-adversarial-competing-corridors-candidate

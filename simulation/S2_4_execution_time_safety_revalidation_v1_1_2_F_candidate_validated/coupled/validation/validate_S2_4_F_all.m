@@ -1,0 +1,103 @@
+function gate = validate_S2_4_F_all()
+% VALIDATE_S2_4_F_ALL One-command S2.4-F execution-time safety qualification.
+% Runs inherited E MATLAB gate, deterministic F contracts, no-fault parity,
+% and post-acceptance coupled fault cases F2-F11/F13-F14. F12 is helper
+% deterministic replay. F15 stays explicitly N/A until a live predictor exists.
+eGate=validate_S2_4_E_all(true);
+contracts=test_S2_4_F_revalidation_contracts();
+refE=run_S2_4_coupled(0,'active_goal_requires_scan',false,false);
+refF=run_S2_4_F_fault_case(0,'F1','active_goal_requires_scan');
+referenceParity=referenceParityCheck(refE.summary,refF.summary);
+
+names={'F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F13','F14'};
+cases=cell(size(names));allFaultPass=true;
+for k=1:numel(names)
+    r=run_S2_4_F_fault_case(0,names{k},'active_goal_requires_scan');
+    q=qualifyCase(names{k},r.summary,r.cfg);
+    cases{k}=q;allFaultPass=allFaultPass&&q.pass;
+    fprintf('%s: %s | injected=%d detected=%d response=%d stale=%d collision=%d unknown=%d invalidations=%d authGen=%d\n', ...
+        names{k},ternary(q.pass,'PASS','FAIL'),q.injectedAfterAcceptance,q.detected,q.response, ...
+        r.summary.staleCommandContinuationCount,r.summary.collisionCount,r.summary.unknownCommitmentCount, ...
+        r.summary.executionAuthorityInvalidationCount,r.summary.authorityGenerationCount);
+    if ~q.pass
+        fprintf('    reason=%s | faultInjections=%d | mapReval=%d | retreatRefresh=%d | postFaultValid=%d | goalUnreachable=%d | timeout=%d\n', ...
+            r.summary.lastExecutionSafetyReason,r.summary.faultInjectionCount, ...
+            r.summary.executionMapChangeRevalidationCount,r.summary.executionRetreatRefreshCount, ...
+            r.summary.postFaultValidRevalidationCount,r.summary.goalUnreachable,r.summary.stateTimeoutTriggered);
+        fprintf('    freshPlansAfterRevocation=%d\n',r.summary.postFaultFreshPlanCount);
+        fprintf('    stop d/rem/route/extra/terminal: %.3f / %.3f / %d / %.3f / %d\n', ...
+            r.summary.lastExecutionStoppingDistance_m,r.summary.lastExecutionRemainingRouteLength_m, ...
+            r.summary.lastExecutionRouteStopReserveSafe,r.summary.lastExecutionTerminalOverrunNeeded_m, ...
+            r.summary.lastExecutionTerminalOverrunReserveSafe);
+    end
+end
+f15=struct('supported',false,'pass',true,'qualification','NOT_APPLICABLE_LIVE_PREDICTOR_NOT_CONNECTED');
+gate=struct('eGate',eGate,'contracts',contracts,'referenceParity',referenceParity, ...
+    'faultCases',{cases},'f15',f15,'pass',eGate.pass&&contracts.pass&& ...
+    referenceParity.pass&&allFaultPass);
+fprintf('\nS2.4-F EXECUTION-TIME SAFETY MATLAB GATE: %s\n',ternary(gate.pass,'PASS','FAIL'));
+end
+
+function q=qualifyCase(name,s,cfg)
+safety=s.staleCommandContinuationCount==0&&s.collisionCount==0&& ...
+    s.geofenceViolationCount==0&&s.unknownCommitmentCount==0&& ...
+    s.unsafeViewpointExecutionCount==0&&s.truthIsolationPass;
+injectedAfter=isfinite(s.firstFaultInjectionTime_s)&&isfinite(s.firstExplorationAcceptedTime_s)&& ...
+    s.firstFaultInjectionTime_s>s.firstExplorationAcceptedTime_s;
+detected=isfinite(s.firstFaultDetectionTime_s)&&s.firstFaultDetectionTime_s>=s.firstFaultInjectionTime_s;
+response=true;
+switch upper(name)
+    case {'F2','F3','F4','F5','F8','F10'}
+        response=s.executionAuthorityInvalidationCount>=1;
+    case 'F6'
+        response=s.executionRetreatRefreshCount>=1||s.executionAuthorityInvalidationCount>=1;
+    case 'F7'
+        response=s.executionMapChangeRevalidationCount>=1&&s.executionAuthorityInvalidationCount==0;
+    case 'F9'
+        response=s.perceptionHoldCount>=1&&s.executionPerceptionRevocationCount>=1;
+    case 'F11'
+        response=s.executionMapChangeRevalidationCount>=1&&s.executionAuthorityInvalidationCount==0;
+    case 'F13'
+        response=s.executionAuthorityInvalidationCount>=1&& ...
+            s.postFaultFreshPlanCount>=1;
+    case 'F14'
+        limit=cfg.executionSafety.maxAuthorityInvalidations;
+        response=s.faultInjectionCount>=2&& ...
+            s.executionAuthorityInvalidationCount==limit&& ...
+            s.authorityGenerationCount>=limit&&s.goalUnreachable&&~s.stateTimeoutTriggered;
+end
+bounded=~strcmpi(name,'F14')|| ...
+    s.executionAuthorityInvalidationCount<=cfg.executionSafety.maxAuthorityInvalidations;
+q=struct('name',name,'safety',safety,'injectedAfterAcceptance',injectedAfter, ...
+    'detected',detected,'response',response,'bounded',bounded, ...
+    'pass',safety&&injectedAfter&&detected&&response&&bounded);
+end
+
+function q=referenceParityCheck(e,f)
+fields={'goalReached','missionComplete','collisionCount','geofenceViolationCount', ...
+    'unknownCommitmentCount','unsafeViewpointExecutionCount','explorationRequestCount', ...
+    'explorationSelectedCount','explorationExecutedCount','irrelevantSelectionCount'};
+match=true;diffs={};
+for k=1:numel(fields)
+    name=fields{k};
+    if ~isequaln(e.(name),f.(name)),match=false;diffs{end+1}=name;end %#ok<AGROW>
+end
+q=struct('pass',match&&f.executionSafetyPass&& ...
+    f.executionRevalidationCount>0&&f.executionLeaseRenewalCount>0&& ...
+    f.executionAuthorityInvalidationCount==0, ...
+    'matchingFields',{fields},'differences',{diffs});
+fprintf('S2.4-F no-fault E reference parity: %s\n',ternary(q.pass,'PASS','FAIL'));
+if ~q.pass
+    fprintf('    differences: %s\n',strjoin(diffs,','));
+    fprintf('    F1 revalidations/pass/lease/invalidation: %d / %d / %d / %d\n', ...
+        f.executionRevalidationCount,f.executionRevalidationPassCount, ...
+        f.executionLeaseRenewalCount,f.executionAuthorityInvalidationCount);
+    fprintf('    F1 last safety reason: %s | executionSafetyPass=%d\n', ...
+        f.lastExecutionSafetyReason,f.executionSafetyPass);
+    fprintf('    F1 stop d/rem/route/extra/terminal: %.3f / %.3f / %d / %.3f / %d\n', ...
+        f.lastExecutionStoppingDistance_m,f.lastExecutionRemainingRouteLength_m, ...
+        f.lastExecutionRouteStopReserveSafe,f.lastExecutionTerminalOverrunNeeded_m, ...
+        f.lastExecutionTerminalOverrunReserveSafe);
+end
+end
+function o=ternary(c,a,b),if c,o=a;else,o=b;end,end

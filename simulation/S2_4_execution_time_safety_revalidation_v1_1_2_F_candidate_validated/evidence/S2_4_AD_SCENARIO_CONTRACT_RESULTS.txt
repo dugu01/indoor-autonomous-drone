@@ -1,0 +1,20 @@
+S2.4 A-D scenario-contract backtest
+grid=0.10 m effective_inflation=0.602 m
+
+01 scenario_1: PASS 
+02 scenario_2: PASS 
+03 scenario_3: PASS 
+04 scenario_4: PASS 
+05 scenario_5: PASS 
+06 scenario_6: PASS 
+07 scenario_7: PASS 
+08 scenario_8: PASS 
+09 scenario_9: PASS 
+10 scenario_10: PASS 
+11 scenario_11: PASS 
+12 scenario_12: PASS 
+13 scenario_13: PASS 
+14 scenario_14: PASS 
+15 scenario_15: PASS 
+
+RESULT: 15/15 PASS
