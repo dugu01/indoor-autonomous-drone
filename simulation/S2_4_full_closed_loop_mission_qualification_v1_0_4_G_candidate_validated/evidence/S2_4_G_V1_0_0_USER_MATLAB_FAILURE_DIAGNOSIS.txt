@@ -1,0 +1,39 @@
+S2.4-G v1.0.0 USER MATLAB QUALIFICATION RESULT — DIAGNOSIS
+Date: 2026-08-29
+
+Validated prerequisites inside the run:
+- A-D shadow qualification: PASS
+- validated F runtime integrity: PASS
+- E + F coupled qualification: PASS
+- S2.4-F execution-time safety MATLAB gate: PASS
+
+G targeted matrix result: 52/75 PASS (23 failures)
+
+Failure grouping from the user MATLAB console:
+1) HARD SAFETY — unknown commitments: 3 runs
+   F2 early seed2, F3 early seed2, F10 early seed2
+   Each reported unknownCommitmentCount=23 and no collision/geofence/stale continuation.
+   The old printed truth flag also became 0 because mission_lifecycle_manager_S2_4
+   defined truthIsolationPass as (map truth accesses == 0 AND unknown commitments == 0).
+   This does NOT by itself prove a simulator-truth read; v1.0.1 separates these gates.
+
+2) SAFE RESPONSE BUT MISSION DID NOT COMPLETE: 8 runs
+   F2 mid seed3; F3 mid seed3; F10 mid seed3;
+   F9 mid seeds1,2,3; F9 late seeds0,4.
+   Detection/response and hard motion-safety counters were otherwise satisfied.
+
+3) LATE SAFETY INVALIDATION REACHED GOAL_UNREACHABLE BEFORE FRESH PLAN: 12 runs
+   F2 late seeds0,1,2,4
+   F3 late seeds0,1,2,4
+   F10 late seeds0,1,2,4
+   Common reason included REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID
+   (plus RETREAT_ROUTE_INVALID for F10), invalidations=1, freshPlans=0,
+   goalUnreachable=1.
+
+Reviewed v1.0.1 response:
+- do NOT relax mission completion, hard safety, timing thresholds, or 75-run cardinality;
+- add five no-fault seed baselines 0:4 for attribution;
+- add pre-controller current-reference known-free guard;
+- reset exploration no-progress accounting on safety/perception authority revocation;
+- retain independent maxAuthorityInvalidations=3 bound;
+- report actual truth-access counts separately from unknown commitments.

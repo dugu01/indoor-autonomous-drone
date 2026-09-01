@@ -1,0 +1,42 @@
+S2.4-F v1.1.2 CUMULATIVE CANDIDATE PRECHECK
+Date: 2026-08-29
+
+Baseline
+--------
+Exact uploaded S2.4-E RC3 clean ZIP SHA-256:
+49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+
+Frozen-parent integrity
+-----------------------
+S2.3 files checked: 208
+missing: 0
+changed: 0
+extra: 0
+PARENT BYTE IDENTITY: PASS
+Final closure manifest paths: 203; mismatches: 0; PASS
+
+Local/static regression
+-----------------------
+S2.4 truth/command isolation: PASS
+MATLAB source sanity (available static checker): PASS
+S2.4 A-D scenario contracts: 15/15 PASS
+S2.4-E static gate: PASS
+Literal corridor geometry: PASS
+  inflation 0.602 m
+  fork upper/lower 0.646 / 0.896 m
+  branch target/decoy 0.996 / 2.196 m
+  A* target/decoy 5.414 / 5.256 m
+Goal-requires-scan recorded preflight: PASS (103 snapshots, 15 accepted, 0 unsafe)
+S2.4-E aggregate static/offline gate: PASS
+S2.4-F static/isolation gate: PASS
+Source-faithful F1-F14 + authority/progress scheduler semantic backtest: PASS
+R1 v1.1.1 false-abort regression: PASS
+STOP insufficient-stop negative regression: PASS
+F15: N/A, live predictive interface not connected
+
+Runtime limitation
+------------------
+MATLAB runtime: NOT AVAILABLE
+Octave runtime: NOT AVAILABLE
+No v1.1.2 coupled MATLAB PASS is claimed. User must rerun:
+  gate = run_validate_S2_4_F_all();

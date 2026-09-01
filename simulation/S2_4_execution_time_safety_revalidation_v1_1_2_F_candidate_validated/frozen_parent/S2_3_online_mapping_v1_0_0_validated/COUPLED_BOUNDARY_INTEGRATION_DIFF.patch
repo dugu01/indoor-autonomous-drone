@@ -1,0 +1,118 @@
+--- /mnt/data/_s23_base/S2_3_online_mapping_replay_instrumented_candidate/init_probabilistic_map_S2_3.m	2026-07-12 19:34:45.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_coupled_boundary_candidate/init_probabilistic_map_S2_3.m	2026-07-13 06:09:02.601640634 +0000
+@@ -16,6 +16,24 @@
+ % contract and prevents alternating noisy rays from turning walls or fixed
+ % obstacles into false free space.
+ map.staticOccupied=false(ny,nx,nz);
++% The room/geofence limits are known before flight. Register their voxelised
++% boundary as persistent prohibited space so the mapper, planner, and
++% independent validator use one consistent boundary contract. This uses only
++% cfg.room and map axes; no unknown obstacle truth is accessed.
++map.knownBoundary=false(ny,nx,nz);
++tol=1e-9;
++ixBoundary=find(xs<=tol|xs>=cfg.room(1)-tol);
++iyBoundary=find(ys<=tol|ys>=cfg.room(2)-tol);
++izBoundary=find(zs>=cfg.room(3)-tol);
++if ~isempty(ixBoundary),map.knownBoundary(:,ixBoundary,:)=true;end
++if ~isempty(iyBoundary),map.knownBoundary(iyBoundary,:,:)=true;end
++if ~isempty(izBoundary),map.knownBoundary(:,:,izBoundary)=true;end
++loBoundary=log(cfg.mapOccupiedProbability/(1-cfg.mapOccupiedProbability));
++map.staticOccupied(map.knownBoundary)=true;
++map.logOdds(map.knownBoundary)=max( ...
++    map.logOdds(map.knownBoundary),single(loBoundary+0.05));
++map.hitCount(map.knownBoundary)=max( ...
++    map.hitCount(map.knownBoundary),uint16(cfg.mapMinOccupiedObservations));
+ % rawHitCount records every physical ray endpoint, including endpoints first
+ % treated as temporary occupancy. It is used only by independent map recall
+ % validation and never by planning or mission decisions.
+--- /mnt/data/_s23_base/S2_3_online_mapping_replay_instrumented_candidate/replay_perception_log_S2_3.m	2026-07-12 20:10:26.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_coupled_boundary_candidate/replay_perception_log_S2_3.m	2026-07-13 06:09:02.601902169 +0000
+@@ -34,7 +34,7 @@
+     rejected=rejected+double(~u.accepted);
+ end
+ expected=S.maps.probabilisticMap;
+-fieldsExact={'staticOccupied','promotedStatic','hitCount','rawHitCount', ...
++fieldsExact={'staticOccupied','knownBoundary','promotedStatic','hitCount','rawHitCount', ...
+     'observationCount','dynamicHitCount'};
+ fieldsFloat={'logOdds','dynamicLogOdds','dynamicFirstHit','dynamicLastHit', ...
+     'lastObserved'};
+@@ -55,7 +55,13 @@
+     end
+ end
+ counterFields={'version','frameVersion','acceptedPackets','rejectedPackets', ...
+-    'noDataPackets','promotedCount','lastSequence'};
++    'promotedCount','lastSequence'};
++% noDataPackets counts control cycles with no sensor event. The captured replay
++% stream intentionally contains accepted perception packets only, so this
++% bookkeeping counter is reported separately and is not a mapper-equivalence
++% criterion.
++idleCounterMatch=isfield(map,'noDataPackets')&&isfield(expected,'noDataPackets')&& ...
++    isequaln(map.noDataPackets,expected.noDataPackets);
+ counters=struct();
+ for i=1:numel(counterFields)
+     f=counterFields{i};
+@@ -71,14 +77,19 @@
+ report=struct('schema','S2_3_REPLAY_REPORT_V1','matFile',matFile, ...
+     'recordCount',numel(records),'accepted',accepted,'rejected',rejected, ...
+     'reasons',{reason},'fieldMatch',fieldMatch,'maxAbsDifference',maxAbs, ...
+-    'counterMatch',counters,'exactFieldsPass',exactFieldsPass, ...
++    'counterMatch',counters,'idleCounterMatch',idleCounterMatch, ...
++    'replayIdlePackets',double(map.noDataPackets), ...
++    'coupledIdlePackets',double(expected.noDataPackets), ...
++    'exactFieldsPass',exactFieldsPass, ...
+     'exactCountersPass',exactCountersPass,'metricsMatch',metricsMatch, ...
+     'originalMetrics',originalMetrics,'replayMetrics',metrics, ...
+     'pass',exactFieldsPass&&exactCountersPass&&metricsMatch&&rejected==0);
+ fprintf('\n============================================================\n');
+ fprintf(' S2.3 EXACT PERCEPTION-MAPPER REPLAY\n');
+ fprintf(' Records / accepted / rejected : %d / %d / %d\n',report.recordCount,accepted,rejected);
+-fprintf(' Exact arrays / counters       : %d / %d\n',exactFieldsPass,exactCountersPass);
++fprintf(' Exact arrays / core counters  : %d / %d\n',exactFieldsPass,exactCountersPass);
++fprintf(' Idle counters replay/coupled  : %u / %u (informational)\n', ...
++    uint32(map.noDataPackets),uint32(expected.noDataPackets));
+ fprintf(' Original false-free / recall  : %.8f / %.6f\n',originalMetrics.falseFreeRate,originalMetrics.occupiedRecall);
+ fprintf(' Replay false-free / recall    : %.8f / %.6f\n',metrics.falseFreeRate,metrics.occupiedRecall);
+ fprintf(' Metrics exact match           : %d\n',metricsMatch);
+@@ -93,7 +104,9 @@
+         fprintf(f,'S2.3 exact perception-mapper replay\n');
+         fprintf(f,'Input: %s\n',matFile);
+         fprintf(f,'Records %d | accepted %d | rejected %d\n',numel(records),accepted,rejected);
+-        fprintf(f,'Exact arrays %d | exact counters %d | metrics match %d\n',exactFieldsPass,exactCountersPass,metricsMatch);
++        fprintf(f,'Exact arrays %d | exact core counters %d | metrics match %d\n',exactFieldsPass,exactCountersPass,metricsMatch);
++        fprintf(f,'Idle counters replay %u | coupled %u | informational only\n', ...
++            uint32(map.noDataPackets),uint32(expected.noDataPackets));
+         fprintf(f,'Original false-free %.12f | recall %.12f | observed %.12f\n',originalMetrics.falseFreeRate,originalMetrics.occupiedRecall,originalMetrics.observedFraction);
+         fprintf(f,'Replay false-free %.12f | recall %.12f | observed %.12f\n',metrics.falseFreeRate,metrics.occupiedRecall,metrics.observedFraction);
+         fprintf(f,'PASS %d\n',report.pass);
+--- /mnt/data/_s23_base/S2_3_online_mapping_replay_instrumented_candidate/audit_S2_3_candidate.py	2026-07-12 19:36:21.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_coupled_boundary_candidate/audit_S2_3_candidate.py	2026-07-13 06:09:02.602086306 +0000
+@@ -52,6 +52,7 @@
+ checks['preflight_uses_map_freshness']='lastPerceptionTime' in preflight_text and 'mapPreflightMinAcceptedPackets' in preflight_text
+ checks['idle_packets_not_rejected']='no_sensor_event' in update_text and 'noDataPackets' in update_text
+ checks['ground_layer_validation_contract']='Floor contact is validated' in validator_text
++checks['known_boundary_contract']='map.knownBoundary' in (root/'init_probabilistic_map_S2_3.m').read_text() and 'cfg.room' in (root/'init_probabilistic_map_S2_3.m').read_text()
+ 
+ checks['route_aware_map_repair']='changed_cells_affect_route_S2_3' in mgr and 'if routeAffected' in mgr
+ checks['extension_plan_completion_split']='mapExtensionPlanCount=mapExtensionPlanCount+1' in mgr and 'mapExtensionCount=mapExtensionCount+1' in mgr
+--- /mnt/data/_s23_base/S2_3_online_mapping_replay_instrumented_candidate/python_tests/test_s23_mechanisms.py	2026-07-12 19:36:46.000000000 +0000
++++ /mnt/data/S2_3_online_mapping_coupled_boundary_candidate/python_tests/test_s23_mechanisms.py	2026-07-13 06:09:02.602319449 +0000
+@@ -190,6 +190,19 @@
+     assert 'map.staticOccupied(idx)=true' in mapper
+ 
+ 
++def test_known_room_boundary_is_registered_persistent_static():
++    init=(ROOT/'init_probabilistic_map_S2_3.m').read_text()
++    assert 'map.knownBoundary=false' in init
++    assert 'xs>=cfg.room(1)-tol' in init
++    assert 'ys>=cfg.room(2)-tol' in init
++    assert 'zs>=cfg.room(3)-tol' in init
++    assert 'map.staticOccupied(map.knownBoundary)=true;' in init
++    assert 'map.hitCount(map.knownBoundary)=max' in init
++    # The mapper already prevents free rays from eroding any static voxel.
++    mapper=(ROOT/'update_probabilistic_map_S2_3.m').read_text()
++    assert 'if ~map.staticOccupied(idx)' in mapper
++
++
+ def test_known_free_is_disjoint_from_static_occupancy():
+     proj=(ROOT/'project_map_to_planner_S2_3.m').read_text()
+     assert 'knownFree=knownFree&~staticOcc;' in proj

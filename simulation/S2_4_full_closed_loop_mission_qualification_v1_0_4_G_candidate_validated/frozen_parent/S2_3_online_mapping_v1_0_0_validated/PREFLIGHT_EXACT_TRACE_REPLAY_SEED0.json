@@ -1,0 +1,30 @@
+{
+  "source_trial": "S2_3_v1_0_0_candidate_trial_data.mat",
+  "scenario": "UNKNOWN_ROOM_NOMINAL",
+  "seed": 0,
+  "rejection_time_s": 0.6,
+  "old_preflight_perceptionOK": false,
+  "logged_perceptionFresh": true,
+  "map_accepted_packets": 10,
+  "map_rejected_packets_old_semantics": 20,
+  "last_lidar_time_s": 0.48,
+  "last_depth_time_s": 0.5,
+  "replayed_perception_age_s": 0.1,
+  "freshness_timeout_s": 0.55,
+  "new_min_accepted_map_packets": 2,
+  "new_perception_gate": true,
+  "all_other_preflight_gates": {
+    "horizontalAidsOK": true,
+    "verticalAidOK": true,
+    "attitudeAidOK": true,
+    "laneOK": true,
+    "covarianceOK": true,
+    "updateCountOK": true,
+    "homeClear": true,
+    "startCellClear": true,
+    "estimateFinite": true,
+    "forcedReject": false
+  },
+  "replayed_corrected_preflight_pass": true,
+  "root_cause": "Exact asynchronous packet-arrival check used instead of freshness of last accepted mapping observation."
+}

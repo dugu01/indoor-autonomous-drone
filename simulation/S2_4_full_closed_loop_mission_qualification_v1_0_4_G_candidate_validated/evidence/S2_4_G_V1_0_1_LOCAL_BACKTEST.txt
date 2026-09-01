@@ -1,0 +1,180 @@
+
+$ /opt/pyvenv/bin/python3 tools/audit_parent_immutability.py
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+
+$ /opt/pyvenv/bin/python3 tools/audit_final_parent_manifest.py
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+
+$ /opt/pyvenv/bin/python3 tools/audit_truth_isolation_s2_4.py
+S2.4 truth/command isolation: PASS
+
+$ /opt/pyvenv/bin/python3 tools/matlab_source_sanity_s2_4.py
+MATLAB source files checked: 9
+MATLAB SOURCE SANITY: PASS
+
+$ /opt/pyvenv/bin/python3 python_tests/s2_4_ad_contract_backtest.py
+01 scenario_1               PASS 
+02 scenario_2               PASS 
+03 scenario_3               PASS 
+04 scenario_4               PASS 
+05 scenario_5               PASS 
+06 scenario_6               PASS 
+07 scenario_7               PASS 
+08 scenario_8               PASS 
+09 scenario_9               PASS 
+10 scenario_10              PASS 
+11 scenario_11              PASS 
+12 scenario_12              PASS 
+13 scenario_13              PASS 
+14 scenario_14              PASS 
+15 scenario_15              PASS 
+
+S2.4 A-D PACKAGE STATIC/OFFLINE GATE: PASS
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+Coupled MATLAB files checked: 20
+Decision truth/command isolation: PASS
+Mission-request schema: PASS
+Frozen-parent output isolation: PASS
+S2.4-E STATIC GATE: PASS
+S2.4-E literal competing-corridors geometry audit
+inflation: 0.602 m
+safe fork widths upper/lower: 0.646 / 0.896 m
+safe branch widths target/decoy: 0.996 / 2.196 m
+A* route lengths target/decoy: 5.414 / 5.256 m
+east-side safe free cells target/decoy: 162 / 378
+decoy/target safe-area ratio: 2.333
+checks:
+  schema: PASS
+  two_truth_walls: PASS
+  walls_inside_room: PASS
+  upper_fork_positive_clearance: PASS
+  lower_fork_positive_clearance: PASS
+  target_branch_positive_clearance: PASS
+  decoy_branch_positive_clearance: PASS
+  decoy_branch_wider_than_target: PASS
+  target_initially_occluded: PASS
+  decoy_initially_occluded: PASS
+  start_free_after_inflation: PASS
+  goal_free_after_inflation: PASS
+  decoy_probe_free_after_inflation: PASS
+  target_route_exists: PASS
+  decoy_route_exists: PASS
+  target_route_uses_upper_fork: PASS
+  decoy_route_uses_lower_fork: PASS
+  east_branches_disconnected: PASS
+  decoy_free_area_larger: PASS
+RESULT: PASS
+NOTE: coupled MATLAB mission validation is still pending.
+S2.4-E legacy v0.3.0 recorded-map selector regression
+scope: NOT the literal-corridor physical-world validation
+qualifying snapshots: 15
+first snapshot/time: 8 / 8.040000000000001
+active frontiers: 3
+distinct irrelevant frontiers: 1
+selected tier/relevance: 1 / 4.0
+selected/decoy information: 4.0 / 21.0
+RESULT: PASS
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/tools/run_all_checks.py
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/audit_S2_4_E_static.py
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/audit_S2_4_E_literal_corridor_geometry.py
+
+$ /opt/pyvenv/bin/python3 /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/audit_S2_4_E_scenario2_preflight.py
+
+Goal-requires-scan recorded preflight: PASS
+Snapshots: 103 | accepted candidates: 15 | unsafe: 0
+
+S2.4-E AGGREGATE STATIC/OFFLINE GATE: PASS
+Literal-corridor static geometry contract: PASS
+Legacy v0.3.0 recorded-map selector regression: PASS
+MATLAB coupled literal-corridor mission: PENDING LOCAL MATLAB RUN
+Frozen S2.3 files checked: 208
+Missing: 0 | changed: 0 | extra: 0
+PARENT BYTE IDENTITY: PASS
+Final closure manifest paths: 203; mismatches: 0
+Mismatches: none
+All source files match final closure manifest: 1
+FINAL PARENT MANIFEST INTERPRETATION: PASS
+S2.4-F required files checked: 12
+Frozen S2.3 immutability: PASS
+E entry/config byte identity: PASS
+F truth/command isolation: PASS
+F15 live predictive interface qualification: NOT APPLICABLE (explicitly unsupported)
+S2.4-F STATIC GATE: PASS
+  F1  PASS  unchanged authority continues via current route stop reserve + rolling lease
+  R1  PASS  old planning-time endpoint gate false-aborts; runtime remaining-route reserve does not
+  F2  PASS  future occupied rejected
+  F3  PASS  future unknown rejected
+  F4  PASS  viewpoint invalid rejected
+  F5  PASS  hold support invalid rejected
+  F6  PASS  invalid retreat refresh uses current grid only
+  F7  PASS  unrelated map version revalidates and continues
+  F8  PASS  expired lease is never revived
+  F9  PASS  policy revokes exploration authority on inherited perception hold
+ F10  PASS  forward and retreat unavailable without poisoning current/start cell
+ F11  PASS  behind-only side change does not falsely abort
+ F12  PASS  deterministic repeat
+ F13  PASS  transient obstruction requires a new/current authority after clear
+ F14  PASS  repeated per-authority invalidations stop at explicit bound
+STOP  PASS  high-speed short route rejected when terminal overrun is unavailable
+ F15  PASS  N/A: live predictive dynamic-risk interface not connected
+ SCH  PASS  fault timing is authority/progress relative, not first-acceptance wall clock
+
+S2.4-F SOURCE-FAITHFUL OFFLINE FAULT/STOP BACKTEST: PASS
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/run_all_checks_S2_4_E.py
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/audit_S2_4_F_static.py
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/backtest_S2_4_F_fault_model.py
+
+MATLAB runtime: NOT AVAILABLE
+Octave runtime: NOT AVAILABLE
+S2.4-F LOCAL STATIC/OFFLINE AGGREGATE: PASS
+COUPLED MATLAB F1-F14 RUNTIME QUALIFICATION: PENDING USER MATLAB RUN
+S2.4-G F-v1.1.2 baseline delta audit: checked=271 missing=0 changed=1
+CHANGED coupled/mission/mission_lifecycle_manager_S2_4.m 4d2ff497e602dcb8fbaa33c5d49898d4eca77242da3e4080dfcc6df1a8a27310 -> 8ed67c61258b98c183bb3d7000f4d22bc043ee049826aedadb68c322523ccf1f
+S2.4-G REVIEWED F RUNTIME DELTA: PASS (exactly mission_lifecycle_manager_S2_4.m)
+S2.4-G reviewed F-v1.1.2 delta integrity: PASS
+S2.4-G wrapper isolation: PASS
+S2.4-G 5 no-fault baselines + 75-run targeted matrix contract: PASS
+S2.4-G MATLAB source hygiene: PASS
+S2.4-G STATIC GATE: PASS
+S2.4-G pre-controller current-reference guard ordering: PASS
+S2.4-G prior unknown-commitment failure reproduction + interception: PASS
+S2.4-G safety-replan no-progress accounting regression: PASS
+S2.4-G F14 bounded-retry negative control: PASS
+S2.4-G actual-truth/unknown-commitment evidence separation: PASS
+S2.4-G RECOVERY PATCH BACKTEST: PASS
+S2.4-G no-fault baseline cardinality: 5 seeds: PASS
+S2.4-G critical matrix cardinality: 5 faults x 3 timings x 5 seeds = 75 UNIQUE RUNS: PASS
+S2.4-G timing profiles: early=0.20 mid=0.50 late=0.75: PASS
+S2.4-G actual-truth isolation is independent of unknown commitment: PASS
+S2.4-G qualification positive/negative gate semantics: PASS
+S2.4-G TARGETED MATRIX/GATE BACKTEST: PASS
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/run_all_checks_S2_4_F.py
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/audit_S2_4_G_static.py
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/backtest_S2_4_G_recovery_patch.py
+
+$ /opt/pyvenv/bin/python3 -B /mnt/data/S2_4_full_closed_loop_mission_qualification_v1_0_1_G_candidate/coupled/validation/backtest_S2_4_G_matrix.py
+
+MATLAB runtime: NOT AVAILABLE
+Octave runtime: NOT AVAILABLE
+S2.4-G v1.0.1 LOCAL WRAPPER/STATIC/OFFLINE AGGREGATE: PASS
+S2.4-G 5 BASELINE + 75 CRITICAL COUPLED MATLAB QUALIFICATION: PENDING MATLAB RUN

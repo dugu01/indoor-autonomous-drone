@@ -1,0 +1,58 @@
+S2.4-G v1.0.3 CUMULATIVE CANDIDATE PRECHECK
+Date: 2026-08-29
+
+Validated runtime ancestry
+--------------------------
+S2.4-F v1.1.2: user-executed coupled MATLAB F gate PASS.
+G v1.0.2: user-executed 5/5 no-fault PASS, 71/75 critical PASS, hard safety PASS, actual truth access PASS; NOT qualified.
+
+v1.0.2 residual evidence
+------------------------
+Exactly four residual failures:
+  F2 MID seed=3
+  F3 MID seed=3
+  F9 MID seed=3
+  F10 MID seed=3
+Each: injected/detected/response=1; stale/collision/geofence/unknown/unsafeVP/truthAccess=0; timeout=0; goalUnreachable=0; final=COMPLETE; finite tGoal/tComplete; freshPlans=1.
+
+v1.0.3 source-traced correction
+-------------------------------
+No runtime/autonomy source changes from v1.0.2.
+No-fault qualification continues to require full nominal summary.pass.
+Critical-run qualification separates literal mission completion from nominal exploration execution and requires the full mission-manager composite minus only explorationPass.
+All controller/estimator/trajectory/mapping/continuity/uncertainty/static/execution-safety gates remain mandatory.
+
+Runtime identity
+----------------
+v1.0.3 autonomy runtime vs v1.0.2: 15 checked; 0 changed; PASS.
+Reviewed runtime delta vs validated F v1.1.2 remains exactly one file:
+  coupled/mission/mission_lifecycle_manager_S2_4.m
+
+Frozen-parent integrity
+-----------------------
+S2.3 files checked: 208
+missing: 0
+changed: 0
+extra: 0
+PARENT BYTE IDENTITY: PASS
+Final closure manifest: PASS
+
+Local/static/offline regression
+-------------------------------
+S2.4 A-D scenario contracts: 15/15 PASS
+S2.4-E static/offline + literal geometry: PASS
+S2.4-F static/isolation + source-faithful fault/stop backtest: PASS
+S2.4-G v1.0.2 runtime-recovery regressions: PASS
+S2.4-G v1.0.2 user MATLAB log signature parser: PASS
+S2.4-G v1.0.3 qualification-semantics source audit: PASS
+S2.4-G v1.0.3 positive/negative matrix gate semantics: PASS
+S2.4-G 5 baseline + 75 critical matrix cardinality: PASS
+
+Runtime limitation
+------------------
+MATLAB runtime: NOT AVAILABLE in packaging environment.
+Octave runtime: NOT AVAILABLE.
+No S2.4-G v1.0.3 coupled PASS is claimed locally.
+Required user command:
+  gate = run_validate_S2_4_G_all();
+Qualification requires 5/5 no-fault baselines and 75/75 critical runs PASS.

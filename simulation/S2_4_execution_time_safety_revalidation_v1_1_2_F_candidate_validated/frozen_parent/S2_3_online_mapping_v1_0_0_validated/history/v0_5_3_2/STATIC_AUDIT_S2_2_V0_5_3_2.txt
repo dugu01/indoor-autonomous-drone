@@ -1,0 +1,13 @@
+[PASS] required files
+[PASS] v0.5.3.2 version
+[PASS] frozen braking impulse
+[PASS] post-loss damping disabled
+[PASS] jerk settle used
+[PASS] blind speed-guard bypass
+[PASS] no direct truth in emergency reference
+[PASS] v0.4 core hash preserved
+[PASS] v0.4 ESKF hash preserved
+[PASS] MATLAB source sanity: MATLAB SOURCE SANITY: PASS
+[PASS] focused XY-loss mechanism regression: S2.2 v0.5.3.2 XY-LOSS REGRESSION: PASS
+Result: 11/11 checks passed
+CUMULATIVE S2.2 v0.5.3.2 AUDIT: PASS

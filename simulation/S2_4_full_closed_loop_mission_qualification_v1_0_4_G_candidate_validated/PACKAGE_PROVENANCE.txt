@@ -1,0 +1,49 @@
+S2.4-G v1.0.4 cumulative candidate provenance
+
+Validated ancestry
+------------------
+Original validated E archive:
+  S2_4_uncertainty_active_exploration_v1_0_0_RC3_clean(1).zip
+  SHA-256 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6ddf8b49
+Validated S2.4-F v1.1.2: user coupled MATLAB F gate PASS on 2026-08-29.
+Frozen S2.3 parent remains byte-identical and is independently audited.
+
+G coupled history
+-----------------
+v1.0.0: 52/75 critical PASS; NOT qualified.
+v1.0.1: 52/75 critical PASS; 5/5 no-fault PASS; actual truth access PASS; NOT qualified.
+v1.0.2: 71/75 critical PASS; 5/5 no-fault PASS; hard safety PASS; actual truth access PASS; NOT qualified.
+
+v1.0.2 residual signature
+-------------------------
+Exactly four failures: F2/F3/F9/F10, MID, seed=3.
+Each had post-acceptance injection/detection/required response, zero stale/collision/geofence/unknown/unsafe-viewpoint/truth access, timeout=0, goalUnreachable=0, final=COMPLETE, finite tGoal/tComplete, and a fresh plan after recovery. The user console is retained under evidence/user_matlab/ for regression.
+
+v1.0.3 change
+-------------
+No runtime/autonomy change from v1.0.2.
+The qualification wrapper no longer defines critical-run mission completion using the entire nominal summary.pass. Critical runs now separately require:
+- literal mission COMPLETE outcome;
+- every mission-manager composite gate except only nominal explorationPass;
+- all existing G hard-safety, truth-isolation, fault-response and bounded-retry gates.
+No-fault seeds continue to require the complete nominal summary.pass, and E+F is fully rerun before G.
+
+Rationale
+---------
+ACTIVE_GOAL_REQUIRES_SCAN requires expectedMinExplorationExecutions=1 for nominal E qualification. After a fault revokes the selected viewpoint authority, current-map replanning may validly expose a direct route to the mission goal. Forcing the revoked viewpoint to be executed solely to satisfy the nominal E metric is neither a mission-completion requirement nor a safety requirement. E's exploration contract is already independently qualified before the fault matrix.
+
+Local validation
+----------------
+MATLAB/Octave is unavailable in the packaging environment; no coupled v1.0.3 PASS is claimed.
+The local aggregate includes the full inherited A-E/F suite, v1.0.2 runtime-recovery regressions, a parser regression against the user's actual 71/75 MATLAB log, a source audit proving only explorationPass is excluded from the critical composite, and negative controls for every preserved closed-loop gate.
+
+
+v1.0.3 MATLAB residual diagnosis (2026-08-30)
+-----------------------------------------------
+The user-executed v1.0.3 campaign remained 71/75. The four residuals were F2/F3/F9/F10 MID seed=3. All had literal mission completion, hard safety PASS and truth isolation PASS, but estimatorGate=0. A five-case estimator diagnostic showed position estimation PASS and an identical attitude peak of 2.140175 deg at t=28.02 s. Peak decomposition showed 2.140151 deg yaw-like error versus only 0.010013 deg tilt-part, with ~204.865 deg/s truth angular-rate magnitude. No lane switch or direct navigation-sensor fault injection occurred.
+
+v1.0.4 change
+-------------
+The exploration-viewing yaw is no longer injected into the geometric controller as an angle step. It is stored as a target and shortest-path slew-limited during TRACK_OUTBOUND using the already-qualified inherited S2.3 mapScanYawRate_radps = 35 deg/s. On F/perception/reference-guard authority revocation, the stale viewing-yaw target is discarded and the controller reference is reset to the current estimated yaw during brake/replan. The 2.0 deg estimator threshold, geometric-controller gains, ESKF, plant, planner, E geometry/policy and frozen S2.3 are unchanged.
+
+Local validation includes a source-faithful yaw-axis first-principles backtest using the inherited Jz, attitude/rate gains, angular drag, moment saturation and dt. A 90 deg angle step produces ~199.8 deg/s peak yaw rate, consistent with the measured ~204.9 deg/s class; the 35 deg/s slew produces ~45.2 deg/s peak in the same yaw-axis model. This is mechanism evidence, not a substitute for the coupled MATLAB ESKF run.

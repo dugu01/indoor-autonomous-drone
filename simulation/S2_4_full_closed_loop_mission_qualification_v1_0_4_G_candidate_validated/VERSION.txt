@@ -1,0 +1,13 @@
+S2.4-G — Full Closed-Loop Mission Qualification
+Candidate package: v1.0.4-G-candidate
+Qualification behavior ID: v0.5.4-full-closed-loop-yaw-slew-candidate
+Validated evidence baseline: S2.4-F v1.1.2, user-executed coupled MATLAB gate PASS on 2026-08-29
+G v1.0.0 user MATLAB result: 52/75 critical runs PASS; package NOT qualified
+G v1.0.1 user MATLAB result: 52/75 critical runs PASS; package NOT qualified
+G v1.0.2 user MATLAB result: 71/75 critical runs PASS; hard safety/truth isolation PASS; package NOT qualified
+G v1.0.3 user MATLAB result: 71/75 critical runs PASS; mission completion/hard safety/truth isolation PASS; residual is estimator attitude gate only
+G v1.0.3 peak diagnosis: F2/F3/F9/F10 MID seed=3 all peak at 2.140175 deg; 99.9989% yaw-like; ~204.865 deg/s angular-rate peak; position estimator PASS
+G v1.0.4 change: bounded exploration yaw reference using inherited 35 deg/s continuous scan-rate policy; stale viewing yaw discarded on authority revocation; estimator threshold remains 2.0 deg
+Critical robustness matrix: F2/F3/F6/F9/F10 x early/mid/late x seeds 0:4 = 75 coupled runs
+F15 predictive moving-obstacle qualification: N/A; live predictive interface not connected
+MATLAB S2.4-G v1.0.4 qualification: PENDING USER MATLAB RUN
