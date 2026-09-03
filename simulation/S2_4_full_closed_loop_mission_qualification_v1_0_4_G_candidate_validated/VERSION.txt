@@ -10,4 +10,13 @@ G v1.0.3 peak diagnosis: F2/F3/F9/F10 MID seed=3 all peak at 2.140175 deg; 99.99
 G v1.0.4 change: bounded exploration yaw reference using inherited 35 deg/s continuous scan-rate policy; stale viewing yaw discarded on authority revocation; estimator threshold remains 2.0 deg
 Critical robustness matrix: F2/F3/F6/F9/F10 x early/mid/late x seeds 0:4 = 75 coupled runs
 F15 predictive moving-obstacle qualification: N/A; live predictive interface not connected
-MATLAB S2.4-G v1.0.4 qualification: PENDING USER MATLAB RUN
+MATLAB S2.4-G v1.0.4 qualification: PASS — user-executed coupled MATLAB, 2026-08-30
+  Evidence: evidence/S2_4_G_v1_0_4_USER_MATLAB_VALIDATION_SUMMARY.txt
+  S2.4-F execution-time safety gate PASS; no-fault S2.4-G baselines 5/5 PASS;
+  historical estimator residual preflight F2/F3/F9/F10 MID seed=3 4/4 PASS
+  (max attitude error 1.464801 deg < 2.0 deg; max yaw rate 44.392 deg/s);
+  critical timing/seed matrix 75/75 PASS; mission completion, closed-loop integrity,
+  hard safety, truth-access isolation and frozen-parent integrity all PASS.
+
+Status: VALIDATED — frozen parent for S2.5. The "candidate" in the package name and folder
+name is historical; this package is the validated S2.4-G.

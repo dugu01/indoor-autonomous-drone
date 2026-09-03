@@ -6,5 +6,12 @@ Baseline ZIP SHA-256: 49cf70009f00d343d14c8d601f169456b030d337e643b12e385ff47c6d
 Frozen parent: S2_3_online_mapping_v1_0_0_validated (208/208 byte-identical in local audit)
 Reason for v1.1.2: fixes the v1.1.1 coupled false invalidation caused by reusing the S2.3 planning-time terminal stop gate at runtime
 Local status: complete inherited A-E static/offline regression PASS; source-faithful F stop/fault-model PASS including false-abort and insufficient-stop regressions
-MATLAB coupled F1-F14 runtime qualification: PENDING rerun on MATLAB
+MATLAB coupled F1-F14 runtime qualification: PASS — user-executed MATLAB, 2026-08-29
+  Evidence: ../S2_4_full_closed_loop_mission_qualification_v1_0_4_G_candidate_validated/evidence/S2_4_F_USER_MATLAB_VALIDATION_PASS.txt
+  S2.4-E combined MATLAB gate PASS; S2.4-F deterministic revalidation contracts PASS; no-fault E reference parity PASS;
+  F2-F11, F13, F14 all PASS (each: injected=1, detected=1, response=1, stale=0, collision=0, unknown=0);
+  F14 bounded retry exercised (invalidations=3, authority generations=3); S2.4-F execution-time safety MATLAB gate: PASS.
 F15 predictive moving-obstacle qualification: N/A; live predictive interface not connected
+
+Status: VALIDATED — frozen runtime baseline for S2.4-G. The "candidate" in the package name and
+folder name is historical; G does not alter F runtime code.
