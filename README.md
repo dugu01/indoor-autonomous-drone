@@ -67,14 +67,17 @@ then becomes the starting point for the next stage.
 | S2.4-F | Keep re-checking that an exploration move is still safe *while* flying it | ✅ validated (coupled MATLAB PASS, 2026-08-29) |
 | S2.4-G | Prove the whole S2.2–S2.4 loop end-to-end under an 80-run fault matrix | ✅ validated (5/5 no-fault + 75/75 fault PASS, 2026-08-30) |
 | S2.5 | Stress the estimator + perception with injected sensor faults; confirm safe recovery or safe abort | ✅ validated (71/71 coupled missions PASS, 2026-09-03) |
-| S3 | Reactive avoidance of moving obstacles | ⚪ planned |
-| S4 | Precision landing on an ArUco marker | ⚪ planned |
+| S3 | Reactive avoidance of moving obstacles | ✅ covered in S2.2 (velocity-obstacle filter + moving-obstacle tracking, validated in the S2.2 multi-seed gate); predictive long-horizon swept-tube avoidance is a documented scope boundary |
+| S4 | Precision landing on an ArUco marker | ⚪ planned (future work, after hardware bring-up) |
 
-**Right now:** S2.5 (estimator + perception fault robustness) is frozen as the
-S2.6 parent — 71/71 coupled missions PASS (5 no-fault + 60 recoverable + 6
-fail-safe), inherited S2.4-F regression PASS, S2.4-G frozen parent byte-identical
-(353/353). **Next:** S3 (dynamic obstacles) and S4 (marker landing), then
-hardware bring-up on ROS 2 / PX4.
+**Right now:** the MATLAB simulation stack is complete and validated end-to-end
+(S1 → S2.5); S2.5 is frozen as the final validated simulation baseline —
+71/71 coupled missions PASS
+(5 no-fault + 60 recoverable + 6 fail-safe), inherited S2.4-F regression PASS,
+S2.4-G frozen parent byte-identical (353/353). Reactive moving-obstacle
+avoidance (S3) is already part of the validated S2.2 layer. **Next:** ROS 2 /
+PX4 SITL bring-up of the validated estimator + planner, then hardware testing.
+ArUco precision landing (S4) is future work once the airframe flies.
 
 The full stage-by-stage breakdown, block diagram, in-flight decision chart and
 literature map are in [`simulation/README.md`](simulation/README.md).
@@ -128,7 +131,11 @@ recovery hierarchy escalates from smooth polynomial trajectories to a verified
 low-speed grid route with stop-at-corner commands, and only then to a
 clearance-checked failsafe. Exploration planning (S2.4) generates target-directed
 viewpoints that must have a known-free route, stopping support and a valid
-retreat before execution.
+retreat before execution. Moving obstacles are tracked with an α-β
+constant-velocity filter and avoided reactively by a finite-horizon
+velocity-obstacle filter on the commanded velocity (S2.2), backed by the S2.3
+dynamic-occupancy layer that revalidates the route every step; obstacles are
+assumed 2-D, piecewise-constant-velocity and of known radius.
 
 ### Control
 

@@ -99,15 +99,19 @@ isolation**).
 | **S2.4-F** | `S2_4_execution_time_safety_revalidation_*` | Keep checking while executing: an exploration "authority" is re-checked every step (route still free? still able to stop? retreat still valid?) and revoked if not | Execution-time safety supervision; leased authority with a short time-to-live | ✅ validated (coupled MATLAB gate PASS, F2–F14, 2026-08-29) |
 | **S2.4-G** | `S2_4_full_closed_loop_mission_qualification_*` | Prove the whole S2.2–S2.4 loop end-to-end under a fault matrix (5 no-fault + 75 fault runs), with correct pass/fail semantics | Full closed-loop qualification; bounded yaw-rate reference to protect the attitude estimator | ✅ validated (v1.0.4: 5/5 no-fault + **75/75** critical PASS, max attitude 1.46° < 2.0°, 2026-08-30) |
 | **S2.5** | `S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/` | Stress the estimator + perception under injected sensor faults (VIO / LiDAR / IMU / depth dropout, outliers, stale packets, range spikes) and confirm safe recovery or safe abort | Qualifies the S2.1–S2.4 robustness mechanisms under fault; recovery-behaviour design informed by Nav2 recovery trees [18] | ✅ validated (v1.0.9, 2026-09-03: 71/71 coupled missions — 5 no-fault + 60 recoverable + 6 fail-safe; S2.4-F regression PASS; frozen S2.4-G parent 353/353 byte-identical) |
-| **S3** | `S3_obstacle_avoidance/` | Reactive avoidance of fast / dynamic obstacles | *planned* | ⚪ not started |
-| **S4** | `S4_aruco_landing/` | Precision landing on an ArUco marker | *planned* | ⚪ not started |
+| **S3** | *(in `S2_2_mission_replanning_v1_0_0_validated/`)* | Reactive avoidance of moving obstacles: α-β tracking + finite-horizon velocity-obstacle filter on the commanded velocity, backed by the S2.3 per-step dynamic-occupancy route revalidation | Velocity Obstacles (Fiorini & Shiller 1998) [11]; α-β tracker | ✅ covered in S2.2 (validated in the 12/12 deterministic + 60/60 multi-seed gate; scenarios `dynamic_crossing_yield`, `two_dynamic_crossings`, `dynamic_blocker_becomes_static`). Predictive long-horizon swept-tube avoidance ("F15") is a documented scope boundary — see §6. |
+| **S4** | `S4_aruco_landing/` | Precision landing on an ArUco marker | *planned* | ⚪ not started (future work, after hardware bring-up) |
 
 `✅ validated` = passes its own coupled MATLAB scenario matrix and is frozen as
 the parent for the next stage. `🟠 active development` = being worked on right
-now. `⚪ not started` = planned only. (The S2.4-F / S2.4-G folder names still
-carry a `candidate` suffix from before their MATLAB runs; the coupled PASS
-evidence for both, and for S2.5, is recorded inside each stage's `evidence/`
-tree and its `S2_5_VALIDATION_REPORT_v1_0_9.md` / equivalent.)
+now. `⚪ not started` = future work, no code yet. (The S2.4-F / S2.4-G folder
+names still carry a `candidate` suffix from before their MATLAB runs; the
+coupled PASS evidence for both, and for S2.5, is recorded inside each stage's
+`evidence/` tree and its `S2_5_VALIDATION_REPORT_v1_0_9.md` / equivalent.)
+
+The whole MATLAB simulation programme (S1 → S2.5, including S3 reactive
+moving-obstacle avoidance inside S2.2) is now validated. The active focus has
+moved to ROS 2 / PX4 SITL bring-up and then hardware testing; see §7.
 
 ---
 
@@ -169,9 +173,9 @@ stateDiagram-v2
 1. smooth minimum-snap trajectory on the current known-free route;
 2. verified **low-speed grid route** with stop-at-corner velocity commands;
 3. **informative relocation** — a safe sideways/backward move to a viewpoint that
-   exposes the hidden space (S2.5);
+   exposes the hidden space (S2.5, validated);
 4. **retreat-to-known-clear** — back out along the flown path to an un-boxed pose
-   and replan (S2.5, under evaluation);
+   and replan (S2.5, validated);
 5. clearance-checked **failsafe → RTL → land**, or a controlled **emergency
    landing** if horizontal state or all obstacle perception is lost.
 
@@ -182,12 +186,19 @@ never the first response.
 
 ## 6. Current progress — where we are
 
+The MATLAB simulation programme is **complete and validated end-to-end**
+(S1 → S2.5, with S3 reactive moving-obstacle avoidance delivered inside S2.2).
+Remaining project work is ROS 2 / PX4 SITL bring-up, then hardware testing;
+ArUco precision landing (S4) is future work.
+
 ```
-S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
+S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅ (incl. S3 reactive avoidance)  S2.3 ✅  S2.4 ✅
                                           |
                              S2.4-F ✅ -- S2.4-G ✅ -->  S2.5 ✅
                                                               |
-                                                     S3 ⚪   S4 ⚪   (you are here)
+                                       MATLAB sim complete --> ROS 2 / PX4 SITL  (you are here)  --> hardware
+                                                              |
+                                                        S4 ⚪  (future work)
 ```
 
 - **Previous validated stage:** S2.4-G `v1.0.4` — the full closed-loop mission
@@ -218,37 +229,63 @@ S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
   matrix qualifying exactly that outcome. v1.0.9 also fixed a lifecycle dead
   state (`LIFECYCLE_REPLAN_BRAKE` restored after `NAV_DEGRADED_HOLD` had already
   cancelled the pending replan) with no safety threshold relaxed. This tree is
-  the frozen parent for S2.6.
-- **Not started:** S3 (reactive dynamic-obstacle avoidance) and S4 (ArUco
-  precision landing).
+  the final validated simulation baseline (the frozen parent for any further
+  S2.x sim work); project focus now moves to ROS 2 / PX4 SITL.
+- **S3 — reactive moving-obstacle avoidance:** ✅ delivered inside the validated
+  S2.2 layer. Moving obstacles are tracked with an α-β constant-velocity filter;
+  the commanded velocity is passed through a finite-horizon **velocity-obstacle
+  filter** (`velocity_obstacle_filter_S2_2.m`, Fiorini & Shiller 1998) that
+  rejects any candidate crossing an inflated static cell and holds if none is
+  safe; the S2.3 dynamic-occupancy layer then revalidates the route every step.
+  Validated by the S2.2 12/12 deterministic + 60/60 multi-seed gate
+  (`dynamic_crossing_yield`, `two_dynamic_crossings`,
+  `dynamic_blocker_becomes_static`). **Scope boundary ("F15"):** *predictive*
+  long-horizon intersection with an obstacle's forecast swept tube
+  (MADER / FASTER / time-parameterised search) is **not** implemented — the
+  S2.4 `project_uncertainty_2d_S2_4.m` dynamic-risk sidecar is not wired into
+  the live coupled route check. Obstacles are assumed 2-D,
+  piecewise-constant-velocity and of known radius; at indoor walking speeds the
+  reactive VO + per-step replanning cover this regime with validated margins.
+  Connecting the sidecar to S2.4-F's per-step supervisor predicate (invalidate /
+  replan when the planned path enters the predicted k-σ tube) is the identified
+  next step if predictive avoidance is later required.
+- **Not started:** S4 (ArUco precision landing) — future work after hardware
+  bring-up; no marker-detection or visual-servoing code exists yet.
 
 ### Known documentation gaps (being tracked)
 
 - `S1_dynamics_pid/` and `S2_visual_slam/` have no stage `README.md` (only inline
   file headers and, for S2, `README_F450_ANIMATION.md`).
-- `S3_obstacle_avoidance/` and `S4_aruco_landing/` contain only a `.gitkeep`.
-- The S2.4-F / S2.4-G folder names still say `candidate`, and their in-package
-  `VERSION.txt` / `MATLAB_FINAL_VERIFICATION.md` were written before the runs and
-  still read "pending"; the actual PASS evidence lives in the files named above.
+- `S4_aruco_landing/` contains only a `.gitkeep` (stage not started).
+- The S2.4-F / S2.4-G folder names still carry a `candidate` suffix. Their
+  `VERSION.txt` now records the coupled MATLAB PASS, but the older
+  `MATLAB_FINAL_VERIFICATION.md` in each was written pre-run and still reads
+  "pending" — the authoritative evidence is each stage's `evidence/` tree.
 
 ---
 
 ## 7. Further plan (roadmap)
 
-1. **Tidy S2.4-F / S2.4-G packaging** — rename the folders to drop `candidate`
-   and refresh their in-package `VERSION.txt` to record the coupled MATLAB PASS
-   (2026-08-29 / 2026-08-30). No code change.
+1. **Tidy S2.4-F / S2.4-G packaging** — ✅ `VERSION.txt` now records the coupled
+   MATLAB PASS (2026-08-29 / 2026-08-30). Remaining: drop the `candidate` suffix
+   from the folder names and refresh the old `MATLAB_FINAL_VERIFICATION.md`. No
+   code change.
 2. **Close S2.5** — ✅ done (2026-09-03): recovery / abort behaviour landed, the
    71-run coupled matrix (5 baseline + 60 recoverable + 6 fail-safe) is full
    PASS, and `S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/` is frozen.
-3. **S3 — dynamic obstacle avoidance** — reactive local avoidance of moving
-   obstacles on top of the S2.5-validated stack (velocity obstacles [11] /
-   barrier-style guards), keeping the known-free-stop contract.
-4. **S4 — ArUco precision landing** — marker detection, relative-pose servoing
-   and a guarded descent onto a marked pad.
-5. **Hardware bring-up** — port the validated estimator + planner to ROS 2
-   (`../code/ros2_ws`) with PX4 / MAVSDK, using measured sensor extrinsics, time
-   sync, HIL testing and an independent kill switch before any untethered flight.
+3. **S3 — reactive moving-obstacle avoidance** — ✅ delivered in the validated
+   S2.2 layer (α-β tracking + velocity-obstacle filter + S2.3 per-step route
+   revalidation). Predictive long-horizon swept-tube avoidance ("F15") is a
+   documented scope boundary; the follow-up, if needed, is wiring the S2.4
+   dynamic-risk sidecar into S2.4-F's per-step supervisor predicate.
+4. **ROS 2 / PX4 SITL bring-up** — port the validated estimator + planner +
+   lifecycle manager to ROS 2 (`../code/ros2_ws`) against PX4 SITL / Gazebo,
+   using measured sensor extrinsics and time sync, with an independent kill
+   switch. This is the current focus.
+5. **Hardware testing** — HIL, then tethered and untethered flight on the F450.
+6. **S4 — ArUco precision landing** *(future work)* — marker detection,
+   relative-pose servoing and a guarded descent onto a marked pad, added once
+   the airframe flies reliably.
 
 ---
 
@@ -267,9 +304,13 @@ simulation/
 ├── S2_4_execution_time_safety_revalidation_v1_1_2_F_candidate_validated/     S2.4-F ✅ execution-time safety supervisor
 ├── S2_4_full_closed_loop_mission_qualification_v1_0_4_G_candidate_validated/ S2.4-G ✅ full closed-loop fault matrix
 ├── S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/  S2.5 ✅  estimator + perception fault robustness
-├── S3_obstacle_avoidance/                         S3   ⚪  planned (.gitkeep only)
-└── S4_aruco_landing/                              S4   ⚪  planned (.gitkeep only)
+└── S4_aruco_landing/                              S4   ⚪  future work (.gitkeep only)
 ```
+
+S3 (reactive moving-obstacle avoidance) has no folder of its own — it is part of
+the validated `S2_2_mission_replanning_v1_0_0_validated/` package
+(`velocity_obstacle_filter_S2_2.m`, `alpha_beta_track_S2_2.m`,
+`dynamic_obstacle_state_S2_2.m`).
 
 Each stage keeps, for traceability: `frozen_parent/` (the exact previous stage),
 `SHA256SUMS`, a `CHANGELOG_*` describing what changed, a `LITERATURE_*` file, a

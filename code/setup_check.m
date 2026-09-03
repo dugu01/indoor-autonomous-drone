@@ -115,11 +115,10 @@ fprintf('      Project root: %s\n\n', project_root);
 folders = {
     'simulation/S1_dynamics_pid'
     'simulation/S2_visual_slam'
-    'simulation/S3_obstacle_avoidance'
     'simulation/S4_aruco_landing'
-    'simulation/results'
-    'firmware/arduino'
-    'ros2_ws/src'
+    'data/results'
+    'hardware/firmware/arduino'
+    'code/ros2_ws/src'
     'docs'
 };
 
@@ -140,12 +139,14 @@ fprintf('\n');
 % =========================================================================
 fprintf('[ 4 ] MATLAB path setup\n');
 
+% Only the early single-copy stages are safe to add globally. Later stages
+% (S2.1 onward) each ship a frozen_parent/ copy with duplicate function names,
+% so run those from their own directory using the stage's setup_S2_x_path.m.
 paths_to_add = {
     fullfile(project_root, 'simulation', 'S1_dynamics_pid')
     fullfile(project_root, 'simulation', 'S2_visual_slam')
-    fullfile(project_root, 'simulation', 'S3_obstacle_avoidance')
     fullfile(project_root, 'simulation', 'S4_aruco_landing')
-    fullfile(project_root, 'simulation', 'results')
+    fullfile(project_root, 'data', 'results')
 };
 
 for i = 1:length(paths_to_add)
@@ -268,7 +269,10 @@ if tests_passed == tests_total && isempty(missing)
     fprintf('    4 figures    : trajectory, position, angles, RPM\n\n');
     fprintf('  Then run Stage S2:\n');
     fprintf('    >> cd ../S2_visual_slam\n');
-    fprintf('    >> run_S2_visual_slam\n\n');
+    fprintf('    >> results = run_S2_lidar_slam(0, true, true, true);\n\n');
+    fprintf('  Later stages (S2.1 ... S2.5) each have their own\n');
+    fprintf('  setup_S2_x_path.m and validate_* entry point -- see\n');
+    fprintf('  simulation/README.md section 9.\n\n');
 else
     fprintf('  SETUP INCOMPLETE — fix issues above first.\n\n');
     if ~isempty(missing)
