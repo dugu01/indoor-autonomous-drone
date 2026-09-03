@@ -1,0 +1,47 @@
+v103_mission_manager_byte_identity                                   PASS 3fe93d98045a94284022410d5be2fc0d94ac059c93f507fdeceef3ed8bd74bc0
+runtime_file_present_mission_init_S2_5_config_m                      PASS 
+runtime_file_present_scenarios_scenario_S2_5_m                       PASS 
+runtime_file_present_sensors_simulate_sensor_packet_S2_5_m           PASS 
+runtime_file_present_perception_simulate_perception_packet_S2_5_m    PASS 
+runner_core_rng_seed_twister_                                        PASS 
+runner_core_cfg_init_S2_5_config_cfg_seed_seed_                      PASS 
+runner_core_scenario_scenario_S2_5_scenarioName_                     PASS 
+runner_core__log_summary_maps_mission_lifecycle_manager_S2_5_cfg_sc  PASS 
+runner_core_summary_s25CasePass_evaluate_s25_case_summary_scenario_  PASS 
+runner_optional_save_defaults_true                                   PASS 
+runner_optional_verbose_defaults_true                                PASS 
+qualification_runs_full_logic_compact                                PASS 
+qualification_returns_summary_only                                   PASS 
+acceptance_semantics__pass_extra_historical_case_pass                PASS parallel=407 serial=407
+acceptance_semantics__pass_extra_recoverable_case_pass               PASS parallel=529 serial=529
+acceptance_semantics__pass_mapSafety_core_evidence_failsafe_case_pass PASS parallel=719 serial=719
+parallel_hist_preflight                                              PASS 
+parallel_baselines                                                   PASS 
+parallel_recoverable_jobs                                            PASS 
+parallel_failsafe_jobs                                               PASS 
+inherited_F_remains_serial                                           PASS 
+toolbox_required                                                     PASS 
+workers_bounded_to_8                                                 PASS 
+process_pool_preferred                                               PASS 
+worker_override_supported                                            PASS 
+python_spawn_bootstrap_guard                                         PASS 
+python_spawn_context_explicit                                        PASS 
+hist_exact_5                                                         PASS 
+recoverable_exact_60                                                 PASS 
+historical_subset_of_recoverable                                     PASS 
+noncached_recoverable_exact_55                                       PASS 
+qualification_exact_71_unique_missions                               PASS 71
+parallel_execution_exact_same_71                                     PASS 
+rng_reseed_per_case                                                  PASS 
+result_dir_scenario_seed_isolated                                    PASS 
+parallel_case_keys_unique                                            PASS 
+python_spawn_parallel_order_independent                              PASS 
+recoverable_matrix_indexing_order_independent                        PASS 
+historical_failfast_before_inherited_and_matrix                      PASS 
+historical_results_cached                                            PASS 
+normal_runner_still_can_save_full_artifacts                          PASS 
+qualification_disables_full_artifact_save                            PASS 
+gate_report_still_persisted                                          PASS 
+
+S2.5 PARALLEL HARNESS PYTHON BACKTEST: PASS
+Unique coupled missions: 71 | historical cached: 5 | new recoverable worker jobs: 55

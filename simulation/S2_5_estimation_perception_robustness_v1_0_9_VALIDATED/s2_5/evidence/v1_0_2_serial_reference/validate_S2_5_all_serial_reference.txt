@@ -1,0 +1,213 @@
+function gate = validate_S2_5_all()
+% VALIDATE_S2_5_ALL Full S2.5 estimator/perception robustness qualification.
+% 5 baseline seeds + 12 recoverable faults x 5 seeds + 2 fail-safe faults x
+% 3 seeds = 71 UNIQUE S2.5 coupled runs. Historical failures are executed
+% first and cached, so a bad correction fails fast without adding extra runs.
+root=fileparts(fileparts(fileparts(mfilename('fullpath'))));
+setup_S2_5_path();
+cfg=init_S2_5_config();
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 0 — VALIDATED S2.4-G PARENT + STATIC CONTRACTS\n');
+fprintf('============================================================\n');
+[rc1,out1]=system(sprintf('python3 "%s"',fullfile(root,'s2_5','validation','audit_S2_4_G_parent_immutability.py')));fprintf('%s',out1);
+[rc2,out2]=system(sprintf('python3 "%s"',fullfile(root,'s2_5','validation','audit_S2_5_static.py')));fprintf('%s',out2);
+[rc3,out3]=system(sprintf('python3 "%s"',fullfile(root,'s2_5','validation','backtest_S2_5_fault_model.py')));fprintf('%s',out3);
+[rcR,outR]=system(sprintf('python3 "%s"',fullfile(root,'s2_5','validation','backtest_S2_5_recovery_logic_v1_0_2.py')));fprintf('%s',outR);
+staticPass=rc1==0&&rc2==0&&rc3==0&&rcR==0;
+assert(staticPass,'S2_5:StaticGate','S2.5 static/offline gate failed.');
+
+% Run the five exact v1.0.0 failures immediately after the static gate.
+% If any remains, stop before inherited regression/baselines and the multi-hour
+% matrix. Passing results are cached and reused later, preserving 60 unique runs.
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 0C — HISTORICAL RECOVERY PREFLIGHT v1.0.2 (5 CACHED RUNS)\n');
+fprintf('============================================================\n');
+histNames={'nav_imu_fault_vio_outage','perception_dual_brief', ...
+    'perception_stale_burst','perception_range_spike','coupled_imu_perception'};
+histSeeds=[1 1 1 2 1];histRuns=cell(1,numel(histNames));histPass=false(1,numel(histNames));
+for k=1:numel(histNames)
+    r=run_S2_5_coupled(histSeeds(k),histNames{k},false,false);histRuns{k}=r;
+    [histPass(k),extra]=historical_case_pass(histNames{k},r.summary);
+    s=r.summary;
+    fprintf('%d/5 %-31s seed=%d : %s | goal=%d E=%d laneSw=%d hold=%d inv=%d epInv=%d epBound=%d fb=%d scans=%d extra=%d safety=%d\n', ...
+        k,upper(histNames{k}),histSeeds(k),pf(histPass(k)),s.goalReached,s.estimatorGate,s.laneSwitches, ...
+        s.perceptionHoldCount,s.executionAuthorityInvalidationCount,field_or_summary(s,'authorityEpisodeInvalidationCount',0), ...
+        field_or_summary(s,'authorityEpisodeBoundHitCount',0),field_or_summary(s,'conservativeFrontierFallbackCount',0), ...
+        s.scanHoldCount,extra,s.executionSafetyPass);
+    if ~histPass(k),print_recoverable_failure(s,extra);end
+end
+assert(all(histPass),'S2_5:HistoricalRecoveryFailure', ...
+    'One or more historical v1.0.0 recoverable failures remain. Full 60-run matrix not started.');
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 1 — INHERITED S2.4-F COUPLED REGRESSION\n');
+fprintf('============================================================\n');
+fGate=validate_S2_4_F_all();
+inheritedPass=logical(fGate.pass);
+assert(inheritedPass,'S2_5:InheritedFRegression','Inherited S2.4-F regression failed.');
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 2 — NO-FAULT BASELINES (5 SEEDS)\n');
+fprintf('============================================================\n');
+seeds=0:4;base=cell(size(seeds));basePass=false(size(seeds));
+for j=1:numel(seeds)
+    r=run_S2_5_coupled(seeds(j),'baseline',false,false);base{j}=r;
+    basePass(j)=logical(r.summary.s25CasePass)&&logical(r.summary.pass);
+    fprintf('BASE seed=%d : %s | E=%d pos=%.4f att=%.4f laneSw=%d mapReject=%d\n', ...
+        seeds(j),pf(basePass(j)),r.summary.estimatorGate,r.summary.maxEstimatorPositionError_m, ...
+        r.summary.maxEstimatorAttitudeError_deg,r.summary.laneSwitches,r.summary.mapRejectedPackets);
+end
+assert(all(basePass),'S2_5:BaselineFailure','One or more no-fault S2.5 baselines failed.');
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 3 — RECOVERABLE ESTIMATION/PERCEPTION MATRIX (60 UNIQUE RUNS)\n');
+fprintf('============================================================\n');
+recoverable={ ...
+    'nav_vio_dropout','nav_lidar_dropout','nav_vio_outlier','nav_lidar_outlier', ...
+    'nav_imu_fault_vio_outage','nav_high_noise', ...
+    'perception_lidar_dropout','perception_depth_dropout','perception_dual_brief', ...
+    'perception_stale_burst','perception_range_spike','coupled_imu_perception'};
+recRows=cell(numel(recoverable)*numel(seeds),1);idx=0;recPass=true(numel(recoverable),numel(seeds));
+for i=1:numel(recoverable)
+    for j=1:numel(seeds)
+        idx=idx+1;seed=seeds(j);name=recoverable{i};
+        [cached,r]=historical_cached_run(name,seed,histNames,histSeeds,histRuns);
+        if ~cached,r=run_S2_5_coupled(seed,name,false,false);end
+        s=r.summary;[recPass(i,j),extra]=recoverable_case_pass(name,s,base{j}.summary);
+        recRows{idx}=struct('caseName',name,'seed',seed,'pass',recPass(i,j),'summary',s,'extraEvidencePass',extra,'cached',cached);
+        fprintf('%02d/60 %-31s seed=%d : %s | cached=%d E=%d laneSw=%d hold=%d reject=%d navF=%d perF=%d safety=%d\n', ...
+            idx,upper(name),seed,pf(recPass(i,j)),cached,s.estimatorGate,s.laneSwitches,s.perceptionHoldCount, ...
+            s.mapRejectedPackets,s.s25SensorFaultApplicationCount,s.s25PerceptionFaultApplicationCount,s.executionSafetyPass);
+        if ~recPass(i,j),print_recoverable_failure(s,extra);end
+    end
+end
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 4 — FAIL-SAFE ROBUSTNESS (6 RUNS)\n');
+fprintf('============================================================\n');
+fsCases={'nav_xy_loss','perception_dual_prolonged'};fsSeeds=0:2;
+fsRows=cell(numel(fsCases)*numel(fsSeeds),1);idx=0;fsPass=true(numel(fsCases),numel(fsSeeds));
+for i=1:numel(fsCases)
+    for j=1:numel(fsSeeds)
+        idx=idx+1;r=run_S2_5_coupled(fsSeeds(j),fsCases{i},false,false);s=r.summary;
+        [fsPass(i,j),mapSafety,core,evidence]=failsafe_case_pass(fsCases{i},s,cfg);
+        fsRows{idx}=struct('caseName',fsCases{i},'seed',fsSeeds(j),'pass',fsPass(i,j),'summary',s, ...
+            'mapSafetyPass',mapSafety,'corePass',core,'evidencePass',evidence);
+        fprintf('%02d/6 %-31s seed=%d : %s | failsafe=%d emergency=%d complete=%d core=%d mapSafety=%d unknown=%d coll=%d truth=%d\n', ...
+            idx,upper(fsCases{i}),fsSeeds(j),pf(fsPass(i,j)),s.failsafeTriggered,s.emergencyLanding,s.missionComplete, ...
+            core,mapSafety,s.unknownCommitmentCount,s.collisionCount,s.truthIsolationPass);
+        if ~fsPass(i,j)
+            fprintf('      final=%s goal=%d timeout=%d gates[M=%d T=%d C=%d E=%d K=%d U=%d S=%d MAP=%d X=%d] falseFree=%.6f pos=%.4f att=%.4f geo=%d evidence=%d\n', ...
+                s.finalState,s.goalReached,s.stateTimeoutTriggered,s.missionOutcomePass,s.trajectoryGate,s.controllerGate,s.estimatorGate,s.continuityPass,s.uncertaintyPass,s.staticGate,s.mappingCompositePass,s.executionSafetyPass, ...
+                s.mapFalseFreeRate,s.maxEstimatorPositionError_m,s.maxEstimatorAttitudeError_deg,s.geofenceViolationCount,evidence);
+        end
+    end
+end
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 PHASE 5 — POST-RUN PARENT IMMUTABILITY\n');
+fprintf('============================================================\n');
+[rc4,out4]=system(sprintf('python3 "%s"',fullfile(root,'s2_5','validation','audit_S2_4_G_parent_immutability.py')));fprintf('%s',out4);
+parentPostPass=rc4==0;
+
+allRec=all(recPass(:));allFs=all(fsPass(:));
+gate=struct('staticPass',staticPass,'inheritedS24FPass',inheritedPass,'baselinePass',all(basePass), ...
+    'historicalRecoveryPreflightPass',all(histPass),'recoverablePass',allRec,'recoverableCount',nnz(recPass),'recoverableTotal',numel(recPass), ...
+    'failsafePass',allFs,'failsafeCount',nnz(fsPass),'failsafeTotal',numel(fsPass), ...
+    'parentPostPass',parentPostPass,'baselineRuns',{base},'historicalRecoveryRuns',{histRuns},'recoverableRows',{recRows},'failsafeRows',{fsRows});
+gate.pass=staticPass&&inheritedPass&&all(basePass)&&all(histPass)&&allRec&&allFs&&parentPostPass;
+
+resultsDir=fullfile(root,'results','S2_5_qualification',datestr(now,'yyyymmdd_HHMMSS'));
+if exist(resultsDir,'dir')~=7,mkdir(resultsDir);end
+gate.resultsDir=resultsDir;save(fullfile(resultsDir,'S2_5_qualification_report.mat'),'gate','-v7.3');
+write_report(gate,resultsDir);
+
+fprintf('\n============================================================\n');
+fprintf(' S2.5 ESTIMATION + PERCEPTION ROBUSTNESS: %s\n',pf(gate.pass));
+fprintf(' Validated S2.4-G parent        : %s\n',pf(parentPostPass));
+fprintf(' Inherited S2.4-F regression    : %s\n',pf(inheritedPass));
+fprintf(' No-fault baselines             : %d/5 PASS\n',nnz(basePass));
+fprintf(' Historical recovery preflight : %d/5 PASS\n',nnz(histPass));
+fprintf(' Recoverable fault matrix       : %d/%d PASS\n',nnz(recPass),numel(recPass));
+fprintf(' Fail-safe fault matrix         : %d/%d PASS\n',nnz(fsPass),numel(fsPass));
+fprintf(' Results                        : %s\n',resultsDir);
+fprintf('============================================================\n');
+end
+
+function [pass,extra]=historical_case_pass(name,s)
+extra=true;
+if any(strcmp(name,{'nav_imu_fault_vio_outage','coupled_imu_perception'}))
+    extra=s.laneSwitches>=1;
+elseif strcmp(name,'perception_dual_brief')
+    extra=s.perceptionHoldCount>=1;
+elseif strcmp(name,'perception_stale_burst')
+    extra=s.mapRejectedPackets>=1&&s.perceptionHoldCount>=1;
+end
+pass=logical(s.s25CasePass)&&s.goalReached&&~s.failsafeTriggered&&extra;
+end
+
+function [pass,extra]=recoverable_case_pass(name,s,b)
+extra=true;
+if any(strcmp(name,{'nav_vio_outlier','nav_lidar_outlier'}))
+    extra=sum(s.s25LaneRejectedCounts)>sum(b.s25LaneRejectedCounts);
+elseif strcmp(name,'perception_stale_burst')
+    extra=s.mapRejectedPackets>b.mapRejectedPackets;
+elseif any(strcmp(name,{'nav_imu_fault_vio_outage','coupled_imu_perception'}))
+    extra=s.laneSwitches>=1;
+elseif strcmp(name,'perception_dual_brief')
+    extra=s.perceptionHoldCount>=1;
+end
+pass=logical(s.s25CasePass)&&s.goalReached&&~s.failsafeTriggered&&extra;
+end
+
+function [pass,mapSafety,core,evidence]=failsafe_case_pass(name,s,cfg)
+% An intentionally aborted mission must preserve safety/integrity, not
+% nominal end-of-mission map completeness/occupied recall after sensing stops.
+mapSafety=isfinite(s.mapFalseFreeRate)&&s.mapFalseFreeRate<=cfg.mapMaxFalseFreeRate&& ...
+    s.unknownCommitmentCount==0&&s.truthIsolationPass;
+core=s.missionOutcomePass&&s.trajectoryGate&&s.controllerGate&&s.estimatorGate&& ...
+    s.continuityPass&&s.uncertaintyPass&&s.staticGate&&s.executionSafetyPass&& ...
+    ~s.stateTimeoutTriggered;
+evidence=s.failsafeTriggered&&s.emergencyLanding&&s.missionComplete&& ...
+    strcmp(s.finalState,'COMPLETE')&&s.collisionCount==0&&s.geofenceViolationCount==0;
+if strcmp(name,'perception_dual_prolonged')
+    evidence=evidence&&s.perceptionHoldCount>=1&&s.s25PerceptionFaultApplicationCount>=1;
+end
+pass=logical(core&&mapSafety&&evidence);
+end
+
+function [cached,r]=historical_cached_run(name,seed,names,seeds,runs)
+cached=false;r=[];
+for k=1:numel(names)
+    if strcmp(name,names{k})&&seed==seeds(k)
+        cached=true;r=runs{k};return
+    end
+end
+end
+
+function print_recoverable_failure(s,extra)
+fprintf('      final=%s goal=%d fail=%d timeout=%d gates[M=%d T=%d C=%d E=%d K=%d U=%d S=%d MAP=%d X=%d] pos=%.4f att=%.4f unknown=%d coll=%d geo=%d extra=%d inv=%d suppress=%d scans=%d\n', ...
+    s.finalState,s.goalReached,s.failsafeTriggered,s.stateTimeoutTriggered,s.missionOutcomePass,s.trajectoryGate,s.controllerGate,s.estimatorGate,s.continuityPass,s.uncertaintyPass,s.staticGate,s.mappingCompositePass,s.executionSafetyPass, ...
+    s.maxEstimatorPositionError_m,s.maxEstimatorAttitudeError_deg,s.unknownCommitmentCount,s.collisionCount,s.geofenceViolationCount,extra, ...
+    s.executionAuthorityInvalidationCount,field_or_summary(s,'authorityBoundExplorationSuppressed',false),s.scanHoldCount);
+fprintf('      recovery[episodeInv=%d episodeBound=%d conservativeFallback=%d]\n', ...
+    field_or_summary(s,'authorityEpisodeInvalidationCount',0), ...
+    field_or_summary(s,'authorityEpisodeBoundHitCount',0), ...
+    field_or_summary(s,'conservativeFrontierFallbackCount',0));
+if isfield(s,'goalUnreachableReason')&&~strcmp(s.goalUnreachableReason,'NONE')
+    fprintf('      unreachableReason=%s\n',s.goalUnreachableReason);
+end
+end
+
+function v=field_or_summary(s,name,defaultValue)
+if isfield(s,name),v=s.(name);else,v=defaultValue;end
+end
+
+function write_report(g,d)
+f=fopen(fullfile(d,'S2_5_qualification_summary.txt'),'w');if f<0,return;end;c=onCleanup(@()fclose(f)); %#ok<NASGU>
+fprintf(f,'S2.5 estimation + perception robustness\n');
+fprintf(f,'PASS %d\n',g.pass);fprintf(f,'Static %d | inherited F %d | parent post %d\n',g.staticPass,g.inheritedS24FPass,g.parentPostPass);
+fprintf(f,'Historical recovery %d | recoverable %d/%d | failsafe %d/%d\n',g.historicalRecoveryPreflightPass,g.recoverableCount,g.recoverableTotal,g.failsafeCount,g.failsafeTotal);
+end
+function s=pf(x),if x,s='PASS';else,s='FAIL';end,end

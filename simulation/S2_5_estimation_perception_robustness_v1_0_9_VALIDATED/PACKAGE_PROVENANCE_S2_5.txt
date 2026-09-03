@@ -1,0 +1,15 @@
+S2.5 estimation/perception robustness — v1.0.9 VALIDATED
+Qualified candidate: S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate.zip
+Qualified candidate SHA-256: cf49d8912fd384618097235249d807ae5ac357bea290a53bac76cc695830661f
+Validated parent: S2.4-G v1.0.4
+Frozen S2.4-G/S2.3 parent bytes: unchanged and re-audited
+MATLAB remaining-four preflight: 4/4 PASS
+MATLAB full qualification: 71/71 unique coupled missions PASS
+  - no-fault baselines: 5/5 PASS
+  - recoverable faults: 60/60 PASS
+  - fail-safe faults: 6/6 PASS
+Inherited S2.4-F regression: PASS
+Post-run S2.4-G parent identity: 353/353 PASS
+No estimator/controller/map safety/timeout/kinematic thresholds relaxed
+Freeze step: documentation/manifests only; runtime/autonomy source unchanged from qualified candidate
+MATLAB runtime evidence: s2_5/evidence/validated_release/MATLAB_RUNTIME_QUALIFICATION_20260903.txt

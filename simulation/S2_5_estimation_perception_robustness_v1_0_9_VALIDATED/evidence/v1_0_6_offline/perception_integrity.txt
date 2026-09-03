@@ -1,0 +1,7 @@
+same_packet_same_endpoint_voxel_only_one_kept              PASS
+lidar_depth_same_voxel_only_one_kept                       PASS
+persistent_static_blocks_farther_hit                       PASS
+wall_endpoint_itself_remains_admissible                    PASS
+distinct_unobstructed_hits_preserved                       PASS
+
+S2.5 v1.0.6 PERCEPTION-INTEGRITY MICROTEST: PASS

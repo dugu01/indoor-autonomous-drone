@@ -1,0 +1,13 @@
+--- v1.0.4 delivered mission_lifecycle_manager_S2_5.m
++++ v1.0.4 r1 mission_lifecycle_manager_S2_5.m
+@@ recovery helper call
+- plan_recovery_viewpoint_S2_5(cfg,s24cfg.activeExploration,grid,est,estAcc,... )
++ plan_recovery_viewpoint_S2_5(cfg,s24cfg,grid,est,estAcc,... )
+
+Delivered v1.0.4 manager SHA-256:
+abad997a2cc56b8c5bc9c006cdaa2bb27f4f3bf9382b94e3f804afd0a77999cc
+
+v1.0.4 r1 manager SHA-256:
+507e6e1ede1880ef571f03562555f717f52ea6ec90606f3ddf38186a12c6b401
+
+No other manager line changed.

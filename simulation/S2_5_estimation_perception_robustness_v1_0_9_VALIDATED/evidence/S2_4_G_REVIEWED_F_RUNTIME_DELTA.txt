@@ -1,0 +1,15 @@
+S2.4-G v1.0.4 REVIEWED F/RUNTIME DELTA
+Baseline: user-validated S2.4-F v1.1.2 manifest in S2_4_F_VALIDATED_BASELINE_SHA256.txt
+Allowed changed runtime file:
+  coupled/mission/mission_lifecycle_manager_S2_4.m
+Baseline SHA-256:
+  4d2ff497e602dcb8fbaa33c5d49898d4eca77242da3e4080dfcc6df1a8a27310
+Reviewed v1.0.4 SHA-256:
+  880aa4bb8057bf3f1b999fd2bf2262d92a363e278331426fa511529d72b80d63
+Cumulative purpose:
+  1) v1.0.2 current-reference guard covers outbound AND RTL;
+  2) v1.0.2 revoked exploration requests are inert proposal data and require current replanning/revalidation for new authority;
+  3) v1.0.4 exploration-viewing yaw transitions are shortest-path slew-limited at inherited cfg.mapScanYawRate_radps = 35 deg/s instead of angle steps;
+  4) when authority is revoked, the stale viewing-yaw target is discarded and yaw reference is reset to current estimated yaw during brake/replan;
+  5) estimator threshold remains 2.0 deg; controller gains, estimator, planner, plant, E geometry/policy and frozen S2.3 are unchanged;
+  6) F8 non-revival and F14 maxAuthorityInvalidations=3 remain unchanged.

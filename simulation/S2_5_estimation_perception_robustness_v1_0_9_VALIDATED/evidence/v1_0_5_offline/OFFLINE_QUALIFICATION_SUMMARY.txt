@@ -1,0 +1,14 @@
+S2.5 v1.0.5 OFFLINE QUALIFICATION SUMMARY
+
+PASS: S2.4-G validated parent byte identity 353/353.
+PASS: frozen S2.3 208/208 and final closure manifest 203/203 (in inherited gates).
+PASS: v1.0.5 static/isolation audit.
+PASS: MATLAB source sanity.
+PASS: source-faithful fault/gate backtest.
+PASS: v1.0.5 inherited recovery regression.
+PASS: exact five captured MATLAB snapshot replay: 5/5; old diagnostics reproduced; CSE/SIE 5/5.
+PASS: negative controls 14/14; randomized local perturbations 10/10.
+PASS: parallel harness contract: 71 unique missions, 5 cached historical, 55 new recoverable jobs.
+PASS: inherited S2.4-G remaining G constituent gates; E/F constituent gates passed in preceding inherited run.
+
+MATLAB runtime was not available in the build environment. No v1.0.5 coupled MATLAB mission PASS is claimed.

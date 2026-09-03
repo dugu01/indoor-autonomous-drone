@@ -1,0 +1,9 @@
+S2.4-E legacy v0.3.0 recorded-map selector regression
+scope: NOT the literal-corridor physical-world validation
+qualifying snapshots: 15
+first snapshot/time: 8 / 8.040000000000001
+active frontiers: 3
+distinct irrelevant frontiers: 1
+selected tier/relevance: 1 / 4.0
+selected/decoy information: 4.0 / 21.0
+RESULT: PASS

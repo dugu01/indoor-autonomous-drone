@@ -1,0 +1,10 @@
+S2.5 v1.0.0 user MATLAB recovery diagnostic (2026-08-30)
+Exact five recoverable failures from full 55/60 campaign:
+1 NAV_IMU_FAULT_VIO_OUTAGE seed=1: PLAN_OUTBOUND_NO_ROUTE_BUDGET, t=26.24, noProgress=3/3, scanHolds=2, extensions=0/12, laneSwitch=18.30, safety PASS.
+2 PERCEPTION_DUAL_BRIEF seed=1: AUTHORITY_INVALIDATION_BOUND, t=28.50, noProgress=0/3, scanHolds=0, holdCount=1, safety PASS.
+3 PERCEPTION_STALE_BURST seed=1: AUTHORITY_INVALIDATION_BOUND, t=28.50, noProgress=0/3, scanHolds=0, holdCount=1, rejected=21, safety PASS.
+4 PERCEPTION_RANGE_SPIKE seed=2: PLAN_OUTBOUND_NO_ROUTE_BUDGET, t=37.82, noProgress=3/3, scanHolds=3, extensions=1/12, safety PASS.
+5 COUPLED_IMU_PERCEPTION seed=1: PLAN_OUTBOUND_NO_ROUTE_BUDGET, t=29.22, noProgress=3/3, scanHolds=2, extensions=0/12, laneSwitch=18.18, holdCount=1, safety PASS.
+All five: goal=0 at stop; estimator gate PASS; execution safety PASS; unknown=0; collision=0; geofence=0.
+Full v1.0.0 campaign: no-fault 5/5; recoverable 55/60; fail-safe labels 0/6.
+All six fail-safe runs actually showed failsafe=1, emergency=1, missionComplete=1, final COMPLETE, collision=0, unknown=0, truth isolation=1; mappingCompositePass=0 caused the old validator FAIL label.

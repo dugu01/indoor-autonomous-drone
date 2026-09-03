@@ -1,0 +1,18 @@
+nav_goal_reached                                           PASS 
+nav_execution_safety_pass                                  PASS 
+nav_inherited_scan_gate_is_only_budget_failure             PASS scans=10 max=8
+nav_bounded_recovery_scan_accounting_passes                PASS allowance=4
+range_second_state_has_no_route                            PASS 
+range_single_false_static_cell_closes_passage              PASS critical=[(3.0, 4.7)]
+frozen_mapper_requires_two_hit_increments                  PASS 
+frozen_mapper_updates_hitcount_per_ray                     PASS 
+v106_one_endpoint_update_per_packet                        PASS 
+v106_static_occlusion_consistency                          PASS 
+v106_mapper_receives_sanitized_packet                      PASS 
+v106_no_change_to_no_progress_scan_threshold               PASS 
+v106_inherited_scan_gate_preserved                         PASS 
+v106_recovery_scan_gate_is_separate                        PASS 
+v106_inherited_mapping_composite_preserved                 PASS 
+v106_s25_mapping_composite_is_separate                     PASS 
+
+S2.5 v1.0.6 ROOT-CAUSE / ARCHITECTURE BACKTEST: PASS

@@ -1,0 +1,27 @@
+USER-EXECUTED MATLAB DIAGNOSIS — G v1.0.3 seed=3 MID residuals
+
+No-fault BASE:
+  max estimator attitude error = 1.815676 deg (limit 2.0)
+  peak t=9.46 s, TRACK_OUTBOUND
+  yaw-like component = 1.815630 deg
+  truth angular-rate magnitude at peak = 177.691 deg/s
+
+F2/F3/F9/F10 MID seed=3 (all identical):
+  max estimator attitude error = 2.140175 deg (FAIL; limit 2.0)
+  peak t=28.02 s, TRACK_OUTBOUND
+  quaternion error components [roll-like pitch-like yaw-like]
+    [+0.008036 +0.005973 +2.140151] deg
+  tilt-part = 0.010013 deg; yaw-part = 2.140151 deg
+  fault inject/detect = 23.36 / 23.36 s
+  truth/estimated angular-rate magnitude at peak = 204.728 / 205.641 deg/s
+  window max truth angular-rate magnitude = 204.865 deg/s at 28.04 s
+  position estimator remains PASS (post-fault max 0.014762 m vs 0.10 m)
+  lane switches = 0
+  VIO nearest = 28.00 / 28.04 s; LiDAR nearest = 28.00 / 28.20 s
+  mission reaches goal and COMPLETE.
+
+Interpretation supported directly by the diagnostic:
+  - residual is yaw-dominated, not roll/pitch or position;
+  - four fault types converge to the same deterministic post-revocation trajectory/timing;
+  - fault hooks do not directly alter ESKF navigation sensor packets;
+  - estimator threshold must not be relaxed.

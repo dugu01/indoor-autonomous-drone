@@ -1,0 +1,39 @@
+{
+  "schema": "S2_4_AD_CONFIG_V1",
+  "stage": "S2.4-A-D-shadow",
+  "map_resolution_xy_m": 0.1,
+  "map_resolution_z_m": 0.2,
+  "effective_inflation_m": 0.602,
+  "stale_free_age_s": 8.0,
+  "min_frontier_cells": 2,
+  "max_frontier_extent_cells": 18,
+  "target_corridor_radius_cells": 3,
+  "candidate_radii_m": [
+    0.7,
+    1.0,
+    1.3
+  ],
+  "candidate_angles": 16,
+  "min_visible_unknown_cells": 1,
+  "max_frontier_failures": 2,
+  "blacklist_cooldown_map_updates": 3,
+  "diagnostic_unknown_cost": 5.0,
+  "dynamic_horizon_s": 3.0,
+  "dynamic_step_s": 0.25,
+  "dynamic_confidence_chi2": 7.814727903251179,
+  "weights": {
+    "information_gain": 0.25,
+    "target_relevance": 0.35,
+    "travel_cost": 0.1,
+    "static_risk": 0.08,
+    "dynamic_risk": 0.1,
+    "uncertainty_risk": 0.05,
+    "yaw_cost": 0.02,
+    "stop_retreat_risk": 0.05
+  },
+  "authoritative_collision_map": "S2.3 occupancy probability and projected known-free grid",
+  "command_output_enabled": false,
+  "nominal_altitude_m": 1.15,
+  "authoritative_free_probability": 0.2,
+  "authoritative_min_free_observations": 2
+}

@@ -1,0 +1,10 @@
+S2.4 A-D recorded S2.3 shadow replay
+scenario: GOAL_REQUIRES_SCAN
+snapshots: 103
+incremental frontier == full: 1
+deterministic repeat: 1
+unsafe accepted candidates: 0
+tracks created: 26
+replay digest: 18c50ac61de6432a19db6260f30ceab653cae8cf4db3753f9d0e8e9a635791d4
+uncertainty digest: a5c46187f260ef4463938f4d202d9d2850eef61902e12e29da85df89b7bd000d
+RESULT: PASS

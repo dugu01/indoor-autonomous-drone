@@ -1,0 +1,101 @@
+function [packet,model,world] = simulate_perception_packet_S2_5(cfg,scenario,truth,model,t,k,context)
+% SIMULATE_PERCEPTION_PACKET_S2_5 Frozen S2.3 ray model plus S2.5 faults.
+% Faults affect only the autonomy-visible packet; world truth is not exposed.
+if nargin<7,context=struct();end
+model=init_stats(model);
+world=truth_world_S2_3(cfg,scenario,t,context);
+model.sequence=model.sequence+1;
+packet=struct('timestamp',t,'sequence',model.sequence,'frameId','B', ...
+    'hasLidarScan',false,'hasDepthRays',false,'lidarAngles',[], ...
+    'lidarRanges',[],'lidarHits',[],'depthDirections',[], ...
+    'depthRanges',[],'depthHits',[],'sourceTruthFree',true);
+
+perceptionDrop=inside_windows(t,scenario.obstacleSensorDropoutWindows);
+lidarDrop=perceptionDrop||inside_windows(t,scenario.perceptionLidarDropoutWindows);
+depthDrop=perceptionDrop||inside_windows(t,scenario.depthDropoutWindows);
+R=q2R_S2_2(truth.q);
+if mod(k-1,cfg.perceptionLidarPeriodSteps)==0&&~lidarDrop
+    angles=linspace(-pi,pi,cfg.perceptionLidarRayCount+1);angles(end)=[];
+    ranges=zeros(numel(angles),1);hits=false(numel(angles),1);
+    origin=truth.p+R*cfg.r_B_lidar;
+    for i=1:numel(angles)
+        dB=cfg.R_B_lidar*[cos(angles(i));sin(angles(i));0];dW=R*dB;
+        [ranges(i),hits(i)]=raycast_world_S2_3(cfg,world,origin,dW, ...
+            cfg.perceptionLidarMinRange_m,cfg.perceptionLidarMaxRange_m);
+    end
+    ranges=ranges+cfg.perceptionLidarRangeSigma_m*randn(size(ranges));
+    ranges=max(cfg.perceptionLidarMinRange_m,min(cfg.perceptionLidarMaxRange_m,ranges));
+    packet.hasLidarScan=true;packet.lidarAngles=angles(:);packet.lidarRanges=ranges;packet.lidarHits=hits;
+    model.lastLidarTime=t;model.lastAnyTime=t;
+end
+if mod(k-1,cfg.depthPeriodSteps)==0&&~depthDrop
+    az=linspace(-0.5*cfg.depthHFOV_rad,0.5*cfg.depthHFOV_rad,cfg.depthAzimuthRayCount);
+    el=linspace(-0.5*cfg.depthVFOV_rad,0.5*cfg.depthElevationRayCount);
+    dirs=zeros(numel(az)*numel(el),3);ranges=zeros(size(dirs,1),1);hits=false(size(ranges));
+    origin=truth.p+R*cfg.r_B_depth;idx=0;
+    for ie=1:numel(el)
+        for ia=1:numel(az)
+            idx=idx+1;dirs(idx,:)=[cos(el(ie))*cos(az(ia)),cos(el(ie))*sin(az(ia)),sin(el(ie))];
+            dW=R*(cfg.R_B_depth*dirs(idx,:).');
+            [ranges(idx),hits(idx)]=raycast_world_S2_3(cfg,world,origin,dW, ...
+                cfg.depthMinRange_m,cfg.depthMaxRange_m);
+        end
+    end
+    ranges=ranges+cfg.depthRangeSigma_m*randn(size(ranges));
+    ranges=max(cfg.depthMinRange_m,min(cfg.depthMaxRange_m,ranges));
+    packet.hasDepthRays=true;packet.depthDirections=dirs;packet.depthRanges=ranges;packet.depthHits=hits;
+    model.lastDepthTime=t;model.lastAnyTime=t;
+end
+packet.lastLidarTime=model.lastLidarTime;packet.lastDepthTime=model.lastDepthTime;packet.lastAnyTime=model.lastAnyTime;
+
+fault=field_or_local(scenario,'s25PerceptionFault',struct('name','NONE','start_s',inf,'end_s',-inf));
+active=in_window(t,field_or_local(fault,'start_s',inf),field_or_local(fault,'end_s',-inf));
+applied=false;name=upper(char(field_or_local(fault,'name','NONE')));
+if active
+    switch name
+        case 'LIDAR_SCAN_DROPOUT'
+            if packet.hasLidarScan,applied=true;end
+            packet.hasLidarScan=false;packet.lidarAngles=[];packet.lidarRanges=[];packet.lidarHits=[];
+        case 'DEPTH_DROPOUT'
+            if packet.hasDepthRays,applied=true;end
+            packet.hasDepthRays=false;packet.depthDirections=[];packet.depthRanges=[];packet.depthHits=[];
+        case 'DUAL_DROPOUT'
+            if packet.hasLidarScan||packet.hasDepthRays,applied=true;end
+            packet.hasLidarScan=false;packet.lidarAngles=[];packet.lidarRanges=[];packet.lidarHits=[];
+            packet.hasDepthRays=false;packet.depthDirections=[];packet.depthRanges=[];packet.depthHits=[];
+        case 'STALE_PACKET_BURST'
+            if packet.hasLidarScan||packet.hasDepthRays
+                packet.timestamp=packet.timestamp-field_or_local(fault,'timestampLag_s',0.45);applied=true;
+            end
+        case 'RANGE_SPIKE'
+            b=field_or_local(fault,'rangeBias_m',0.80);
+            if packet.hasLidarScan&&any(packet.lidarHits)
+                packet.lidarRanges(packet.lidarHits)=min(cfg.perceptionLidarMaxRange_m,packet.lidarRanges(packet.lidarHits)+b);applied=true;
+            end
+            if packet.hasDepthRays&&any(packet.depthHits)
+                packet.depthRanges(packet.depthHits)=min(cfg.depthMaxRange_m,packet.depthRanges(packet.depthHits)+b);applied=true;
+            end
+        case 'NONE'
+            % no-op
+        otherwise
+            error('S2_5:UnsupportedPerceptionFault','Unsupported S2.5 perception fault: %s',name);
+    end
+end
+packet.s25FaultName=name;packet.s25FaultActive=active;packet.s25FaultApplied=applied;
+if applied
+    model.s25FaultApplicationCount=model.s25FaultApplicationCount+1;
+    if ~isfinite(model.s25FirstFaultTime_s),model.s25FirstFaultTime_s=t;end
+    model.s25LastFaultTime_s=t;
+end
+end
+
+function model=init_stats(model)
+if ~isfield(model,'s25FaultApplicationCount'),model.s25FaultApplicationCount=0;end
+if ~isfield(model,'s25FirstFaultTime_s'),model.s25FirstFaultTime_s=nan;end
+if ~isfield(model,'s25LastFaultTime_s'),model.s25LastFaultTime_s=nan;end
+end
+function tf=inside_windows(t,w)
+tf=false;for i=1:size(w,1),if t>=w(i,1)&&t<=w(i,2),tf=true;return;end,end
+end
+function tf=in_window(t,t0,t1),tf=isfinite(t0)&&t>=t0&&t<=t1;end
+function v=field_or_local(s,n,d),if isstruct(s)&&isfield(s,n),v=s.(n);else,v=d;end,end

@@ -1,0 +1,29 @@
+S2.4-E literal competing-corridors geometry audit
+inflation: 0.602 m
+safe fork widths upper/lower: 0.646 / 0.896 m
+safe branch widths target/decoy: 0.996 / 2.196 m
+A* route lengths target/decoy: 5.414 / 5.256 m
+east-side safe free cells target/decoy: 162 / 378
+decoy/target safe-area ratio: 2.333
+checks:
+  schema: PASS
+  two_truth_walls: PASS
+  walls_inside_room: PASS
+  upper_fork_positive_clearance: PASS
+  lower_fork_positive_clearance: PASS
+  target_branch_positive_clearance: PASS
+  decoy_branch_positive_clearance: PASS
+  decoy_branch_wider_than_target: PASS
+  target_initially_occluded: PASS
+  decoy_initially_occluded: PASS
+  start_free_after_inflation: PASS
+  goal_free_after_inflation: PASS
+  decoy_probe_free_after_inflation: PASS
+  target_route_exists: PASS
+  decoy_route_exists: PASS
+  target_route_uses_upper_fork: PASS
+  decoy_route_uses_lower_fork: PASS
+  east_branches_disconnected: PASS
+  decoy_free_area_larger: PASS
+RESULT: PASS
+NOTE: coupled MATLAB mission validation is still pending.

@@ -1,0 +1,184 @@
+\n===== python3 s2_5/validation/audit_S2_4_G_parent_immutability.py =====
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+\n===== python3 s2_5/validation/audit_S2_5_static.py =====
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+required_files                                                 PASS
+parent_byte_identity                                           PASS
+inherits_validated_F_config                                    PASS
+candidate_version_v1_0_3                                       PASS
+no_estimator_threshold_relaxation                              PASS
+no_map_safety_threshold_relaxation                             PASS
+execution_validation_fault_disabled                            PASS
+v101_unchanged_scenarios_scenario_S2_5_m                       PASS
+v101_unchanged_sensors_simulate_sensor_packet_S2_5_m           PASS
+v101_unchanged_perception_simulate_perception_packet_S2_5_m    PASS
+serial_runner_reference_exact                                  PASS
+runner_reviewed_io_delta                                       PASS
+config_delta_version_only                                      PASS
+manager_changed_from_v101                                      PASS
+episode_counter                                                PASS
+episode_bound                                                  PASS
+fresh_request_resets_episode                                   PASS
+same_request_reauth_does_not_reset                             PASS
+conservative_fallback_counter                                  PASS
+fallback_reason                                                PASS
+bound_fallback_reason                                          PASS
+frozen_s23_planner_reused                                      PASS
+three_scans_semantics                                          PASS
+episode_invalidation_limit_unchanged                           PASS
+mission_extension_limit_unchanged                              PASS
+informative_recovery_counter                                   PASS
+informative_recovery_after_three_scans                         PASS
+recovery_endpoint_known_free                                   PASS
+recovery_hold_support                                          PASS
+recovery_route_known_free                                      PASS
+recovery_route_freshness                                       PASS
+recovery_dynamic_rejection                                     PASS
+recovery_visible_unknown                                       PASS
+recovery_meaningful_relocation                                 PASS
+recovery_strict_trajectory                                     PASS
+recovery_known_free_stop                                       PASS
+manager_no_threshold_or_gain_tuning                            PASS
+historical_failure_preflight                                   PASS
+failsafe_helper_found                                          PASS
+failsafe_no_nominal_mapping_completeness                       PASS
+failsafe_keeps_hard_safety                                     PASS
+scenario_S25_NAV_VIO_DROPOUT                                   PASS
+scenario_S25_NAV_LIDAR_AID_DROPOUT                             PASS
+scenario_S25_NAV_VIO_OUTLIER_BURST                             PASS
+scenario_S25_NAV_LIDAR_OUTLIER_BURST                           PASS
+scenario_S25_NAV_PRIMARY_IMU_FAULT_VIO_OUTAGE                  PASS
+scenario_S25_NAV_HIGH_MEASUREMENT_NOISE                        PASS
+scenario_S25_NAV_XY_AID_LOSS_FAILSAFE                          PASS
+scenario_S25_PERCEPTION_LIDAR_DROPOUT                          PASS
+scenario_S25_PERCEPTION_DEPTH_DROPOUT                          PASS
+scenario_S25_PERCEPTION_BRIEF_DUAL_DROPOUT                     PASS
+scenario_S25_PERCEPTION_STALE_PACKET_BURST                     PASS
+scenario_S25_PERCEPTION_RANGE_SPIKE                            PASS
+scenario_S25_PERCEPTION_PROLONGED_DUAL_DROPOUT                 PASS
+scenario_S25_COUPLED_IMU_FAULT_PERCEPTION_DROPOUT              PASS
+nav_outlier_hooks                                              PASS
+perception_fault_hooks                                         PASS
+S2.5 v1.0.3 STATIC / ISOLATION AUDIT: PASS
+\n===== python3 s2_5/validation/audit_S2_5_matlab_sources.py =====
+S2.5 MATLAB source files checked: 10
+S2.5 MATLAB SOURCE SANITY: PASS
+\n===== python3 s2_5/validation/backtest_S2_5_fault_model.py =====
+N3-VIO-NIS   PASS  lower-bound NIS 62.59 > gate 27.877
+N4-LID-NIS   PASS  lower-bound NIS 76.24 > gate 16.266
+N5-IMU       PASS  acc 0.466>0.220, gyro 2.166>1.200 deg/s, 4 samples
+P3-HOLD      PASS  1.20 s > hold 0.55 and < failsafe 4.00
+P4-STALE     PASS  lag 0.45 s > packet-age gate 0.30 s
+P6-FAILSAFE  PASS  7.0 s > perception failsafe 4.00 s
+P5-STATIC    PASS  persistent static occupancy is not cleared by free-ray evidence
+FAIL-CLOSED  PASS  planner projection retains explicit known-free/unknown state
+N6-NOISE     PASS  expected VIO/LiDAR NIS 20.25/6.75 below gates
+WINDOWS      PASS  events VIO=16 navLiDAR=4 rawLiDAR=1 depth=1
+S2.5 SOURCE-FAITHFUL FAULT / GATE BACKTEST: PASS
+\n===== python3 s2_5/validation/backtest_S2_5_recovery_logic_v1_0_3.py =====
+v102_user_exact_five_still_failed                                    PASS 
+v102_recovery_fallback_never_fired                                   PASS 
+v102_historical_direct_unreachable_reason                            PASS 
+candidate_version_v1_0_3                                             PASS 
+three_stationary_scans_before_relocation                             PASS 
+mission_extension_bound_preserved                                    PASS 
+recovery_counter_present                                             PASS 
+recovery_helper_called                                               PASS 
+known_free_endpoint                                                  PASS 
+execution_blocked_endpoint                                           PASS 
+hold_support                                                         PASS 
+known_free_astar                                                     PASS 
+stale_route_rejected                                                 PASS 
+dynamic_route_rejected                                               PASS 
+visible_unknown_required                                             PASS 
+meaningful_relocation                                                PASS 
+strict_trajectory                                                    PASS 
+known_free_stop                                                      PASS 
+no_tuning_cfg_maxEstimatorPositionError_m_s_                         PASS 
+no_tuning_cfg_maxEstimatorAttitudeError_deg_s_                       PASS 
+no_tuning_cfg_mapMaxFalseFreeRate_s_                                 PASS 
+no_tuning_cfg_mapMinOccupiedRecall_s_                                PASS 
+strong_direct_goal_unavailable_False                                 PASS 
+strong_normal_s24_selection_none_False                               PASS frontiers=1 candidates=57 accepted=0
+strong_policy_rejected_candidates_present_False                      PASS 23
+strong_recovery_found_False                                          PASS 
+sideways_negative_progress_False                                     PASS 10.000->17.000
+sideways_path_fail_closed_False                                      PASS 
+sideways_hold_support_False                                          PASS 
+sideways_information_False                                           PASS 17
+sideways_meaningful_relocation_False                                 PASS 0.700
+strong_direct_goal_unavailable_True                                  PASS 
+strong_normal_s24_selection_none_True                                PASS frontiers=1 candidates=57 accepted=0
+strong_policy_rejected_candidates_present_True                       PASS 23
+strong_recovery_found_True                                           PASS 
+sideways_negative_progress_True                                      PASS 10.000->17.000
+sideways_path_fail_closed_True                                       PASS 
+sideways_hold_support_True                                           PASS 
+sideways_information_True                                            PASS 17
+sideways_meaningful_relocation_True                                  PASS 0.700
+negative_stale_route                                                 PASS 
+negative_dynamic_route                                               PASS 
+negative_no_information                                              PASS 
+recorded_replay_nominal_no_selection_count                           PASS 6
+recorded_replay_unsafe_recovery_zero                                 PASS 0
+recorded_early_fail_closed_preserved                                 PASS 0
+monte_carlo_precondition_normal_none_direct_none                     PASS 200/200
+monte_carlo_adversarial_safe_relocations                             PASS 200/200
+monte_carlo_unsafe_relocations_zero                                  PASS 0
+five_historical_policy_classes_have_safe_recovery_model              PASS 5
+
+S2.5 v1.0.3 PYTHON MISSION-POLICY RECOVERY BACKTEST: PASS
+\n===== python3 s2_5/validation/backtest_S2_5_parallel_harness.py =====
+v103_mission_manager_byte_identity                                   PASS 3fe93d98045a94284022410d5be2fc0d94ac059c93f507fdeceef3ed8bd74bc0
+runtime_file_present_mission_init_S2_5_config_m                      PASS 
+runtime_file_present_scenarios_scenario_S2_5_m                       PASS 
+runtime_file_present_sensors_simulate_sensor_packet_S2_5_m           PASS 
+runtime_file_present_perception_simulate_perception_packet_S2_5_m    PASS 
+runner_core_rng_seed_twister_                                        PASS 
+runner_core_cfg_init_S2_5_config_cfg_seed_seed_                      PASS 
+runner_core_scenario_scenario_S2_5_scenarioName_                     PASS 
+runner_core__log_summary_maps_mission_lifecycle_manager_S2_5_cfg_sc  PASS 
+runner_core_summary_s25CasePass_evaluate_s25_case_summary_scenario_  PASS 
+runner_optional_save_defaults_true                                   PASS 
+runner_optional_verbose_defaults_true                                PASS 
+qualification_runs_full_logic_compact                                PASS 
+qualification_returns_summary_only                                   PASS 
+acceptance_semantics__pass_extra_historical_case_pass                PASS parallel=407 serial=407
+acceptance_semantics__pass_extra_recoverable_case_pass               PASS parallel=529 serial=529
+acceptance_semantics__pass_mapSafety_core_evidence_failsafe_case_pass PASS parallel=719 serial=719
+parallel_hist_preflight                                              PASS 
+parallel_baselines                                                   PASS 
+parallel_recoverable_jobs                                            PASS 
+parallel_failsafe_jobs                                               PASS 
+inherited_F_remains_serial                                           PASS 
+toolbox_required                                                     PASS 
+workers_bounded_to_8                                                 PASS 
+process_pool_preferred                                               PASS 
+worker_override_supported                                            PASS 
+python_spawn_bootstrap_guard                                         PASS 
+python_spawn_context_explicit                                        PASS 
+hist_exact_5                                                         PASS 
+recoverable_exact_60                                                 PASS 
+historical_subset_of_recoverable                                     PASS 
+noncached_recoverable_exact_55                                       PASS 
+qualification_exact_71_unique_missions                               PASS 71
+parallel_execution_exact_same_71                                     PASS 
+rng_reseed_per_case                                                  PASS 
+result_dir_scenario_seed_isolated                                    PASS 
+parallel_case_keys_unique                                            PASS 
+python_spawn_parallel_order_independent                              PASS 
+recoverable_matrix_indexing_order_independent                        PASS 
+historical_failfast_before_inherited_and_matrix                      PASS 
+historical_results_cached                                            PASS 
+normal_runner_still_can_save_full_artifacts                          PASS 
+qualification_disables_full_artifact_save                            PASS 
+gate_report_still_persisted                                          PASS 
+
+S2.5 PARALLEL HARNESS PYTHON BACKTEST: PASS
+Unique coupled missions: 71 | historical cached: 5 | new recoverable worker jobs: 55
+
+S2.5 v1.0.3 PRE-MATLAB PYTHON/SOURCE CHAIN: PASS

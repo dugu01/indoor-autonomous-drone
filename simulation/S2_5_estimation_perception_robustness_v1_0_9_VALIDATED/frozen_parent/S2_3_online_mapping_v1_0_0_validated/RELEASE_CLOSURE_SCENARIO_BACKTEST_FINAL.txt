@@ -1,0 +1,9 @@
+S2.3 release-closing scenario backtest
+grid=0.10 m | physical inflation=0.602 m
+occluded_obstacle           : PASS | nodes= 58 length=6.570 m min_clearance=0.632 m
+unknown_narrow_passage      : PASS | nodes= 45 length=4.400 m min_clearance=0.750 m
+goal_requires_scan          : PASS | nodes= 72 length=7.804 m min_clearance=0.632 m
+hidden_obstacle_replan       : PASS | initial_route=True intersects_insert=True alternate_route=True
+unreachable_goal            : PASS | no truth-map route expected
+
+RESULT: PASS

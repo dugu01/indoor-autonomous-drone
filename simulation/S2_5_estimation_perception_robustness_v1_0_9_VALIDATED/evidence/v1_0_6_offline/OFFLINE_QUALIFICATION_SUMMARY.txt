@@ -1,0 +1,18 @@
+S2.5 v1.0.6 OFFLINE QUALIFICATION SUMMARY
+==========================================
+Validated S2.4-G parent byte identity: PASS (353/353)
+Frozen S2.3 parent/closure inherited unchanged
+S2.5 v1.0.6 static/isolation audit: PASS
+MATLAB source sanity: PASS
+Source-faithful fault/gate backtest: PASS
+Inherited CSE/SIE recovery regression: PASS
+Exact first-recovery historical snapshot replay: PASS 5/5
+Exact replay negative controls: PASS 14/14
+Exact replay fixed-seed perturbations: PASS 10/10
+Recovery Monte Carlo: PASS 40/40; unsafe=0
+Remaining-two root-cause/architecture backtest: PASS
+Per-packet perception-integrity microtest: PASS
+Parallel 71-mission harness semantics: PASS
+Inherited S2.4-G local static/offline aggregate: PASS
+MATLAB runtime: NOT AVAILABLE IN BUILD ENVIRONMENT
+Required next gate: run_validate_S2_5_v1_0_6_preflight() -> 5/5 before full 71-mission matrix.

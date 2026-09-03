@@ -1,0 +1,19 @@
+S2.5 v1.0.4 r1 CONFIG WIRING HOTFIX
+
+Observed MATLAB error in v1.0.4 historical preflight:
+  MATLAB:nonExistentField — Unrecognized field name "activeExploration".
+
+Root cause:
+  mission_lifecycle_manager_S2_5.m already aliases
+      s24cfg = cfg.activeExploration;
+  but the recovery call incorrectly used
+      s24cfg.activeExploration
+  causing a second dereference of a field that does not exist.
+
+Corrected call:
+      plan_recovery_viewpoint_S2_5(cfg,s24cfg,...)
+
+No recovery policy, estimator threshold, map threshold, controller gain,
+authority bound, scan bound, or mission extension bound is changed.
+Python source-shape regression now checks both the positive alias contract
+and the absence of the double-dereference pattern.

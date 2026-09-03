@@ -1,0 +1,839 @@
+>> root = '/Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate';
+>> cd(root);
+>> setenv('S2_5_WORKERS','4');
+report = run_validate_S2_5_v1_0_9_preflight();
+S2.5 MATLAB PATH SETUP: PASS
+ run_S2_5_coupled              : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/run_S2_5_coupled.m
+ mission_lifecycle_manager_S2_5: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/mission_lifecycle_manager_S2_5.m
+ mission_lifecycle_manager_S2_4: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/coupled/mission/mission_lifecycle_manager_S2_4.m
+S2.5 MATLAB PATH SETUP: PASS
+ run_S2_5_coupled              : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/run_S2_5_coupled.m
+ mission_lifecycle_manager_S2_5: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/mission_lifecycle_manager_S2_5.m
+ mission_lifecycle_manager_S2_4: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/coupled/mission/mission_lifecycle_manager_S2_4.m
+
+============================================================
+ S2.5 v1.0.9 — OFFLINE + REMAINING FOUR PREFLIGHT
+============================================================
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+parent_byte_identity                                           PASS 
+candidate_version_v1_0_9                                       PASS 
+config_version_only                                            PASS 
+no_threshold_relaxation                                        PASS 
+all_replan_brake_entries_reset_state_clock                     PASS transitions=6 missing=[]
+nav_loss_still_cancels_pending_replan                          PASS 
+nav_recovery_does_not_restore_dead_brake                       PASS 
+nav_dead_brake_cleanup                                         PASS 
+perception_stale_brake_episode_counter                         PASS 
+perception_safe_response_summary                               PASS 
+safe_response_only_while_stale_braking                         PASS 
+runner_uses_safe_response_only_for_s25_hold                    PASS 
+validator_uses_safe_response_helper                            PASS 
+prolonged_failsafe_still_requires_actual_hold                  PASS 
+brief_fault_duration_preserved                                 PASS 
+state_context_passed_to_actual_packet_generation               PASS 
+trigger_can_continue_in_hold                                   PASS 
+unknown_safety_unchanged                                       PASS 
+S2.5 v1.0.9 STATIC / ISOLATION AUDIT: PASS
+S2.5 MATLAB source files checked: 16
+S2.5 MATLAB SOURCE SANITY: PASS
+old_logic_reproduces_dead_brake                         PASS 
+new_outbound_nav_recovery_replans_fresh                 PASS 
+new_rtl_nav_recovery_replans_fresh                      PASS 
+source_has_dead_brake_guard                             PASS 
+mission_timeout_unchanged                               PASS 
+stale_brake_43_samples_is_one_safe_episode              PASS 
+safe_response_does_not_force_state_transition           PASS 
+runner_accepts_s25_safe_response                        PASS 
+validator_brief_uses_safe_response                      PASS 
+failsafe_still_demands_named_hold                       PASS 
+execution_safety_retained                               PASS 
+S2.5 v1.0.9 LIFECYCLE INTEGRATION BACKTEST: PASS
+candidate_version_v1_0_9                                             PASS 
+bugA_old_stageA_mathematically_contradictory                         PASS 
+bugA_dead_stage_removed                                              PASS 
+config_namespace_fixed                                               PASS 
+active_cfg_owns_required_fields                                      PASS 
+manager_alias_is_active_config                                       PASS 
+recovery_call_uses_active_config_alias                               PASS 
+recovery_call_no_double_active_exploration                           PASS 
+freshness_not_relaxed                                                PASS 
+metric_astar_used                                                    PASS 
+cheap_cornercut_astar_not_used                                       PASS 
+full_checks_inside_rank_loop                                         PASS 
+v105_architecture_declared                                           PASS 
+v105_cse_continuous_certificate                                      PASS 
+v105_no_global_occ_clear                                             PASS 
+v105_stage1_information_along_route                                  PASS 
+v105_stage2_separate_terminal                                        PASS 
+v105_stop_gate_unchanged                                             PASS 
+v105_strict_traj_unchanged                                           PASS 
+v105_unknown_stays_hazard                                            PASS 
+scan_budget_reset_only_after_arrival                                 PASS 
+recovery_attempt_diagnostics                                         PASS 
+no_tuning_est_pos                                                    PASS 
+no_tuning_est_att                                                    PASS 
+no_tuning_false_free                                                 PASS 
+no_tuning_occ_recall                                                 PASS 
+stageA_boundary_and_hold_support_intersection_zero                   PASS 0
+direct_unavailable_False                                             PASS 
+normal_s24_none_False                                                PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_False                                     PASS 
+recovery_found_False                                                 PASS 
+negative_goal_progress_allowed_False                                 PASS 21.0->30.0
+path_fail_closed_False                                               PASS 
+hold_support_False                                                   PASS 
+direct_unavailable_True                                              PASS 
+normal_s24_none_True                                                 PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_True                                      PASS 
+recovery_found_True                                                  PASS 
+negative_goal_progress_allowed_True                                  PASS 21.0->28.0
+path_fail_closed_True                                                PASS 
+hold_support_True                                                    PASS 
+stale_8p1_rejected                                                   PASS 
+fresh_7p9_not_rejected                                               PASS 
+dynamic_route_rejected                                               PASS 
+v103_top_candidate_commit_false_negative                             PASS 
+v104_exhaustive_safety_first_selects_second                          PASS 
+v103_relocation_carried_old_budget                                   PASS 4
+v104_relocation_resets_budget_at_new_vantage                         PASS 0
+failed_relocation_does_not_reset_budget                              PASS 
+monte_carlo_precondition_40                                          PASS 40/40
+monte_carlo_safe_recovery_rate                                       PASS 40/40
+monte_carlo_unsafe_zero                                              PASS 0
+
+S2.5 v1.0.9 INHERITED RECOVERY REGRESSION BACKTEST: PASS
+same_packet_same_endpoint_voxel_only_one_kept              PASS
+lidar_depth_same_voxel_only_one_kept                       PASS
+persistent_static_blocks_farther_hit                       PASS
+wall_endpoint_itself_remains_admissible                    PASS
+distinct_unobstructed_hits_preserved                       PASS
+
+S2.5 v1.0.6 PERCEPTION-INTEGRITY MICROTEST: PASS
+v109_manager_integrity_overlay_present                               PASS 
+v109_manager_separate_scan_accounting                                PASS 
+runtime_file_present_mission_init_S2_5_config_m                      PASS 
+runtime_file_present_scenarios_scenario_S2_5_m                       PASS 
+runtime_file_present_sensors_simulate_sensor_packet_S2_5_m           PASS 
+runtime_file_present_perception_simulate_perception_packet_S2_5_m    PASS 
+runner_core_rng_seed_twister_                                        PASS 
+runner_core_cfg_init_S2_5_config_cfg_seed_seed_                      PASS 
+runner_core_scenario_scenario_S2_5_scenarioName_                     PASS 
+runner_core__log_summary_maps_mission_lifecycle_manager_S2_5_cfg_sc  PASS 
+runner_core_summary_s25CasePass_evaluate_s25_case_summary_scenario_  PASS 
+runner_optional_save_defaults_true                                   PASS 
+runner_optional_verbose_defaults_true                                PASS 
+qualification_runs_full_logic_compact                                PASS 
+qualification_returns_summary_only                                   PASS 
+runner_safe_perception_response_gate                                 PASS 
+validator_safe_perception_helper                                     PASS 
+historical_brief_uses_safe_response                                  PASS 
+stale_burst_requires_reject_and_safe_response                        PASS 
+failsafe_prolonged_still_requires_actual_hold                        PASS 
+acceptance_retains_s_goalReached_s_failsafeTriggered_extra           PASS 
+acceptance_retains_s_executionSafetyPass                             PASS 
+acceptance_retains__s_stateTimeoutTriggered                          PASS 
+parallel_async_helper                                                PASS 
+parallel_hist_preflight                                              PASS 
+parallel_baselines                                                   PASS 
+parallel_recoverable_jobs                                            PASS 
+parallel_failsafe_jobs                                               PASS 
+completion_progress_reported                                         PASS 
+inherited_F_remains_serial                                           PASS 
+toolbox_required                                                     PASS 
+workers_bounded_to_8                                                 PASS 
+default_workers_four                                                 PASS 
+existing_pool_restarted_for_override                                 PASS 
+process_pool_preferred                                               PASS 
+worker_override_supported                                            PASS 
+python_spawn_bootstrap_guard                                         PASS 
+python_spawn_context_explicit                                        PASS 
+hist_exact_5                                                         PASS 
+recoverable_exact_60                                                 PASS 
+historical_subset_of_recoverable                                     PASS 
+noncached_recoverable_exact_55                                       PASS 
+qualification_exact_71_unique_missions                               PASS 71
+parallel_execution_exact_same_71                                     PASS 
+rng_reseed_per_case                                                  PASS 
+result_dir_scenario_seed_isolated                                    PASS 
+parallel_case_keys_unique                                            PASS 
+python_spawn_parallel_order_independent                              PASS 
+recoverable_matrix_indexing_order_independent                        PASS 
+historical_failfast_before_inherited_and_matrix                      PASS 
+historical_results_cached                                            PASS 
+normal_runner_still_can_save_full_artifacts                          PASS 
+qualification_disables_full_artifact_save                            PASS 
+gate_report_still_persisted                                          PASS 
+
+S2.5 v1.0.9 PARALLEL HARNESS PYTHON BACKTEST: PASS
+Unique coupled missions: 71 | historical cached: 5 | new recoverable worker jobs: 55
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 4 workers.
+S2.5 PARALLEL POOL: PASS | workers=4 | profile=Processes
+  completed 1/4: PERCEPTION_DUAL_BRIEF        seed=2 | 3.1 min
+  completed 2/4: NAV_HIGH_NOISE               seed=4 | 3.1 min
+  completed 3/4: PERCEPTION_STALE_BURST       seed=2 | 3.1 min
+  completed 4/4: COUPLED_IMU_PERCEPTION       seed=2 | 3.1 min
+1/4 NAV_HIGH_NOISE               seed=4 : PASS | goal=1 fail=0 timeout=0 hold=0 laneSw=0 safety=1 brake=6 retry=7
+      perceptionSafeResponse=0 staleBrakeEpisodes=0 navDegradedHolds=1
+2/4 PERCEPTION_DUAL_BRIEF        seed=2 : PASS | goal=1 fail=0 timeout=0 hold=0 laneSw=0 safety=1 brake=9 retry=11
+      perceptionSafeResponse=1 staleBrakeEpisodes=1 navDegradedHolds=0
+3/4 PERCEPTION_STALE_BURST       seed=2 : PASS | goal=1 fail=0 timeout=0 hold=0 laneSw=0 safety=1 brake=9 retry=11
+      perceptionSafeResponse=1 staleBrakeEpisodes=1 navDegradedHolds=0
+4/4 COUPLED_IMU_PERCEPTION       seed=2 : PASS | goal=1 fail=0 timeout=0 hold=0 laneSw=1 safety=1 brake=6 retry=8
+      perceptionSafeResponse=1 staleBrakeEpisodes=1 navDegradedHolds=0
+
+S2.5 v1.0.9 REMAINING FOUR: PASS 4/4
+Safe to proceed to: gate = validate_S2_5_all();
+>>  gate = validate_S2_5_all();
+S2.5 MATLAB PATH SETUP: PASS
+ run_S2_5_coupled              : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/run_S2_5_coupled.m
+ mission_lifecycle_manager_S2_5: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/s2_5/mission/mission_lifecycle_manager_S2_5.m
+ mission_lifecycle_manager_S2_4: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/coupled/mission/mission_lifecycle_manager_S2_4.m
+
+============================================================
+ S2.5 PHASE 0 — VALIDATED S2.4-G PARENT + STATIC CONTRACTS
+============================================================
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+parent_byte_identity                                           PASS 
+candidate_version_v1_0_9                                       PASS 
+config_version_only                                            PASS 
+no_threshold_relaxation                                        PASS 
+all_replan_brake_entries_reset_state_clock                     PASS transitions=6 missing=[]
+nav_loss_still_cancels_pending_replan                          PASS 
+nav_recovery_does_not_restore_dead_brake                       PASS 
+nav_dead_brake_cleanup                                         PASS 
+perception_stale_brake_episode_counter                         PASS 
+perception_safe_response_summary                               PASS 
+safe_response_only_while_stale_braking                         PASS 
+runner_uses_safe_response_only_for_s25_hold                    PASS 
+validator_uses_safe_response_helper                            PASS 
+prolonged_failsafe_still_requires_actual_hold                  PASS 
+brief_fault_duration_preserved                                 PASS 
+state_context_passed_to_actual_packet_generation               PASS 
+trigger_can_continue_in_hold                                   PASS 
+unknown_safety_unchanged                                       PASS 
+S2.5 v1.0.9 STATIC / ISOLATION AUDIT: PASS
+N3-VIO-NIS   PASS  lower-bound NIS 62.59 > gate 27.877
+N4-LID-NIS   PASS  lower-bound NIS 76.24 > gate 16.266
+N5-IMU       PASS  acc 0.466>0.220, gyro 2.166>1.200 deg/s, 4 samples
+P3-HOLD      PASS  1.20 s > hold 0.55 and < failsafe 4.00
+P4-STALE     PASS  lag 0.45 s > packet-age gate 0.30 s
+P6-FAILSAFE  PASS  7.0 s > perception failsafe 4.00 s
+P5-STATIC    PASS  persistent static occupancy is not cleared by free-ray evidence
+FAIL-CLOSED  PASS  planner projection retains explicit known-free/unknown state
+N6-NOISE     PASS  expected VIO/LiDAR NIS 20.25/6.75 below gates
+WINDOWS      PASS  events VIO=16 navLiDAR=4 rawLiDAR=1 depth=1
+S2.5 SOURCE-FAITHFUL FAULT / GATE BACKTEST: PASS
+candidate_version_v1_0_9                                             PASS 
+bugA_old_stageA_mathematically_contradictory                         PASS 
+bugA_dead_stage_removed                                              PASS 
+config_namespace_fixed                                               PASS 
+active_cfg_owns_required_fields                                      PASS 
+manager_alias_is_active_config                                       PASS 
+recovery_call_uses_active_config_alias                               PASS 
+recovery_call_no_double_active_exploration                           PASS 
+freshness_not_relaxed                                                PASS 
+metric_astar_used                                                    PASS 
+cheap_cornercut_astar_not_used                                       PASS 
+full_checks_inside_rank_loop                                         PASS 
+v105_architecture_declared                                           PASS 
+v105_cse_continuous_certificate                                      PASS 
+v105_no_global_occ_clear                                             PASS 
+v105_stage1_information_along_route                                  PASS 
+v105_stage2_separate_terminal                                        PASS 
+v105_stop_gate_unchanged                                             PASS 
+v105_strict_traj_unchanged                                           PASS 
+v105_unknown_stays_hazard                                            PASS 
+scan_budget_reset_only_after_arrival                                 PASS 
+recovery_attempt_diagnostics                                         PASS 
+no_tuning_est_pos                                                    PASS 
+no_tuning_est_att                                                    PASS 
+no_tuning_false_free                                                 PASS 
+no_tuning_occ_recall                                                 PASS 
+stageA_boundary_and_hold_support_intersection_zero                   PASS 0
+direct_unavailable_False                                             PASS 
+normal_s24_none_False                                                PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_False                                     PASS 
+recovery_found_False                                                 PASS 
+negative_goal_progress_allowed_False                                 PASS 21.0->30.0
+path_fail_closed_False                                               PASS 
+hold_support_False                                                   PASS 
+direct_unavailable_True                                              PASS 
+normal_s24_none_True                                                 PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_True                                      PASS 
+recovery_found_True                                                  PASS 
+negative_goal_progress_allowed_True                                  PASS 21.0->28.0
+path_fail_closed_True                                                PASS 
+hold_support_True                                                    PASS 
+stale_8p1_rejected                                                   PASS 
+fresh_7p9_not_rejected                                               PASS 
+dynamic_route_rejected                                               PASS 
+v103_top_candidate_commit_false_negative                             PASS 
+v104_exhaustive_safety_first_selects_second                          PASS 
+v103_relocation_carried_old_budget                                   PASS 4
+v104_relocation_resets_budget_at_new_vantage                         PASS 0
+failed_relocation_does_not_reset_budget                              PASS 
+monte_carlo_precondition_40                                          PASS 40/40
+monte_carlo_safe_recovery_rate                                       PASS 40/40
+monte_carlo_unsafe_zero                                              PASS 0
+
+S2.5 v1.0.9 INHERITED RECOVERY REGRESSION BACKTEST: PASS
+========================================================================================
+S2.5 EXACT MATLAB SNAPSHOT REPLAY — CSE + HIERARCHICAL SAFE INFORMATIVE EXCURSION
+========================================================================================
+
+[COUPLED_IMU_PERCEPTION] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.630009 m inflation=0.602 m connector=0.074742 m
+  NEW SIE_STAGE1_STOP_FIRST gain=19 anchor=(49, 15) terminal=(49, 15) path=3.730 m
+  trajectory vmax=0.310680 amax=0.386723 jmax=1.161054 | safety=PASS
+
+[NAV_IMU_FAULT_VIO_OUTAGE] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.632682 m inflation=0.602 m connector=0.083568 m
+  NEW SIE_STAGE1_STOP_FIRST gain=19 anchor=(48, 14) terminal=(49, 15) path=3.773 m
+  trajectory vmax=0.293285 amax=0.440641 jmax=2.010966 | safety=PASS
+
+[PERCEPTION_DUAL_BRIEF] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.637993 m inflation=0.602 m connector=0.062637 m
+  NEW SIE_STAGE1_STOP_FIRST gain=16 anchor=(48, 13) terminal=(48, 13) path=3.457 m
+  trajectory vmax=0.310680 amax=0.371703 jmax=1.187413 | safety=PASS
+
+[PERCEPTION_RANGE_SPIKE] old=recovery_candidates_failed_full_execution_checks
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 120, 'metric': 101, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 6, 'stop': 13, 'selected': 0}
+  startBlocked=0 wall=1.546821 m inflation=0.602 m connector=0.000000 m
+  NEW SIE_STAGE1_STOP_FIRST gain=1 anchor=(47, 14) terminal=(49, 11) path=0.706 m
+  trajectory vmax=0.310681 amax=0.512735 jmax=1.460881 | safety=PASS
+
+[PERCEPTION_STALE_BURST] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.637993 m inflation=0.602 m connector=0.062637 m
+  NEW SIE_STAGE1_STOP_FIRST gain=16 anchor=(48, 13) terminal=(48, 13) path=3.457 m
+  trajectory vmax=0.310680 amax=0.371703 jmax=1.187413 | safety=PASS
+
+EXACT FIVE-CASE RESULT: PASS 5/5
+
+----------------------------------------------------------------------------------------
+NEGATIVE CONTROLS
+  COUPLED_IMU_PERCEPTION: inside-inflation start connector rejected PASS
+  COUPLED_IMU_PERCEPTION: zero-information map rejected PASS
+  COUPLED_IMU_PERCEPTION: stale-route universe rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: inside-inflation start connector rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: zero-information map rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: stale-route universe rejected PASS
+  PERCEPTION_DUAL_BRIEF: inside-inflation start connector rejected PASS
+  PERCEPTION_DUAL_BRIEF: zero-information map rejected PASS
+  PERCEPTION_DUAL_BRIEF: stale-route universe rejected PASS
+  PERCEPTION_RANGE_SPIKE: zero-information map rejected PASS
+  PERCEPTION_RANGE_SPIKE: stale-route universe rejected PASS
+  PERCEPTION_STALE_BURST: inside-inflation start connector rejected PASS
+  PERCEPTION_STALE_BURST: zero-information map rejected PASS
+  PERCEPTION_STALE_BURST: stale-route universe rejected PASS
+NEGATIVE CONTROLS: PASS (14/14)
+
+----------------------------------------------------------------------------------------
+RANDOMIZED LOCAL STATE PERTURBATIONS (2 per case; fixed RNG seed 2505)
+  COUPLED_IMU_PERCEPTION: 2/2
+  NAV_IMU_FAULT_VIO_OUTAGE: 2/2
+  PERCEPTION_DUAL_BRIEF: 2/2
+  PERCEPTION_RANGE_SPIKE: 2/2
+  PERCEPTION_STALE_BURST: 2/2
+RANDOMIZED PERTURBATIONS: PASS (10/10)
+
+OVERALL PYTHON PHASE-C EXACT-REPLAY GATE: PASS
+nav_goal_reached                                           PASS 
+nav_execution_safety_pass                                  PASS 
+nav_inherited_scan_gate_is_only_budget_failure             PASS scans=10 max=8
+nav_bounded_recovery_scan_accounting_passes                PASS allowance=4
+range_second_state_has_no_route                            PASS 
+range_single_false_static_cell_closes_passage              PASS critical=[(3.0, 4.7)]
+frozen_mapper_requires_two_hit_increments                  PASS 
+frozen_mapper_updates_hitcount_per_ray                     PASS 
+v106_one_endpoint_update_per_packet                        PASS 
+v106_static_occlusion_consistency                          PASS 
+v106_mapper_receives_sanitized_packet                      PASS 
+v106_no_change_to_no_progress_scan_threshold               PASS 
+v106_inherited_scan_gate_preserved                         PASS 
+v106_recovery_scan_gate_is_separate                        PASS 
+v106_inherited_mapping_composite_preserved                 PASS 
+v106_s25_mapping_composite_is_separate                     PASS 
+
+S2.5 v1.0.6 ROOT-CAUSE / ARCHITECTURE BACKTEST: PASS
+old_logic_reproduces_dead_brake                         PASS 
+new_outbound_nav_recovery_replans_fresh                 PASS 
+new_rtl_nav_recovery_replans_fresh                      PASS 
+source_has_dead_brake_guard                             PASS 
+mission_timeout_unchanged                               PASS 
+stale_brake_43_samples_is_one_safe_episode              PASS 
+safe_response_does_not_force_state_transition           PASS 
+runner_accepts_s25_safe_response                        PASS 
+validator_brief_uses_safe_response                      PASS 
+failsafe_still_demands_named_hold                       PASS 
+execution_safety_retained                               PASS 
+S2.5 v1.0.9 LIFECYCLE INTEGRATION BACKTEST: PASS
+same_packet_same_endpoint_voxel_only_one_kept              PASS
+lidar_depth_same_voxel_only_one_kept                       PASS
+persistent_static_blocks_farther_hit                       PASS
+wall_endpoint_itself_remains_admissible                    PASS
+distinct_unobstructed_hits_preserved                       PASS
+
+S2.5 v1.0.6 PERCEPTION-INTEGRITY MICROTEST: PASS
+v109_manager_integrity_overlay_present                               PASS 
+v109_manager_separate_scan_accounting                                PASS 
+runtime_file_present_mission_init_S2_5_config_m                      PASS 
+runtime_file_present_scenarios_scenario_S2_5_m                       PASS 
+runtime_file_present_sensors_simulate_sensor_packet_S2_5_m           PASS 
+runtime_file_present_perception_simulate_perception_packet_S2_5_m    PASS 
+runner_core_rng_seed_twister_                                        PASS 
+runner_core_cfg_init_S2_5_config_cfg_seed_seed_                      PASS 
+runner_core_scenario_scenario_S2_5_scenarioName_                     PASS 
+runner_core__log_summary_maps_mission_lifecycle_manager_S2_5_cfg_sc  PASS 
+runner_core_summary_s25CasePass_evaluate_s25_case_summary_scenario_  PASS 
+runner_optional_save_defaults_true                                   PASS 
+runner_optional_verbose_defaults_true                                PASS 
+qualification_runs_full_logic_compact                                PASS 
+qualification_returns_summary_only                                   PASS 
+runner_safe_perception_response_gate                                 PASS 
+validator_safe_perception_helper                                     PASS 
+historical_brief_uses_safe_response                                  PASS 
+stale_burst_requires_reject_and_safe_response                        PASS 
+failsafe_prolonged_still_requires_actual_hold                        PASS 
+acceptance_retains_s_goalReached_s_failsafeTriggered_extra           PASS 
+acceptance_retains_s_executionSafetyPass                             PASS 
+acceptance_retains__s_stateTimeoutTriggered                          PASS 
+parallel_async_helper                                                PASS 
+parallel_hist_preflight                                              PASS 
+parallel_baselines                                                   PASS 
+parallel_recoverable_jobs                                            PASS 
+parallel_failsafe_jobs                                               PASS 
+completion_progress_reported                                         PASS 
+inherited_F_remains_serial                                           PASS 
+toolbox_required                                                     PASS 
+workers_bounded_to_8                                                 PASS 
+default_workers_four                                                 PASS 
+existing_pool_restarted_for_override                                 PASS 
+process_pool_preferred                                               PASS 
+worker_override_supported                                            PASS 
+python_spawn_bootstrap_guard                                         PASS 
+python_spawn_context_explicit                                        PASS 
+hist_exact_5                                                         PASS 
+recoverable_exact_60                                                 PASS 
+historical_subset_of_recoverable                                     PASS 
+noncached_recoverable_exact_55                                       PASS 
+qualification_exact_71_unique_missions                               PASS 71
+parallel_execution_exact_same_71                                     PASS 
+rng_reseed_per_case                                                  PASS 
+result_dir_scenario_seed_isolated                                    PASS 
+parallel_case_keys_unique                                            PASS 
+python_spawn_parallel_order_independent                              PASS 
+recoverable_matrix_indexing_order_independent                        PASS 
+historical_failfast_before_inherited_and_matrix                      PASS 
+historical_results_cached                                            PASS 
+normal_runner_still_can_save_full_artifacts                          PASS 
+qualification_disables_full_artifact_save                            PASS 
+gate_report_still_persisted                                          PASS 
+
+S2.5 v1.0.9 PARALLEL HARNESS PYTHON BACKTEST: PASS
+Unique coupled missions: 71 | historical cached: 5 | new recoverable worker jobs: 55
+S2.5 v1.0.9: restarting pool to prevent stale-package workers.
+Parallel pool using the 'Processes' profile is shutting down.
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 4 workers.
+S2.5 PARALLEL POOL: PASS | workers=4 | profile=Processes
+
+============================================================
+ S2.5 PHASE 0C — PARALLEL HISTORICAL RECOVERY PREFLIGHT (5 CACHED RUNS)
+============================================================
+  [HIST] completed 1/5: PERCEPTION_RANGE_SPIKE          seed=2 | worker 3.2 min | phase 3.2 min
+  [HIST] completed 2/5: NAV_IMU_FAULT_VIO_OUTAGE        seed=1 | worker 3.3 min | phase 3.3 min
+  [HIST] completed 3/5: PERCEPTION_DUAL_BRIEF           seed=1 | worker 3.3 min | phase 3.3 min
+  [HIST] completed 4/5: PERCEPTION_STALE_BURST          seed=1 | worker 3.3 min | phase 3.3 min
+  [HIST] completed 5/5: COUPLED_IMU_PERCEPTION          seed=1 | worker 2.8 min | phase 6.0 min
+1/5 NAV_IMU_FAULT_VIO_OUTAGE        seed=1 : PASS | goal=1 E=1 laneSw=1 hold=0 inv=0 epInv=0 epBound=0 fb=0 rv=0 scans=1 extra=1 safety=1
+      integrity dup=582558 occl=922536 | scans inherited=1 s25=1 allowance=0
+2/5 PERCEPTION_DUAL_BRIEF           seed=1 : PASS | goal=1 E=1 laneSw=0 hold=1 inv=1 epInv=0 epBound=0 fb=0 rv=0 scans=1 extra=1 safety=1
+      integrity dup=558427 occl=931482 | scans inherited=1 s25=1 allowance=0
+3/5 PERCEPTION_STALE_BURST          seed=1 : PASS | goal=1 E=1 laneSw=0 hold=1 inv=1 epInv=0 epBound=0 fb=0 rv=0 scans=1 extra=1 safety=1
+      integrity dup=565471 occl=941689 | scans inherited=1 s25=1 allowance=0
+4/5 PERCEPTION_RANGE_SPIKE          seed=2 : PASS | goal=1 E=1 laneSw=0 hold=0 inv=3 epInv=1 epBound=0 fb=0 rv=0 scans=1 extra=1 safety=1
+      integrity dup=553160 occl=845580 | scans inherited=1 s25=1 allowance=0
+5/5 COUPLED_IMU_PERCEPTION          seed=1 : PASS | goal=1 E=1 laneSw=1 hold=1 inv=1 epInv=0 epBound=0 fb=0 rv=0 scans=1 extra=1 safety=1
+      integrity dup=565899 occl=918992 | scans inherited=1 s25=1 allowance=0
+
+============================================================
+ S2.5 PHASE 1 — INHERITED S2.4-F COUPLED REGRESSION (SERIAL)
+============================================================
+01 valid_known_free_request                         PASS
+02 blocked_route_rejected                           PASS
+03 unknown_viewpoint_rejected                       PASS
+04 local_hold_support_rejected                      PASS
+05 expired_request_rejected                         PASS
+06 unrelated_map_version_change_revalidated         PASS
+S2.4-E REQUEST CONTRACTS: 6/6 PASS
+
+S2.4-E CONTROLLED ADVERSARIAL POLICY CONTRACT: PASS
+target IG / utility: 5.000 / 0.320
+decoy  IG / utility: 12.000 / 0.470
+                    twoFrontiers: 1
+                     competition: 1
+            targetSafetyFeasible: 1
+             decoySafetyFeasible: 1
+                 decoyPolicyOnly: 1
+         decoyHasMoreInformation: 1
+        decoyHasHigherRawUtility: 1
+                     targetTier1: 1
+                      decoyTier3: 1
+                  targetSelected: 1
+           noIrrelevantSelection: 1
+                   distinctDecoy: 1
+    mostInformativeDecoyRecorded: 1
+      rawUtilityDecoyBeatsTarget: 1
+                tierPriorityWins: 1
+
+
+S2.4-E LITERAL CORRIDOR GEOMETRY CONTRACT: PASS
+Safe fork width upper/lower   : 0.646 / 0.896 m
+Safe branch width target/decoy: 0.996 / 2.196 m
+Obstacle schema source          : inherited:hidden_obstacle_replan
+Physical obstacle overlay:
+    2.4500    2.1000    0.4000    2.0500
+    2.8500    3.4000    3.0000    0.4000
+
+
+============================================================
+ S2.4-E v0.3.6-adversarial-competing-corridors-candidate COUPLED ACTIVE EXPLORATION
+ seed=0 | scenario=ACTIVE_GOAL_REQUIRES_SCAN | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/results/S2_4_coupled/v0_3_6_adversarial_competing_corridors_candidate/active_goal_requires_scan/seed_000
+============================================================
+Goal/unreachable/failsafe       : 1 / 0 / 0
+Exploration request/selected    : 1 / 1
+Viewpoints executed             : 1
+Competing decisions/frontiers   : 1 / 3
+Target/irrelevant selections    : 1 / 0
+First selected tier/relevance   : 1 / 4.893
+Best decoy information gain     : 28.068
+Unsafe viewpoint execution steps: 0
+Unknown commitments             : 0
+Collision / geofence            : 0 / 0
+Exploration / mapping / mission : 1 / 1 / 1
+Final state                     : COMPLETE
+RESULT                          : PASS
+
+
+S2.4-E MILESTONE 1 GATE: PASS
+                     missionPass: 1
+                requestGenerated: 1
+                 requestAccepted: 1
+               viewpointExecuted: 1
+                     goalReached: 1
+                   rtlAndLanding: 1
+                   zeroCollision: 1
+                    zeroGeofence: 1
+           zeroUnknownCommitment: 1
+    zeroUnsafeViewpointExecution: 1
+                  truthIsolation: 1
+                            pass: 1
+
+
+S2.4-E CONTROLLED ADVERSARIAL POLICY CONTRACT: PASS
+target IG / utility: 5.000 / 0.320
+decoy  IG / utility: 12.000 / 0.470
+                    twoFrontiers: 1
+                     competition: 1
+            targetSafetyFeasible: 1
+             decoySafetyFeasible: 1
+                 decoyPolicyOnly: 1
+         decoyHasMoreInformation: 1
+        decoyHasHigherRawUtility: 1
+                     targetTier1: 1
+                      decoyTier3: 1
+                  targetSelected: 1
+           noIrrelevantSelection: 1
+                   distinctDecoy: 1
+    mostInformativeDecoyRecorded: 1
+      rawUtilityDecoyBeatsTarget: 1
+                tierPriorityWins: 1
+
+
+S2.4-E LITERAL CORRIDOR GEOMETRY CONTRACT: PASS
+Safe fork width upper/lower   : 0.646 / 0.896 m
+Safe branch width target/decoy: 0.996 / 2.196 m
+Obstacle schema source          : inherited:hidden_obstacle_replan
+Physical obstacle overlay:
+    2.4500    2.1000    0.4000    2.0500
+    2.8500    3.4000    3.0000    0.4000
+
+
+============================================================
+ S2.4-E v0.3.6-adversarial-competing-corridors-candidate COUPLED ACTIVE EXPLORATION
+ seed=0 | scenario=ACTIVE_COMPETING_CORRIDORS | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/results/S2_4_coupled/v0_3_6_adversarial_competing_corridors_candidate/active_competing_corridors/seed_000
+============================================================
+Goal/unreachable/failsafe       : 1 / 0 / 0
+Exploration request/selected    : 1 / 1
+Viewpoints executed             : 1
+Competing decisions/frontiers   : 1 / 3
+Target/irrelevant selections    : 1 / 0
+First selected tier/relevance   : 1 / 1.964
+Best decoy information gain     : 9.964
+Unsafe viewpoint execution steps: 0
+Unknown commitments             : 0
+Collision / geofence            : 0 / 0
+Exploration / mapping / mission : 1 / 1 / 1
+Final state                     : COMPLETE
+RESULT                          : PASS
+
+
+S2.4-E MILESTONE 2 — LAYERED LITERAL COMPETING CORRIDORS: PASS
+Controlled adversarial policy contract: 1
+Selected frontier / target relevance / tier: 1 / 1.964386 / 1
+Selected physical information gain          : 17.793070
+Clean decoy frontier / candidate / IG       : 2 / 100 / 9.964386
+Physical decoy/selected IG ratio (observed): 0.560015
+Clean decoy rejection reasons               : IRRELEVANT_EXPLORATION
+Physical decoy more informative (observation): 0
+               adversarialPolicyContract: 1
+                 literalGeometryContract: 1
+                  literalTruthWorldMatch: 1
+                             missionPass: 1
+                        requestGenerated: 1
+                         requestAccepted: 1
+                       viewpointExecuted: 1
+               competingDecisionObserved: 1
+                     atLeastTwoFrontiers: 1
+              irrelevantCandidatePresent: 1
+       distinctIrrelevantFrontierPresent: 1
+               cleanFeasibleDecoyPresent: 1
+                  targetRelevantSelected: 1
+                   noIrrelevantSelection: 1
+                    tierPriorityRecorded: 1
+                             goalReached: 1
+                           rtlAndLanding: 1
+                           zeroCollision: 1
+                            zeroGeofence: 1
+                   zeroUnknownCommitment: 1
+            zeroUnsafeViewpointExecution: 1
+                          truthIsolation: 1
+    physicalDecoyMoreInformativeObserved: 0
+            decoyStrictlyMoreInformative: 0
+                                    pass: 1
+
+
+S2.4-E COMBINED MATLAB GATE — MILESTONES 1+2: PASS
+S2.4-F deterministic revalidation contracts: PASS
+F15 predictive moving-obstacle contract: NOT APPLICABLE (live predictor not connected)
+
+============================================================
+ S2.4-E v0.3.6-adversarial-competing-corridors-candidate COUPLED ACTIVE EXPLORATION
+ seed=0 | scenario=ACTIVE_GOAL_REQUIRES_SCAN | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/results/S2_4_coupled/v0_3_6_adversarial_competing_corridors_candidate/active_goal_requires_scan/seed_000
+============================================================
+Goal/unreachable/failsafe       : 1 / 0 / 0
+Exploration request/selected    : 1 / 1
+Viewpoints executed             : 1
+Competing decisions/frontiers   : 1 / 3
+Target/irrelevant selections    : 1 / 0
+First selected tier/relevance   : 1 / 4.893
+Best decoy information gain     : 28.068
+Unsafe viewpoint execution steps: 0
+Unknown commitments             : 0
+Collision / geofence            : 0 / 0
+Exploration / mapping / mission : 1 / 1 / 1
+Final state                     : COMPLETE
+RESULT                          : PASS
+
+S2.4-F no-fault E reference parity: PASS
+F2: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F3: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F4: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F5: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F6: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=0 authGen=1
+F7: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=0 authGen=1
+F8: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F9: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F10: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F11: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=0 authGen=1
+F13: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=1 authGen=2
+F14: PASS | injected=1 detected=1 response=1 stale=0 collision=0 unknown=0 invalidations=3 authGen=3
+
+S2.4-F EXECUTION-TIME SAFETY MATLAB GATE: PASS
+
+============================================================
+ S2.5 PHASE 2 — PARALLEL NO-FAULT BASELINES (5 SEEDS)
+============================================================
+  [BASE] completed 1/5: BASELINE                        seed=1 | worker 3.1 min | phase 3.1 min
+  [BASE] completed 2/5: BASELINE                        seed=3 | worker 3.2 min | phase 3.2 min
+  [BASE] completed 3/5: BASELINE                        seed=2 | worker 3.3 min | phase 3.3 min
+  [BASE] completed 4/5: BASELINE                        seed=0 | worker 3.3 min | phase 3.3 min
+  [BASE] completed 5/5: BASELINE                        seed=4 | worker 2.6 min | phase 5.7 min
+BASE seed=0 : PASS | E=1 pos=0.0158 att=1.1293 laneSw=0 mapReject=16
+BASE seed=1 : PASS | E=1 pos=0.0259 att=1.0632 laneSw=0 mapReject=20
+BASE seed=2 : PASS | E=1 pos=0.0296 att=1.1844 laneSw=0 mapReject=34
+BASE seed=3 : PASS | E=1 pos=0.0317 att=0.9989 laneSw=0 mapReject=22
+BASE seed=4 : PASS | E=1 pos=0.0313 att=1.1636 laneSw=0 mapReject=44
+
+============================================================
+ S2.5 PHASE 3 — PARALLEL RECOVERABLE MATRIX (60 UNIQUE RUNS; 5 CACHED)
+============================================================
+  [REC] completed 1/55: NAV_VIO_DROPOUT                 seed=1 | worker 4.3 min | phase 4.2 min
+  [REC] completed 2/55: NAV_VIO_DROPOUT                 seed=3 | worker 4.6 min | phase 4.6 min
+  [REC] completed 3/55: NAV_VIO_DROPOUT                 seed=0 | worker 4.7 min | phase 4.7 min
+  [REC] completed 4/55: NAV_VIO_DROPOUT                 seed=2 | worker 4.9 min | phase 4.9 min
+  [REC] completed 5/55: NAV_VIO_DROPOUT                 seed=4 | worker 4.8 min | phase 9.1 min
+  [REC] completed 6/55: NAV_LIDAR_DROPOUT               seed=0 | worker 5.0 min | phase 9.5 min
+  [REC] completed 7/55: NAV_LIDAR_DROPOUT               seed=1 | worker 5.1 min | phase 9.8 min
+  [REC] completed 8/55: NAV_LIDAR_DROPOUT               seed=2 | worker 5.2 min | phase 10.1 min
+  [REC] completed 9/55: NAV_LIDAR_DROPOUT               seed=3 | worker 5.0 min | phase 14.1 min
+  [REC] completed 10/55: NAV_LIDAR_DROPOUT               seed=4 | worker 5.7 min | phase 15.2 min
+  [REC] completed 11/55: NAV_VIO_OUTLIER                 seed=0 | worker 5.7 min | phase 15.5 min
+  [REC] completed 12/55: NAV_VIO_OUTLIER                 seed=1 | worker 5.5 min | phase 15.5 min
+  [REC] completed 13/55: NAV_VIO_OUTLIER                 seed=2 | worker 5.9 min | phase 20.1 min
+  [REC] completed 14/55: NAV_VIO_OUTLIER                 seed=3 | worker 5.0 min | phase 20.2 min
+  [REC] completed 15/55: NAV_LIDAR_OUTLIER               seed=0 | worker 4.9 min | phase 20.5 min
+  [REC] completed 16/55: NAV_VIO_OUTLIER                 seed=4 | worker 5.2 min | phase 20.7 min
+  [REC] completed 17/55: NAV_LIDAR_OUTLIER               seed=1 | worker 3.4 min | phase 23.5 min
+  [REC] completed 18/55: NAV_LIDAR_OUTLIER               seed=3 | worker 3.8 min | phase 24.2 min
+  [REC] completed 19/55: NAV_LIDAR_OUTLIER               seed=2 | worker 4.1 min | phase 24.3 min
+  [REC] completed 20/55: NAV_LIDAR_OUTLIER               seed=4 | worker 4.1 min | phase 24.8 min
+  [REC] completed 21/55: NAV_IMU_FAULT_VIO_OUTAGE        seed=0 | worker 4.2 min | phase 27.7 min
+  [REC] completed 22/55: NAV_IMU_FAULT_VIO_OUTAGE        seed=3 | worker 4.7 min | phase 28.9 min
+  [REC] completed 23/55: NAV_IMU_FAULT_VIO_OUTAGE        seed=2 | worker 4.9 min | phase 29.1 min
+  [REC] completed 24/55: NAV_IMU_FAULT_VIO_OUTAGE        seed=4 | worker 5.0 min | phase 29.8 min
+  [REC] completed 25/55: NAV_HIGH_NOISE                  seed=0 | worker 4.5 min | phase 32.2 min
+  [REC] completed 26/55: NAV_HIGH_NOISE                  seed=1 | worker 4.7 min | phase 33.7 min
+  [REC] completed 27/55: NAV_HIGH_NOISE                  seed=2 | worker 4.7 min | phase 33.8 min
+  [REC] completed 28/55: NAV_HIGH_NOISE                  seed=3 | worker 5.0 min | phase 34.8 min
+  [REC] completed 29/55: NAV_HIGH_NOISE                  seed=4 | worker 4.7 min | phase 36.9 min
+  [REC] completed 30/55: PERCEPTION_LIDAR_DROPOUT        seed=0 | worker 5.3 min | phase 38.9 min
+  [REC] completed 31/55: PERCEPTION_LIDAR_DROPOUT        seed=1 | worker 5.2 min | phase 39.1 min
+  [REC] completed 32/55: PERCEPTION_LIDAR_DROPOUT        seed=2 | worker 5.4 min | phase 40.2 min
+  [REC] completed 33/55: PERCEPTION_LIDAR_DROPOUT        seed=3 | worker 4.7 min | phase 41.7 min
+  [REC] completed 34/55: PERCEPTION_LIDAR_DROPOUT        seed=4 | worker 4.8 min | phase 43.7 min
+  [REC] completed 35/55: PERCEPTION_DEPTH_DROPOUT        seed=0 | worker 4.7 min | phase 43.8 min
+  [REC] completed 36/55: PERCEPTION_DEPTH_DROPOUT        seed=1 | worker 4.4 min | phase 44.7 min
+  [REC] completed 37/55: PERCEPTION_DEPTH_DROPOUT        seed=2 | worker 4.1 min | phase 45.8 min
+  [REC] completed 38/55: PERCEPTION_DEPTH_DROPOUT        seed=3 | worker 4.8 min | phase 48.5 min
+  [REC] completed 39/55: PERCEPTION_DEPTH_DROPOUT        seed=4 | worker 5.1 min | phase 48.9 min
+  [REC] completed 40/55: PERCEPTION_DUAL_BRIEF           seed=0 | worker 5.7 min | phase 50.4 min
+  [REC] completed 41/55: PERCEPTION_DUAL_BRIEF           seed=2 | worker 4.6 min | phase 50.4 min
+  [REC] completed 42/55: PERCEPTION_DUAL_BRIEF           seed=4 | worker 5.1 min | phase 54.0 min
+  [REC] completed 43/55: PERCEPTION_DUAL_BRIEF           seed=3 | worker 5.9 min | phase 54.4 min
+  [REC] completed 44/55: PERCEPTION_STALE_BURST          seed=2 | worker 4.6 min | phase 55.0 min
+  [REC] completed 45/55: PERCEPTION_STALE_BURST          seed=0 | worker 5.7 min | phase 56.1 min
+  [REC] completed 46/55: PERCEPTION_STALE_BURST          seed=4 | worker 5.0 min | phase 59.4 min
+  [REC] completed 47/55: PERCEPTION_RANGE_SPIKE          seed=0 | worker 4.6 min | phase 59.6 min
+  [REC] completed 48/55: PERCEPTION_STALE_BURST          seed=3 | worker 5.9 min | phase 59.9 min
+  [REC] completed 49/55: PERCEPTION_RANGE_SPIKE          seed=1 | worker 5.0 min | phase 61.1 min
+  [REC] completed 50/55: PERCEPTION_RANGE_SPIKE          seed=3 | worker 5.0 min | phase 64.4 min
+  [REC] completed 51/55: PERCEPTION_RANGE_SPIKE          seed=4 | worker 5.0 min | phase 64.6 min
+  [REC] completed 52/55: COUPLED_IMU_PERCEPTION          seed=0 | worker 5.7 min | phase 65.7 min
+  [REC] completed 53/55: COUPLED_IMU_PERCEPTION          seed=2 | worker 5.1 min | phase 66.2 min
+  [REC] completed 54/55: COUPLED_IMU_PERCEPTION          seed=4 | worker 4.4 min | phase 69.0 min
+  [REC] completed 55/55: COUPLED_IMU_PERCEPTION          seed=3 | worker 4.9 min | phase 69.3 min
+01/60 NAV_VIO_DROPOUT                 seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=12 navF=151 perF=0 safety=1
+02/60 NAV_VIO_DROPOUT                 seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=151 perF=0 safety=1
+03/60 NAV_VIO_DROPOUT                 seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=14 navF=151 perF=0 safety=1
+04/60 NAV_VIO_DROPOUT                 seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=23 navF=151 perF=0 safety=1
+05/60 NAV_VIO_DROPOUT                 seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=151 perF=0 safety=1
+06/60 NAV_LIDAR_DROPOUT               seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=18 navF=31 perF=0 safety=1
+07/60 NAV_LIDAR_DROPOUT               seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=31 perF=0 safety=1
+08/60 NAV_LIDAR_DROPOUT               seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=15 navF=31 perF=0 safety=1
+09/60 NAV_LIDAR_DROPOUT               seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=22 navF=31 perF=0 safety=1
+10/60 NAV_LIDAR_DROPOUT               seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=31 perF=0 safety=1
+11/60 NAV_VIO_OUTLIER                 seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=16 navF=16 perF=0 safety=1
+12/60 NAV_VIO_OUTLIER                 seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=16 perF=0 safety=1
+13/60 NAV_VIO_OUTLIER                 seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=15 navF=16 perF=0 safety=1
+14/60 NAV_VIO_OUTLIER                 seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=22 navF=16 perF=0 safety=1
+15/60 NAV_VIO_OUTLIER                 seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=16 perF=0 safety=1
+16/60 NAV_LIDAR_OUTLIER               seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=16 navF=4 perF=0 safety=1
+17/60 NAV_LIDAR_OUTLIER               seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=4 perF=0 safety=1
+18/60 NAV_LIDAR_OUTLIER               seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=21 navF=4 perF=0 safety=1
+19/60 NAV_LIDAR_OUTLIER               seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=22 navF=4 perF=0 safety=1
+20/60 NAV_LIDAR_OUTLIER               seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=4 perF=0 safety=1
+21/60 NAV_IMU_FAULT_VIO_OUTAGE        seed=0 : PASS | cached=0 E=1 laneSw=1 hold=0 reject=19 navF=251 perF=0 safety=1
+22/60 NAV_IMU_FAULT_VIO_OUTAGE        seed=1 : PASS | cached=1 E=1 laneSw=1 hold=0 reject=45 navF=251 perF=0 safety=1
+23/60 NAV_IMU_FAULT_VIO_OUTAGE        seed=2 : PASS | cached=0 E=1 laneSw=1 hold=0 reject=21 navF=251 perF=0 safety=1
+24/60 NAV_IMU_FAULT_VIO_OUTAGE        seed=3 : PASS | cached=0 E=1 laneSw=1 hold=0 reject=17 navF=251 perF=0 safety=1
+25/60 NAV_IMU_FAULT_VIO_OUTAGE        seed=4 : PASS | cached=0 E=1 laneSw=1 hold=0 reject=15 navF=251 perF=0 safety=1
+26/60 NAV_HIGH_NOISE                  seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=19 navF=0 perF=0 safety=1
+27/60 NAV_HIGH_NOISE                  seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=41 navF=0 perF=0 safety=1
+28/60 NAV_HIGH_NOISE                  seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=15 navF=0 perF=0 safety=1
+29/60 NAV_HIGH_NOISE                  seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=49 navF=0 perF=0 safety=1
+30/60 NAV_HIGH_NOISE                  seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=18 navF=0 perF=0 safety=1
+31/60 PERCEPTION_LIDAR_DROPOUT        seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=16 navF=0 perF=67 safety=1
+32/60 PERCEPTION_LIDAR_DROPOUT        seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=0 perF=67 safety=1
+33/60 PERCEPTION_LIDAR_DROPOUT        seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=34 navF=0 perF=67 safety=1
+34/60 PERCEPTION_LIDAR_DROPOUT        seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=22 navF=0 perF=67 safety=1
+35/60 PERCEPTION_LIDAR_DROPOUT        seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=0 perF=67 safety=1
+36/60 PERCEPTION_DEPTH_DROPOUT        seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=30 navF=0 perF=81 safety=1
+37/60 PERCEPTION_DEPTH_DROPOUT        seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=0 perF=81 safety=1
+38/60 PERCEPTION_DEPTH_DROPOUT        seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=34 navF=0 perF=81 safety=1
+39/60 PERCEPTION_DEPTH_DROPOUT        seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=39 navF=0 perF=81 safety=1
+40/60 PERCEPTION_DEPTH_DROPOUT        seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=0 perF=81 safety=1
+41/60 PERCEPTION_DUAL_BRIEF           seed=0 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=34 navF=0 perF=21 safety=1
+42/60 PERCEPTION_DUAL_BRIEF           seed=1 : PASS | cached=1 E=1 laneSw=0 hold=1 reject=52 navF=0 perF=21 safety=1
+43/60 PERCEPTION_DUAL_BRIEF           seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=34 navF=0 perF=21 safety=1
+44/60 PERCEPTION_DUAL_BRIEF           seed=3 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=40 navF=0 perF=21 safety=1
+45/60 PERCEPTION_DUAL_BRIEF           seed=4 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=47 navF=0 perF=21 safety=1
+46/60 PERCEPTION_STALE_BURST          seed=0 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=55 navF=0 perF=21 safety=1
+47/60 PERCEPTION_STALE_BURST          seed=1 : PASS | cached=1 E=1 laneSw=0 hold=1 reject=73 navF=0 perF=21 safety=1
+48/60 PERCEPTION_STALE_BURST          seed=2 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=55 navF=0 perF=21 safety=1
+49/60 PERCEPTION_STALE_BURST          seed=3 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=61 navF=0 perF=21 safety=1
+50/60 PERCEPTION_STALE_BURST          seed=4 : PASS | cached=0 E=1 laneSw=0 hold=1 reject=68 navF=0 perF=21 safety=1
+51/60 PERCEPTION_RANGE_SPIKE          seed=0 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=16 navF=0 perF=1 safety=1
+52/60 PERCEPTION_RANGE_SPIKE          seed=1 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=20 navF=0 perF=1 safety=1
+53/60 PERCEPTION_RANGE_SPIKE          seed=2 : PASS | cached=1 E=1 laneSw=0 hold=0 reject=34 navF=0 perF=1 safety=1
+54/60 PERCEPTION_RANGE_SPIKE          seed=3 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=22 navF=0 perF=1 safety=1
+55/60 PERCEPTION_RANGE_SPIKE          seed=4 : PASS | cached=0 E=1 laneSw=0 hold=0 reject=44 navF=0 perF=1 safety=1
+56/60 COUPLED_IMU_PERCEPTION          seed=0 : PASS | cached=0 E=1 laneSw=1 hold=1 reject=44 navF=0 perF=21 safety=1
+57/60 COUPLED_IMU_PERCEPTION          seed=1 : PASS | cached=1 E=1 laneSw=1 hold=1 reject=46 navF=0 perF=21 safety=1
+58/60 COUPLED_IMU_PERCEPTION          seed=2 : PASS | cached=0 E=1 laneSw=1 hold=0 reject=16 navF=0 perF=21 safety=1
+59/60 COUPLED_IMU_PERCEPTION          seed=3 : PASS | cached=0 E=1 laneSw=1 hold=1 reject=41 navF=0 perF=21 safety=1
+60/60 COUPLED_IMU_PERCEPTION          seed=4 : PASS | cached=0 E=1 laneSw=1 hold=1 reject=16 navF=0 perF=21 safety=1
+
+============================================================
+ S2.5 PHASE 4 — PARALLEL FAIL-SAFE ROBUSTNESS (6 RUNS)
+============================================================
+  [FAILSAFE] completed 1/6: NAV_XY_LOSS                     seed=1 | worker 1.1 min | phase 1.1 min
+  [FAILSAFE] completed 2/6: NAV_XY_LOSS                     seed=2 | worker 1.1 min | phase 1.1 min
+  [FAILSAFE] completed 3/6: NAV_XY_LOSS                     seed=0 | worker 1.2 min | phase 1.2 min
+  [FAILSAFE] completed 4/6: PERCEPTION_DUAL_PROLONGED       seed=0 | worker 1.3 min | phase 1.3 min
+  [FAILSAFE] completed 5/6: PERCEPTION_DUAL_PROLONGED       seed=1 | worker 1.0 min | phase 2.1 min
+  [FAILSAFE] completed 6/6: PERCEPTION_DUAL_PROLONGED       seed=2 | worker 1.1 min | phase 2.3 min
+01/6 NAV_XY_LOSS                     seed=0 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+02/6 NAV_XY_LOSS                     seed=1 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+03/6 NAV_XY_LOSS                     seed=2 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+04/6 PERCEPTION_DUAL_PROLONGED       seed=0 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+05/6 PERCEPTION_DUAL_PROLONGED       seed=1 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+06/6 PERCEPTION_DUAL_PROLONGED       seed=2 : PASS | failsafe=1 emergency=1 complete=1 core=1 mapSafety=1 unknown=0 coll=0 truth=1
+
+============================================================
+ S2.5 PHASE 5 — POST-RUN PARENT IMMUTABILITY
+============================================================
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+
+============================================================
+ S2.5 ESTIMATION + PERCEPTION ROBUSTNESS: PASS
+ Parallel workers               : 4 (Processes)
+ Validated S2.4-G parent        : PASS
+ Inherited S2.4-F regression    : PASS
+ No-fault baselines             : 5/5 PASS
+ Historical recovery preflight : 5/5 PASS
+ Recoverable fault matrix       : 60/60 PASS
+ Fail-safe fault matrix         : 6/6 PASS
+ Results                        : /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_estimation_perception_robustness_v1_0_9_parallel_candidate/results/S2_5_qualification/20260903_181538
+============================================================
+>> 

@@ -1,0 +1,11 @@
+N3-VIO-NIS   PASS  lower-bound NIS 62.59 > gate 27.877
+N4-LID-NIS   PASS  lower-bound NIS 76.24 > gate 16.266
+N5-IMU       PASS  acc 0.466>0.220, gyro 2.166>1.200 deg/s, 4 samples
+P3-HOLD      PASS  1.20 s > hold 0.55 and < failsafe 4.00
+P4-STALE     PASS  lag 0.45 s > packet-age gate 0.30 s
+P6-FAILSAFE  PASS  7.0 s > perception failsafe 4.00 s
+P5-STATIC    PASS  persistent static occupancy is not cleared by free-ray evidence
+FAIL-CLOSED  PASS  planner projection retains explicit known-free/unknown state
+N6-NOISE     PASS  expected VIO/LiDAR NIS 20.25/6.75 below gates
+WINDOWS      PASS  events VIO=16 navLiDAR=4 rawLiDAR=1 depth=1
+S2.5 SOURCE-FAITHFUL FAULT / GATE BACKTEST: PASS

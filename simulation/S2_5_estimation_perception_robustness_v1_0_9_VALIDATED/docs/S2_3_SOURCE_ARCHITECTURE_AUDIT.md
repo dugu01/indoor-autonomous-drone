@@ -1,0 +1,121 @@
+# S2.3 Source Architecture Audit
+
+- MATLAB files: 85
+- Declared MATLAB functions: 182
+- Files reachable from `run_S2_3_online_mapping.m`: 80
+- Archive files hashed: 208
+
+## Entry-point reachable dependency tree
+- `alpha_beta_track_S2_2.m` -> none
+- `animate_S2_2_flight.m` -> `animate_S2_3_flight.m`
+- `animate_S2_3_flight.m` -> none
+- `append_pose_buffer_S2_3.m` -> none
+- `astar_grid_S2_2.m` -> none
+- `build_occupancy_grid_S2_2.m` -> `inflate_obstacles_S2_2.m`
+- `changed_cells_affect_route_S2_3.m` -> `sample_min_snap_trajectory_S2_2.m`, `segment_occupied_grid_S2_2.m`
+- `dist_point_rect_S2_2.m` -> none
+- `dstar_lite_S2_2.m` -> none
+- `dynamic_obstacle_state_S2_2.m` -> none
+- `eval_min_snap_segment_S2_2.m` -> `validate_S2_2_multiseed_robustness.m`
+- `generate_min_snap_trajectory_S2_2.m` -> `eval_min_snap_segment_S2_2.m`, `mission_lifecycle_manager_S2_3.m`, `plan_unknown_segment_S2_3.m`, `sample_min_snap_trajectory_S2_2.m`, `segment_occupied_grid_S2_2.m`
+- `generate_strict_trajectory_S2_3.m` -> `generate_min_snap_trajectory_S2_2.m`
+- `geometric_controller_S2_2.m` -> `q2R_S2_2.m`
+- `inflate_obstacles_S2_2.m` -> none
+- `init_S2_2_config.m` -> none
+- `init_S2_3_config.m` -> `init_S2_2_config.m`
+- `init_perception_model_S2_3.m` -> none
+- `init_pose_buffer_S2_3.m` -> none
+- `init_probabilistic_map_S2_3.m` -> none
+- `init_quadrotor_state_S2_2.m` -> none
+- `init_sensor_model_S2_2.m` -> none
+- `interpolate_pose_buffer_S2_3.m` -> `qnormalize_S2_2.m`
+- `land_detector_S2_2.m` -> none
+- `landing_zone_clear_S2_2.m` -> none
+- `mission_lifecycle_manager_S2_2.m` -> `astar_grid_S2_2.m`, `build_occupancy_grid_S2_2.m`, `dist_point_rect_S2_2.m`, `dstar_lite_S2_2.m`, `generate_min_snap_trajectory_S2_2.m`, `geometric_controller_S2_2.m`, `init_quadrotor_state_S2_2.m`, `init_sensor_model_S2_2.m`, `land_detector_S2_2.m`, `mission_lifecycle_manager_S2_3.m`, `mission_manager_v0_5_3_core_S2_2.m`, `multi_lane_eskf_lifecycle_S2_2.m`, `plan_unknown_segment_S2_3.m`, `preflight_check_S2_2.m`, `q2rpy_S2_2.m`, `qconj_S2_2.m`, `qlog_S2_2.m`, `qmul_S2_2.m`, `quadrotor_dynamics_S2_2.m`, `sample_min_snap_state_S2_2.m`, `segment_occupied_grid_S2_2.m`, `select_safe_landing_zone_S2_2.m`, `shape_velocity_command_S2_2.m`, `simulate_sensor_packet_S2_2.m`, `smooth_path_S2_2.m`, `track_smooth_trajectory_S2_2.m`, `uncertainty_inflation_S2_2.m`, `vertical_profile_S2_2.m`
+- `mission_lifecycle_manager_S2_3.m` -> `append_pose_buffer_S2_3.m`, `astar_grid_S2_2.m`, `changed_cells_affect_route_S2_3.m`, `dist_point_rect_S2_2.m`, `dstar_lite_S2_2.m`, `generate_strict_trajectory_S2_3.m`, `geometric_controller_S2_2.m`, `init_perception_model_S2_3.m`, `init_pose_buffer_S2_3.m`, `init_probabilistic_map_S2_3.m`, `init_quadrotor_state_S2_2.m`, `init_sensor_model_S2_2.m`, `interpolate_pose_buffer_S2_3.m`, `land_detector_S2_2.m`, `mission_manager_v0_5_3_core_S2_2.m`, `multi_lane_eskf_lifecycle_S2_2.m`, `plan_unknown_segment_S2_3.m`, `preflight_check_S2_3.m`, `project_map_to_planner_S2_3.m`, `q2rpy_S2_2.m`, `qconj_S2_2.m`, `qlog_S2_2.m`, `qmul_S2_2.m`, `quadrotor_dynamics_S2_2.m`, `sample_min_snap_state_S2_2.m`, `segment_occupied_grid_S2_2.m`, `select_safe_landing_zone_S2_3.m`, `shape_velocity_command_S2_2.m`, `simulate_perception_packet_S2_3.m`, `simulate_sensor_packet_S2_2.m`, `smooth_path_S2_2.m`, `track_smooth_trajectory_S2_2.m`, `truth_world_S2_3.m`, `uncertainty_inflation_S2_2.m`, `update_probabilistic_map_S2_3.m`, `validate_map_against_truth_S2_3.m`, `vertical_profile_S2_2.m`, `wrap_pi_S2_2.m`
+- `mission_manager_S2_2.m` -> `mission_lifecycle_manager_S2_2.m`, `mission_manager_v0_5_3_core_S2_2.m`
+- `mission_manager_v0_5_3_core_S2_2.m` -> `alpha_beta_track_S2_2.m`, `astar_grid_S2_2.m`, `build_occupancy_grid_S2_2.m`, `dist_point_rect_S2_2.m`, `dstar_lite_S2_2.m`, `dynamic_obstacle_state_S2_2.m`, `generate_min_snap_trajectory_S2_2.m`, `geometric_controller_S2_2.m`, `init_quadrotor_state_S2_2.m`, `init_sensor_model_S2_2.m`, `multi_lane_eskf_robust_S2_2.m`, `plan_unknown_segment_S2_3.m`, `q2rpy_S2_2.m`, `qconj_S2_2.m`, `qlog_S2_2.m`, `qmul_S2_2.m`, `quadrotor_dynamics_S2_2.m`, `sample_min_snap_state_S2_2.m`, `segment_occupied_grid_S2_2.m`, `shape_velocity_command_S2_2.m`, `simulate_perception_packet_S2_3.m`, `simulate_sensor_packet_S2_2.m`, `smooth_path_S2_2.m`, `static_braking_speed_S2_2.m`, `track_smooth_trajectory_S2_2.m`, `uncertainty_inflation_S2_2.m`, `velocity_obstacle_filter_S2_2.m`
+- `multi_lane_eskf_lifecycle_S2_2.m` -> `multi_lane_eskf_robust_S2_2.m`, `q2R_S2_2.m`, `q2rpy_S2_2.m`, `qconj_S2_2.m`, `qexp_S2_2.m`, `qlog_S2_2.m`, `qmul_S2_2.m`, `qnormalize_S2_2.m`, `skew3_S2_2.m`, `wrap_pi_S2_2.m`
+- `multi_lane_eskf_robust_S2_2.m` -> `q2R_S2_2.m`, `q2rpy_S2_2.m`, `qconj_S2_2.m`, `qexp_S2_2.m`, `qlog_S2_2.m`, `qmul_S2_2.m`, `qnormalize_S2_2.m`, `skew3_S2_2.m`, `wrap_pi_S2_2.m`
+- `plan_unknown_segment_S2_3.m` -> `astar_grid_S2_2.m`, `dstar_lite_S2_2.m`, `generate_strict_trajectory_S2_3.m`, `sample_min_snap_state_S2_2.m`, `segment_occupied_grid_S2_2.m`, `select_goal_frontier_S2_3.m`, `smooth_path_S2_2.m`, `validate_known_free_stop_S2_3.m`
+- `plot_S2_2_dashboard.m` -> none
+- `plot_S2_3_dashboard.m` -> none
+- `preflight_check_S2_2.m` -> `astar_grid_S2_2.m`, `landing_zone_clear_S2_2.m`, `preflight_check_S2_3.m`, `segment_occupied_grid_S2_2.m`
+- `preflight_check_S2_3.m` -> none
+- `project_map_to_planner_S2_3.m` -> none
+- `q2R_S2_2.m` -> `qnormalize_S2_2.m`
+- `q2rpy_S2_2.m` -> `q2R_S2_2.m`
+- `qconj_S2_2.m` -> `qnormalize_S2_2.m`
+- `qexp_S2_2.m` -> `qnormalize_S2_2.m`
+- `qlog_S2_2.m` -> `qnormalize_S2_2.m`
+- `qmul_S2_2.m` -> `qnormalize_S2_2.m`
+- `qnormalize_S2_2.m` -> none
+- `quadrotor_dynamics_S2_2.m` -> `q2R_S2_2.m`, `qexp_S2_2.m`, `qmul_S2_2.m`
+- `raycast_world_S2_3.m` -> none
+- `replay_perception_log_S2_3.m` -> `init_probabilistic_map_S2_3.m`, `update_probabilistic_map_S2_3.m`, `validate_S2_3_release_all.m`, `validate_map_against_truth_S2_3.m`
+- `run_S2_2_mission_replanning.m` -> `animate_S2_2_flight.m`, `init_S2_2_config.m`, `mission_manager_S2_2.m`, `plot_S2_2_dashboard.m`, `scenario_S2_2.m`, `validate_S2_3_release_all.m`
+- `run_S2_3_online_mapping.m` -> `animate_S2_3_flight.m`, `init_S2_3_config.m`, `mission_lifecycle_manager_S2_3.m`, `plot_S2_3_dashboard.m`, `scenario_S2_3.m`, `validate_S2_3_release_all.m`
+- `sample_min_snap_state_S2_2.m` -> `eval_min_snap_segment_S2_2.m`
+- `sample_min_snap_trajectory_S2_2.m` -> `eval_min_snap_segment_S2_2.m`
+- `scenario_S2_2.m` -> `scenario_S2_3.m`
+- `scenario_S2_3.m` -> `scenario_S2_2.m`
+- `segment_occupied_grid_S2_2.m` -> none
+- `select_goal_frontier_S2_3.m` -> `astar_grid_S2_2.m`
+- `select_safe_landing_zone_S2_2.m` -> `astar_grid_S2_2.m`, `landing_zone_clear_S2_2.m`
+- `select_safe_landing_zone_S2_3.m` -> `astar_grid_S2_2.m`, `landing_zone_clear_S2_2.m`
+- `shape_velocity_command_S2_2.m` -> none
+- `simulate_perception_packet_S2_3.m` -> `q2R_S2_2.m`, `raycast_world_S2_3.m`, `truth_world_S2_3.m`
+- `simulate_sensor_packet_S2_2.m` -> `q2R_S2_2.m`, `q2rpy_S2_2.m`, `qexp_S2_2.m`, `qmul_S2_2.m`, `wrap_pi_S2_2.m`
+- `skew3_S2_2.m` -> none
+- `smooth_path_S2_2.m` -> `segment_occupied_grid_S2_2.m`
+- `static_braking_speed_S2_2.m` -> `segment_occupied_grid_S2_2.m`
+- `track_smooth_trajectory_S2_2.m` -> `sample_min_snap_state_S2_2.m`
+- `truth_world_S2_3.m` -> `dynamic_obstacle_state_S2_2.m`, `scenario_S2_3.m`
+- `uncertainty_inflation_S2_2.m` -> none
+- `update_probabilistic_map_S2_3.m` -> `q2R_S2_2.m`
+- `validate_S2_2.m` -> `init_S2_2_config.m`, `run_S2_2_mission_replanning.m`
+- `validate_S2_2_multiseed_robustness.m` -> `init_S2_2_config.m`, `run_S2_2_mission_replanning.m`
+- `validate_S2_2_v0_5_3_focus.m` -> `init_S2_2_config.m`, `run_S2_2_mission_replanning.m`, `validate_S2_3_release_all.m`
+- `validate_S2_3.m` -> `init_S2_3_config.m`, `run_S2_3_online_mapping.m`
+- `validate_S2_3_legacy_regression.m` -> `validate_S2_2.m`, `validate_S2_2_multiseed_robustness.m`, `validate_S2_2_v0_5_3_focus.m`
+- `validate_S2_3_multiseed.m` -> `init_S2_3_config.m`, `run_S2_3_online_mapping.m`
+- `validate_S2_3_release_all.m` -> `init_S2_3_config.m`, `replay_perception_log_S2_3.m`, `run_S2_3_online_mapping.m`, `validate_S2_3.m`, `validate_S2_3_legacy_regression.m`, `validate_S2_3_multiseed.m`, `verify_S2_2_existing_evidence_S2_3.m`
+- `validate_known_free_stop_S2_3.m` -> `landing_zone_clear_S2_2.m`, `segment_occupied_grid_S2_2.m`
+- `validate_map_against_truth_S2_3.m` -> none
+- `velocity_obstacle_filter_S2_2.m` -> `segment_occupied_grid_S2_2.m`
+- `verify_S2_2_existing_evidence_S2_3.m` -> none
+- `vertical_profile_S2_2.m` -> none
+- `wrap_pi_S2_2.m` -> none
+
+## S2.3-specific files and callers
+- `animate_S2_3_flight.m` called by: `animate_S2_2_flight.m`, `run_S2_3_online_mapping.m`
+- `append_pose_buffer_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `changed_cells_affect_route_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `generate_strict_trajectory_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `plan_unknown_segment_S2_3.m`
+- `init_S2_3_config.m` called by: `run_S2_3_online_mapping.m`, `validate_S2_3.m`, `validate_S2_3_multiseed.m`, `validate_S2_3_release_all.m`, `validate_S2_3_release_focus.m`
+- `init_perception_model_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `init_pose_buffer_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `init_probabilistic_map_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `replay_perception_log_S2_3.m`
+- `interpolate_pose_buffer_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `mission_lifecycle_manager_S2_3.m` called by: `generate_min_snap_trajectory_S2_2.m`, `mission_lifecycle_manager_S2_2.m`, `run_S2_3_online_mapping.m`
+- `plan_unknown_segment_S2_3.m` called by: `generate_min_snap_trajectory_S2_2.m`, `mission_lifecycle_manager_S2_2.m`, `mission_lifecycle_manager_S2_3.m`, `mission_manager_v0_4_core_S2_2.m`, `mission_manager_v0_5_3_core_S2_2.m`
+- `plot_S2_3_dashboard.m` called by: `run_S2_3_online_mapping.m`
+- `preflight_check_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `preflight_check_S2_2.m`
+- `project_map_to_planner_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `raycast_world_S2_3.m` called by: `simulate_perception_packet_S2_3.m`
+- `replay_perception_log_S2_3.m` called by: `validate_S2_3_release_all.m`
+- `run_S2_3_online_mapping.m` called by: `validate_S2_3.m`, `validate_S2_3_multiseed.m`, `validate_S2_3_release_all.m`, `validate_S2_3_release_focus.m`
+- `scenario_S2_3.m` called by: `run_S2_3_online_mapping.m`, `scenario_S2_2.m`, `truth_world_S2_3.m`
+- `select_goal_frontier_S2_3.m` called by: `plan_unknown_segment_S2_3.m`
+- `select_safe_landing_zone_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`
+- `simulate_perception_packet_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `mission_manager_v0_4_core_S2_2.m`, `mission_manager_v0_5_3_core_S2_2.m`
+- `truth_world_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `simulate_perception_packet_S2_3.m`
+- `update_probabilistic_map_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `replay_perception_log_S2_3.m`
+- `validate_S2_3.m` called by: `validate_S2_3_release_all.m`
+- `validate_S2_3_legacy_regression.m` called by: `validate_S2_3_release_all.m`
+- `validate_S2_3_multiseed.m` called by: `validate_S2_3_release_all.m`
+- `validate_S2_3_release_all.m` called by: `replay_perception_log_S2_3.m`, `run_S2_2_mission_replanning.m`, `run_S2_3_online_mapping.m`, `validate_S2_2_v0_5_3_focus.m`
+- `validate_S2_3_release_focus.m` called by: entry/test only
+- `validate_known_free_stop_S2_3.m` called by: `plan_unknown_segment_S2_3.m`
+- `validate_map_against_truth_S2_3.m` called by: `mission_lifecycle_manager_S2_3.m`, `replay_perception_log_S2_3.m`
+- `verify_S2_2_existing_evidence_S2_3.m` called by: `validate_S2_3_release_all.m`

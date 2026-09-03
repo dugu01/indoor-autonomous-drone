@@ -1,0 +1,34 @@
+S2.4-G validated parent files checked: 353
+Missing: 0 | changed: 0
+S2.4-G VALIDATED PARENT BYTE IDENTITY: PASS
+parent_byte_identity                                               PASS 
+required_v106_files                                                PASS 
+candidate_version_v1_0_6                                           PASS 
+inherits_validated_F_config                                        PASS 
+no_estimator_threshold_relaxation                                  PASS 
+no_map_safety_threshold_relaxation                                 PASS 
+no_progress_scan_threshold_not_changed                             PASS 
+r1_exact_mission_plan_recovery_viewpoint_S2_5_m                    PASS 
+r1_exact_scenarios_scenario_S2_5_m                                 PASS 
+r1_exact_sensors_simulate_sensor_packet_S2_5_m                     PASS 
+r1_exact_perception_simulate_perception_packet_S2_5_m              PASS 
+r1_exact_validation_run_S2_5_qualification_case_m                  PASS 
+r1_exact_validation_start_S2_5_parallel_pool_m                     PASS 
+frozen_mapper_exact                                                PASS 
+sanitizer_fault_agnostic                                           PASS 
+sanitizer_packet_voxel_dedup                                       PASS 
+sanitizer_static_occlusion_gate                                    PASS 
+sanitizer_rejects_not_free_converts                                PASS 
+mapper_uses_sanitized_packet                                       PASS 
+original_packet_kept_for_fault_semantics                           PASS 
+inherited_scan_gate_exact                                          PASS 
+recovery_allowance_derived_not_tuned                               PASS 
+separate_s25_scan_gate                                             PASS 
+inherited_mapping_composite_uses_inherited_scan                    PASS 
+s25_mapping_composite_separate                                     PASS 
+runner_uses_s25_composite_only_for_s25_acceptance                  PASS 
+inherited_mapping_composite_still_exposed                          PASS 
+recovery_cse_sie_still_present                                     PASS 
+unknown_still_continuous_hazard                                    PASS 
+no_global_occupancy_clear                                          PASS 
+S2.5 v1.0.6 STATIC / ISOLATION AUDIT: PASS

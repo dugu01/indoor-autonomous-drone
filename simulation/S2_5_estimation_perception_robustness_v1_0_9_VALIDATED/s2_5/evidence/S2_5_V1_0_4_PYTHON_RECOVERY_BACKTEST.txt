@@ -1,0 +1,43 @@
+candidate_version_v1_0_4                                             PASS 
+bugA_old_stageA_mathematically_contradictory                         PASS 
+bugA_dead_stage_removed                                              PASS 
+config_namespace_fixed                                               PASS 
+active_cfg_owns_required_fields                                      PASS 
+freshness_not_relaxed                                                PASS 
+metric_astar_used                                                    PASS 
+cheap_cornercut_astar_not_used                                       PASS 
+full_checks_inside_rank_loop                                         PASS 
+scan_budget_reset_only_after_arrival                                 PASS 
+recovery_attempt_diagnostics                                         PASS 
+no_tuning_est_pos                                                    PASS 
+no_tuning_est_att                                                    PASS 
+no_tuning_false_free                                                 PASS 
+no_tuning_occ_recall                                                 PASS 
+stageA_boundary_and_hold_support_intersection_zero                   PASS 0
+direct_unavailable_False                                             PASS 
+normal_s24_none_False                                                PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_False                                     PASS 
+recovery_found_False                                                 PASS 
+negative_goal_progress_allowed_False                                 PASS 21.0->30.0
+path_fail_closed_False                                               PASS 
+hold_support_False                                                   PASS 
+direct_unavailable_True                                              PASS 
+normal_s24_none_True                                                 PASS frontiers=2 cands=117 accepted=0
+policy_rejected_candidates_True                                      PASS 
+recovery_found_True                                                  PASS 
+negative_goal_progress_allowed_True                                  PASS 21.0->28.0
+path_fail_closed_True                                                PASS 
+hold_support_True                                                    PASS 
+stale_8p1_rejected                                                   PASS 
+fresh_7p9_not_rejected                                               PASS 
+dynamic_route_rejected                                               PASS 
+v103_top_candidate_commit_false_negative                             PASS 
+v104_exhaustive_safety_first_selects_second                          PASS 
+v103_relocation_carried_old_budget                                   PASS 4
+v104_relocation_resets_budget_at_new_vantage                         PASS 0
+failed_relocation_does_not_reset_budget                              PASS 
+monte_carlo_precondition_40                                          PASS 40/40
+monte_carlo_safe_recovery_rate                                       PASS 40/40
+monte_carlo_unsafe_zero                                              PASS 0
+
+S2.5 v1.0.4 PYTHON RECOVERY LOGIC BACKTEST: PASS

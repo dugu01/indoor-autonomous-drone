@@ -1,0 +1,20 @@
+S2.5 v1.0.1 reviewed delta from user-run v1.0.0 candidate
+
+mission_lifecycle_manager_S2_5.m
+  v1.0.0 SHA256: 3cf43a9f6516fb88f6ab22a3f869b27a97f10bfb025f36ab3ed0df9e0ad18a47
+  v1.0.1 SHA256: 5f3383a635050ad107161dad0e4f8c5c5e159b87b3addc9996f5b6509b921930
+  reviewed behavior changes:
+    - authority invalidation bound still 3; bound suppresses exploration translation and returns to direct-goal scan/replan instead of asserting global goal unreachable
+    - PLAN_OUTBOUND mapMaxNoProgressScans=3 now executes scans 1,2,3; fourth no-route attempt is terminal
+    - additive goal-unreachable reason and authority-bound diagnostics
+
+validate_S2_5_all.m
+  v1.0.0 SHA256: 339d63cf3547269360d2cae48a55659f4209241807f1f2ac685f8f0caa673f95
+  v1.0.1 SHA256: 249068687fc14d3a221c62e2a849560661e1659ce5b46ec11120b7ef0157ed4f
+  reviewed qualification changes:
+    - exact five historical failures execute first and are cached
+    - fail-safe contract excludes nominal final map completeness only; core, false-free, hard safety and truth isolation remain required
+    - 60 recoverable + 6 fail-safe acceptance counts remain unchanged
+
+Estimator/controller/map-admission/execution-safety numerical thresholds: unchanged.
+Validated S2.4-G parent files: zero modifications permitted.

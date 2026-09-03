@@ -1,0 +1,189 @@
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE — EXACT 5 HISTORICAL FAILURES
+ Production runtime/config/thresholds are unchanged.
+ Trace stops after 12 post-fault PLAN_OUTBOUND attempts if needed.
+============================================================
+
+
+#################### 1/5 NAV_IMU_FAULT_VIO_OUTAGE seed=1 ####################
+
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE DIAGNOSTIC
+ seed=1 | scenario=S25_NAV_PRIMARY_IMU_FAULT_VIO_OUTAGE | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_recovery_trace_diagnostic_v1_0_1_runtime/results/S2_5_recovery_trace_diagnostic/v1_0_1_recovery_trace_diagnostic/s25_nav_primary_imu_fault_vio_outage/seed_001
+============================================================
+Mission/goal/failsafe/emergency : 0 / 0 / 0 / 0
+Estimator pos/att/gate          : 0.0307 m / 1.0632 deg / 1
+Lane switches / active final    : 1 / 2
+Map accepted/rejected/hold      : 4333 / 0 / 0
+S2.5 nav/perception fault apps  : 251 / 0
+Unknown/collision/geofence      : 0 / 0 / 0
+Truth isolation / S2.5 case     : 1 / FAIL
+Final state                     : SCAN_HOLD
+
+FINAL: state=SCAN_HOLD goal=0 unreachable=1 reason=PLAN_OUTBOUND_NO_ROUTE_BUDGET traceStop=0 postFaultPlans=4
+SAFETY: E=1 X=1 unknown=0 coll=0 geo=0 truth=1 | inv=1 refGuard=1 laneSw=1 hold=0
+
+PLAN_OUTBOUND TRACE (t>=17.5 s):
+ #    t     mv  noP scan ext inv sup | route traj final front exp direct | known unk obs dist | reason
+ 1  20.98  309   0    0   0   1  0  |   0     0     1     0    0    0   | 0.541 0.381 0.545 5.96 | no_safe_active_viewpoint
+ 2  23.60  344   1    1   0   1  0  |   0     0     1     0    0    0   | 0.543 0.379 0.567 5.95 | no_safe_active_viewpoint
+ 3  26.24  382   2    2   0   1  0  |   0     0     1     0    0    0   | 0.543 0.379 0.568 5.95 | no_safe_active_viewpoint
+ 4  28.88  416   3    3   0   1  0  |   0     0     1     0    0    0   | 0.544 0.378 0.569 5.97 | no_safe_active_viewpoint
+
+EXECUTION/AUTHORITY EVENTS (t>=17.0 s):
+  t= 20.72  REFERENCE_GUARD_REVOKED            reason=CURRENT_REFERENCE_NOT_KNOWN_FREE       gen=1 req=16
+  t= 20.98  REAUTHORIZATION_REJECTED           reason=CURRENT_VIEWPOINT_ROUTE_UNAVAILABLE    gen=0 req=16
+
+EXPLORATION REQUESTS (t>=17.0 s):
+  none
+
+#################### 2/5 PERCEPTION_DUAL_BRIEF seed=1 ####################
+
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE DIAGNOSTIC
+ seed=1 | scenario=S25_PERCEPTION_BRIEF_DUAL_DROPOUT | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_recovery_trace_diagnostic_v1_0_1_runtime/results/S2_5_recovery_trace_diagnostic/v1_0_1_recovery_trace_diagnostic/s25_perception_brief_dual_dropout/seed_001
+============================================================
+Mission/goal/failsafe/emergency : 1 / 0 / 0 / 0
+Estimator pos/att/gate          : 0.0259 m / 1.0632 deg / 1
+Lane switches / active final    : 0 / 1
+Map accepted/rejected/hold      : 794 / 0 / 1
+S2.5 nav/perception fault apps  : 0 / 21
+Unknown/collision/geofence      : 0 / 0 / 0
+Truth isolation / S2.5 case     : 1 / FAIL
+Final state                     : COMPLETE
+
+FINAL: state=COMPLETE goal=0 unreachable=1 reason=PLAN_OUTBOUND_NO_ROUTE_BUDGET traceStop=0 postFaultPlans=5
+SAFETY: E=1 X=1 unknown=0 coll=0 geo=0 truth=1 | inv=3 refGuard=0 laneSw=0 hold=1
+
+PLAN_OUTBOUND TRACE (t>=17.5 s):
+ #    t     mv  noP scan ext inv sup | route traj final front exp direct | known unk obs dist | reason
+ 1  19.58  272   0    0   0   1  0  |   1     0     0     1    1    0   | 0.541 0.382 0.544 5.92 | active_viewpoint
+ 2  28.50  382   0    0   0   3  1  |   0     0     1     0    0    0   | 0.547 0.374 0.547 5.76 | authority_bound_direct_goal_unavailable
+ 3  31.12  416   1    1   0   3  1  |   0     0     1     0    0    0   | 0.547 0.374 0.588 5.75 | authority_bound_direct_goal_unavailable
+ 4  33.76  454   2    2   0   3  1  |   0     0     1     0    0    0   | 0.548 0.373 0.589 5.76 | authority_bound_direct_goal_unavailable
+ 5  36.38  487   3    3   0   3  1  |   0     0     1     0    0    0   | 0.549 0.372 0.590 5.75 | authority_bound_direct_goal_unavailable
+
+EXECUTION/AUTHORITY EVENTS (t>=17.0 s):
+  t= 18.46  AUTHORITY_REVOKED                  reason=PERCEPTION_DEGRADED_AUTHORITY_REVOKED  gen=1 req=16
+  t= 19.58  REAUTHORIZATION_REJECTED           reason=CURRENT_VIEWPOINT_ROUTE_UNAVAILABLE    gen=0 req=16
+  t= 19.58  FRESH_PLAN_AFTER_REVOCATION        reason=active_viewpoint                       gen=2 req=25
+  t= 22.32  AUTHORITY_INVALIDATED              reason=REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID|RETREAT_ROUTE_INVALID gen=2 req=25
+  t= 22.58  REAUTHORIZED_AFTER_REVOCATION      reason=CURRENT_GRID_NEW_AUTHORITY             gen=3 req=25
+  t= 27.92  AUTHORITY_INVALIDATED              reason=REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID gen=3 req=25
+  t= 28.50  EXPLORATION_SUPPRESSED_AFTER_BOUND reason=AUTHORITY_BOUND_EXPLORATION_SUPPRESSED gen=0 req=0
+
+EXPLORATION REQUESTS (t>=17.0 s):
+  t= 19.58 valid=1 reason=VALID                            req=25 frontier=1
+
+#################### 3/5 PERCEPTION_STALE_BURST seed=1 ####################
+
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE DIAGNOSTIC
+ seed=1 | scenario=S25_PERCEPTION_STALE_PACKET_BURST | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_recovery_trace_diagnostic_v1_0_1_runtime/results/S2_5_recovery_trace_diagnostic/v1_0_1_recovery_trace_diagnostic/s25_perception_stale_packet_burst/seed_001
+============================================================
+Mission/goal/failsafe/emergency : 1 / 0 / 0 / 0
+Estimator pos/att/gate          : 0.0259 m / 1.0632 deg / 1
+Lane switches / active final    : 0 / 1
+Map accepted/rejected/hold      : 794 / 21 / 1
+S2.5 nav/perception fault apps  : 0 / 21
+Unknown/collision/geofence      : 0 / 0 / 0
+Truth isolation / S2.5 case     : 1 / FAIL
+Final state                     : COMPLETE
+
+FINAL: state=COMPLETE goal=0 unreachable=1 reason=PLAN_OUTBOUND_NO_ROUTE_BUDGET traceStop=0 postFaultPlans=5
+SAFETY: E=1 X=1 unknown=0 coll=0 geo=0 truth=1 | inv=3 refGuard=0 laneSw=0 hold=1
+
+PLAN_OUTBOUND TRACE (t>=17.5 s):
+ #    t     mv  noP scan ext inv sup | route traj final front exp direct | known unk obs dist | reason
+ 1  19.58  272   0    0   0   1  0  |   1     0     0     1    1    0   | 0.541 0.382 0.544 5.92 | active_viewpoint
+ 2  28.50  382   0    0   0   3  1  |   0     0     1     0    0    0   | 0.547 0.374 0.547 5.76 | authority_bound_direct_goal_unavailable
+ 3  31.12  416   1    1   0   3  1  |   0     0     1     0    0    0   | 0.547 0.374 0.588 5.75 | authority_bound_direct_goal_unavailable
+ 4  33.76  454   2    2   0   3  1  |   0     0     1     0    0    0   | 0.548 0.373 0.589 5.76 | authority_bound_direct_goal_unavailable
+ 5  36.38  487   3    3   0   3  1  |   0     0     1     0    0    0   | 0.549 0.372 0.590 5.75 | authority_bound_direct_goal_unavailable
+
+EXECUTION/AUTHORITY EVENTS (t>=17.0 s):
+  t= 18.46  AUTHORITY_REVOKED                  reason=PERCEPTION_DEGRADED_AUTHORITY_REVOKED  gen=1 req=16
+  t= 19.58  REAUTHORIZATION_REJECTED           reason=CURRENT_VIEWPOINT_ROUTE_UNAVAILABLE    gen=0 req=16
+  t= 19.58  FRESH_PLAN_AFTER_REVOCATION        reason=active_viewpoint                       gen=2 req=25
+  t= 22.32  AUTHORITY_INVALIDATED              reason=REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID|RETREAT_ROUTE_INVALID gen=2 req=25
+  t= 22.58  REAUTHORIZED_AFTER_REVOCATION      reason=CURRENT_GRID_NEW_AUTHORITY             gen=3 req=25
+  t= 27.92  AUTHORITY_INVALIDATED              reason=REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID gen=3 req=25
+  t= 28.50  EXPLORATION_SUPPRESSED_AFTER_BOUND reason=AUTHORITY_BOUND_EXPLORATION_SUPPRESSED gen=0 req=0
+
+EXPLORATION REQUESTS (t>=17.0 s):
+  t= 19.58 valid=1 reason=VALID                            req=25 frontier=1
+
+#################### 4/5 PERCEPTION_RANGE_SPIKE seed=2 ####################
+
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE DIAGNOSTIC
+ seed=2 | scenario=S25_PERCEPTION_RANGE_SPIKE | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_recovery_trace_diagnostic_v1_0_1_runtime/results/S2_5_recovery_trace_diagnostic/v1_0_1_recovery_trace_diagnostic/s25_perception_range_spike/seed_002
+============================================================
+Mission/goal/failsafe/emergency : 1 / 0 / 0 / 0
+Estimator pos/att/gate          : 0.0296 m / 1.1844 deg / 1
+Lane switches / active final    : 0 / 1
+Map accepted/rejected/hold      : 1191 / 0 / 0
+S2.5 nav/perception fault apps  : 0 / 1
+Unknown/collision/geofence      : 0 / 0 / 0
+Truth isolation / S2.5 case     : 1 / FAIL
+Final state                     : COMPLETE
+
+FINAL: state=COMPLETE goal=0 unreachable=1 reason=PLAN_OUTBOUND_NO_ROUTE_BUDGET traceStop=0 postFaultPlans=4
+SAFETY: E=1 X=1 unknown=0 coll=0 geo=0 truth=1 | inv=0 refGuard=0 laneSw=0 hold=0
+
+PLAN_OUTBOUND TRACE (t>=17.5 s):
+ #    t     mv  noP scan ext inv sup | route traj final front exp direct | known unk obs dist | reason
+ 1  32.58  494   0    1   1   0  0  |   0     0     1     0    0    0   | 0.717 0.197 0.793 3.57 | no_safe_active_viewpoint
+ 2  35.20  533   1    2   1   0  0  |   0     0     1     0    0    0   | 0.717 0.196 0.795 3.58 | no_safe_active_viewpoint
+ 3  37.82  570   2    3   1   0  0  |   0     0     1     0    0    0   | 0.717 0.196 0.795 3.58 | no_safe_active_viewpoint
+ 4  40.44  603   3    4   1   0  0  |   0     0     1     0    0    0   | 0.717 0.196 0.795 3.58 | no_safe_active_viewpoint
+
+EXECUTION/AUTHORITY EVENTS (t>=17.0 s):
+  none
+
+EXPLORATION REQUESTS (t>=17.0 s):
+  none
+
+#################### 5/5 COUPLED_IMU_PERCEPTION seed=1 ####################
+
+============================================================
+ S2.5 v1.0.1 RECOVERY TRACE DIAGNOSTIC
+ seed=1 | scenario=S25_COUPLED_IMU_FAULT_PERCEPTION_DROPOUT | plots=0 | animation=0
+ Results: /Users/doodle/Documents/MATLAB/indoor-autonomous-drone/simulation/S2_5_recovery_trace_diagnostic_v1_0_1_runtime/results/S2_5_recovery_trace_diagnostic/v1_0_1_recovery_trace_diagnostic/s25_coupled_imu_fault_perception_dropout/seed_001
+============================================================
+Mission/goal/failsafe/emergency : 0 / 0 / 0 / 0
+Estimator pos/att/gate          : 0.0259 m / 1.0632 deg / 1
+Lane switches / active final    : 1 / 2
+Map accepted/rejected/hold      : 4312 / 0 / 1
+S2.5 nav/perception fault apps  : 0 / 21
+Unknown/collision/geofence      : 0 / 0 / 0
+Truth isolation / S2.5 case     : 1 / FAIL
+Final state                     : SCAN_HOLD
+
+FINAL: state=SCAN_HOLD goal=0 unreachable=1 reason=PLAN_OUTBOUND_NO_ROUTE_BUDGET traceStop=0 postFaultPlans=5
+SAFETY: E=1 X=1 unknown=0 coll=0 geo=0 truth=1 | inv=2 refGuard=0 laneSw=1 hold=1
+
+PLAN_OUTBOUND TRACE (t>=17.5 s):
+ #    t     mv  noP scan ext inv sup | route traj final front exp direct | known unk obs dist | reason
+ 1  19.58  272   0    0   0   1  0  |   1     0     0     1    1    0   | 0.541 0.382 0.544 5.92 | active_viewpoint
+ 2  23.96  329   0    0   0   2  0  |   0     0     1     0    0    0   | 0.542 0.380 0.546 5.94 | no_safe_active_viewpoint
+ 3  26.58  364   1    1   0   2  0  |   0     0     1     0    0    0   | 0.544 0.378 0.569 5.94 | no_safe_active_viewpoint
+ 4  29.22  401   2    2   0   2  0  |   0     0     1     0    0    0   | 0.546 0.376 0.570 5.95 | no_safe_active_viewpoint
+ 5  31.84  434   3    3   0   2  0  |   0     0     1     0    0    0   | 0.546 0.376 0.571 5.95 | no_safe_active_viewpoint
+
+EXECUTION/AUTHORITY EVENTS (t>=17.0 s):
+  t= 18.46  AUTHORITY_REVOKED                  reason=PERCEPTION_DEGRADED_AUTHORITY_REVOKED  gen=1 req=16
+  t= 19.58  REAUTHORIZATION_REJECTED           reason=CURRENT_VIEWPOINT_ROUTE_UNAVAILABLE    gen=0 req=16
+  t= 19.58  FRESH_PLAN_AFTER_REVOCATION        reason=active_viewpoint                       gen=2 req=25
+  t= 23.70  AUTHORITY_INVALIDATED              reason=REMAINING_ROUTE_INVALID|KNOWN_FREE_STOP_INVALID gen=2 req=25
+  t= 23.96  REAUTHORIZATION_REJECTED           reason=CURRENT_VIEWPOINT_ROUTE_UNAVAILABLE    gen=0 req=25
+
+EXPLORATION REQUESTS (t>=17.0 s):
+  t= 19.58 valid=1 reason=VALID                            req=25 frontier=1
+
+Diagnostic complete. Inspect repeated PLAN_OUTBOUND reasons and authority-event episodes above.
+>> 

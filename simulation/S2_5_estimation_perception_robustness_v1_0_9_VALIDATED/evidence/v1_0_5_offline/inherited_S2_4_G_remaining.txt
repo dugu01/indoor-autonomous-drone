@@ -1,0 +1,67 @@
+===== coupled/validation/audit_S2_4_G_static.py =====
+S2.4-G F-v1.1.2 baseline delta audit: checked=271 missing=0 changed=1
+CHANGED coupled/mission/mission_lifecycle_manager_S2_4.m 4d2ff497e602dcb8fbaa33c5d49898d4eca77242da3e4080dfcc6df1a8a27310 -> 880aa4bb8057bf3f1b999fd2bf2262d92a363e278331426fa511529d72b80d63
+S2.4-G REVIEWED F RUNTIME DELTA: PASS (exactly mission_lifecycle_manager_S2_4.m)
+S2.4-G reviewed F-v1.1.2 delta integrity: PASS
+S2.4-G wrapper isolation: PASS
+S2.4-G 5 no-fault baselines + 75-run targeted matrix contract: PASS
+S2.4-G MATLAB source hygiene: PASS
+S2.4-G STATIC GATE: PASS
+===== tools/audit_S2_4_G_v103_runtime_delta.py =====
+S2.4-G v1.0.3-runtime delta audit: checked=15 changed=1 missing=0
+CHANGED coupled/mission/mission_lifecycle_manager_S2_4.m 8d7a137f660eb00a3460b4d562b42c31c895e48b26f9f7ec50d5f36446998550 -> 880aa4bb8057bf3f1b999fd2bf2262d92a363e278331426fa511529d72b80d63
+S2.4-G v1.0.4 REVIEWED RUNTIME DELTA FROM v1.0.3: PASS
+===== coupled/validation/backtest_S2_4_G_recovery_patch.py =====
+S2.4-G v1.0.1 RTL guard blind-spot reproduction: PASS
+S2.4-G outbound+RTL pre-controller guard regression: PASS
+S2.4-G revoked-proposal/new-authority recovery positive control: PASS
+S2.4-G F8 expiry non-revival negative control: PASS
+S2.4-G persistent route/retreat/admission/revalidation negative controls: PASS
+S2.4-G F14 three-invalidation terminal bound: PASS
+S2.4-G perception recovery cannot restore old generation directly: PASS
+S2.4-G actual-truth/unknown-commitment evidence separation: PASS
+S2.4-G v1.0.2 RUNTIME RECOVERY BACKTEST: PASS
+===== coupled/validation/backtest_S2_4_G_yaw_slew.py =====
+target state initialized                         PASS 
+planned viewpoint updates target only            PASS 
+reauthorized viewpoint updates target only       PASS 
+TRACK_OUTBOUND applies yaw slew                  PASS 
+slew reuses inherited scan-rate bound            PASS 
+revocation freezes stale viewing yaw             PASS 
+scan yaw remains inherited continuous law        PASS 
+estimator attitude threshold unchanged           PASS 
+inherited qualified scan rate still 35 deg/s     PASS 
+historical 55->35 scan diagnosis retained        PASS 
+90-deg angle step reproduces aggressive yaw      PASS peak=199.83 deg/s
+35-deg/s slew bounds 90-deg maneuver             PASS peak=45.21 deg/s
+35-deg/s slew bounds 120-deg maneuver            PASS peak=45.21 deg/s
+slew reduces yaw-rate peak by >70%               PASS ratio=0.226
+user failure is yaw-dominated                    PASS 99.9989% yaw
+user fault peak exceeds inherited yaw policy     PASS 204.865 deg/s vs 35 deg/s
+baseline already has narrow estimator margin     PASS margin=0.184324 deg
+fault overshoot is modest but real               PASS overshoot=0.140175 deg
+
+S2.4-G YAW-SLEW SOURCE/FIRST-PRINCIPLES BACKTEST: PASS
+NOTE: MATLAB coupled estimator qualification remains required; this test does not emulate the ESKF.
+===== coupled/validation/backtest_S2_4_G_v102_user_log.py =====
+S2.4-G v1.0.2 user MATLAB log: 71/75 with hard safety PASS and truth access PASS: CONFIRMED
+Residual failures: exactly F2/F3/F9/F10 MID seed=3: CONFIRMED
+All four: inj/det/response=1, stale/collision/geofence/unknown/truth=0, final=COMPLETE: CONFIRMED
+All four: timeout=0, goalUnreachable=0, finite tGoal/tComplete, reauth rejected then fresh plan present: CONFIRMED
+S2.4-G v1.0.2 USER-RUNTIME FAILURE SIGNATURE BACKTEST: PASS
+===== coupled/validation/audit_S2_4_G_qualification_semantics.py =====
+S2.4-G mission-manager full composite source contract located: PASS
+S2.4-G no-fault baselines still require full nominal summary.pass: PASS
+S2.4-G critical mission is literal COMPLETE/goal/non-timeout outcome: PASS
+S2.4-G critical closed-loop gate preserves every non-exploration composite gate: PASS
+S2.4-G critical gate excludes only nominal explorationPass: PASS
+S2.4-G v1.0.3 QUALIFICATION SEMANTICS STATIC AUDIT: PASS
+===== coupled/validation/backtest_S2_4_G_matrix.py =====
+S2.4-G no-fault baseline cardinality: 5 seeds: PASS
+S2.4-G critical matrix cardinality: 5 faults x 3 timings x 5 seeds = 75 UNIQUE RUNS: PASS
+S2.4-G timing profiles: early=0.20 mid=0.50 late=0.75: PASS
+S2.4-G v1.0.2 mission/exploration conflation reproduction: PASS
+S2.4-G critical mission completion separated from nominal exploration expectation: PASS
+S2.4-G controller/estimator/trajectory/mapping/continuity negative controls: PASS
+S2.4-G actual-truth isolation is independent of unknown commitment: PASS
+S2.4-G v1.0.3 TARGETED MATRIX/GATE BACKTEST: PASS

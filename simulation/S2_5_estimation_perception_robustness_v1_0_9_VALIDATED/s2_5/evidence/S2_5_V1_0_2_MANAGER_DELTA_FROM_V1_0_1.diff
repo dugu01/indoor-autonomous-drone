@@ -1,0 +1,212 @@
+--- /mnt/data/s25_v101_src/S2_5_estimation_perception_robustness_v1_0_1_candidate/s2_5/mission/mission_lifecycle_manager_S2_5.m	2026-08-30 18:58:07.000000000 +0000
++++ /mnt/data/S2_5_estimation_perception_robustness_v1_0_2_candidate_work/s2_5/mission/mission_lifecycle_manager_S2_5.m	2026-08-31 03:14:37.542275263 +0000
+@@ -89,7 +89,14 @@
+ lastExecutionRouteStopReserveSafe=false;lastExecutionTerminalOverrunNeeded_m=nan;
+ lastExecutionTerminalOverrunReserveSafe=false;
+ authorityGenerationCounter=uint64(0);activeAuthorityGeneration=uint64(0);revokedAuthorityGeneration=uint64(0);
++% S2.5 v1.0.2: keep the inherited invalidation bound per exploration
++% request/episode. Re-authorizing the SAME request does not reset it; a
++% genuinely fresh planner request does. Mission-level map extension remains
++% bounded independently by cfg.mapMaxExtensionAttempts.
++authorityEpisodeRequestId=uint64(0);authorityEpisodeInvalidationCount=0;
++authorityEpisodeBoundHitCount=0;
+ authorityBoundExplorationSuppressed=false;
++conservativeFrontierFallbackCount=0;
+ segmentStartGoalDistance=norm(est.p(1:2)-outboundTarget(:));
+ yawCommand=estimated_yaw_S2_3(est);yawTargetCommand=yawCommand;scanStartYaw=yawCommand;
+ perceptionHoldCount=0;perceptionResumeState='';perceptionLossStart=nan;
+@@ -258,6 +265,7 @@
+     % authority. Recovery may replan, but the stale request cannot resume.
+     if executionSafetyEnabled&&explorationActive&&strcmp(state,'MAP_DEGRADED_HOLD')
+         executionAuthorityInvalidationCount=executionAuthorityInvalidationCount+1;
++        authorityEpisodeInvalidationCount=authorityEpisodeInvalidationCount+1;
+         executionPerceptionRevocationCount=executionPerceptionRevocationCount+1;
+         lastExecutionSafetyReason='PERCEPTION_DEGRADED_AUTHORITY_REVOKED';
+         if ~isfinite(firstFaultDetectionTime)&&faultMeta.applied,firstFaultDetectionTime=t;end
+@@ -317,6 +325,7 @@
+             if faultMeta.applied&&~isfinite(firstFaultDetectionTime),firstFaultDetectionTime=t;end
+         else
+             executionAuthorityInvalidationCount=executionAuthorityInvalidationCount+1;
++            authorityEpisodeInvalidationCount=authorityEpisodeInvalidationCount+1;
+             if any(strcmp(executionStatus.reasons,'REQUEST_EXPIRED'))
+                 executionExpiryInvalidationCount=executionExpiryInvalidationCount+1;
+             end
+@@ -351,7 +360,7 @@
+             pendingReplan=true;pendingExplorationReplan=true;pendingResumeState='TRACK_OUTBOUND';
+             pendingReplanStart=t;lastReplanAttempt=t;replanBrakeCount=replanBrakeCount+1;
+             pendingFallbackPath=zeros(0,2);gridFallbackActive=false;holdPosition=est.p;
+-            pendingExplorationTerminal=executionAuthorityInvalidationCount>= ...
++            pendingExplorationTerminal=authorityEpisodeInvalidationCount>= ...
+                 field_or_local(executionSafetyCfg,'maxAuthorityInvalidations',3);
+             state='LIFECYCLE_REPLAN_BRAKE';stateEntryTime=t;
+         end
+@@ -406,12 +415,14 @@
+         pendingReplan=false;pendingExplorationReplan=false;pendingFallbackPath=zeros(0,2);
+         gridFallbackActive=false;lastReplanAttempt=t;
+         if pendingExplorationTerminal
+-            % S2.5 recovery correction: exhausting the bounded exploration-
+-            % authority retry budget proves that this exploration objective must
+-            % be abandoned; it does NOT prove that the mission goal is globally
+-            % unreachable. Suppress further active-exploration translations and
+-            % return to current-map direct-goal planning/scanning. The inherited
+-            % maxAuthorityInvalidations bound remains unchanged.
++            % S2.5 v1.0.2: hitting the inherited per-request invalidation
++            % bound kills that exploration episode permanently, but does not
++            % prove that the mission goal or all safe map extension is globally
++            % unreachable. The next planning step is conservative S2.3-only:
++            % direct goal if known free, otherwise a goal-directed known-free
++            % frontier segment. No active-exploration authority is issued until
++            % one conservative extension completes.
++            authorityEpisodeBoundHitCount=authorityEpisodeBoundHitCount+1;
+             authorityBoundExplorationSuppressed=true;
+             suspendedExplorationRequest=struct();suspendedRequestAvailable=false;
+             suspendedRequestReason='AUTHORITY_INVALIDATION_BOUND';
+@@ -419,9 +430,9 @@
+             activeExplorationAcceptedTime=nan;activeAuthorityGeneration=uint64(0);
+             scanNoProgressCount=0;holdPosition=est.p;
+             state='PLAN_OUTBOUND';stateEntryTime=t;
+-            lastExecutionSafetyReason='AUTHORITY_BOUND_EXPLORATION_SUPPRESSED';
+-            executionSafetyHistory{end+1}=struct('time',t,'event','EXPLORATION_SUPPRESSED_AFTER_BOUND', ...
+-                'reason',lastExecutionSafetyReason,'requestId',uint64(0), ...
++            lastExecutionSafetyReason='AUTHORITY_BOUND_CONSERVATIVE_FRONTIER_ONLY';
++            executionSafetyHistory{end+1}=struct('time',t,'event','EXPLORATION_EPISODE_BOUND', ...
++                'reason',lastExecutionSafetyReason,'requestId',authorityEpisodeRequestId, ...
+                 'authorityGeneration',uint64(0)); %#ok<AGROW>
+         elseif suspendedRequestAvailable&&~isempty(fieldnames(suspendedExplorationRequest))
+             % The revoked request is inert proposal data only. Re-plan to its
+@@ -696,28 +707,45 @@
+                 [planner,path,traj,st,jump,routeExists,baseMeta]= ...
+                     plan_unknown_segment_S2_3(cfg,grid,est,estAcc,segmentMissionGoal, ...
+                     scenario.trajectoryInitialTimeScale);
+-                % After the authority bound, frontier translation is intentionally
+-                % disabled. A direct known-free mission-goal route may execute;
+-                % otherwise remain stopped, scan, and retry within the unchanged
+-                % bounded no-progress/extension budgets.
+-                directGoal=routeExists&&baseMeta.isFinal&&baseMeta.goalCurrentlyReachable;
+-                if ~directGoal
+-                    routeExists=false;path=zeros(0,2);traj=invalid_traj();
+-                end
+-                planMeta=struct('segmentTarget',segmentMissionGoal(:).','isFinal',true, ...
+-                    'frontierUsed',false,'goalCurrentlyReachable',directGoal, ...
+-                    'stopFeasible',directGoal&&baseMeta.stopFeasible, ...
+-                    'reason',ternary_local(directGoal,'direct_goal_after_authority_bound', ...
+-                    'authority_bound_direct_goal_unavailable'), ...
+-                    'explorationUsed',false,'selectedFrontierTrackId',uint64(0), ...
+-                    'selectedCandidateId',uint64(0),'frontierDiagnostics',struct(), ...
+-                    'viewpointDiagnostics',struct(),'decisionEvidence',struct());
++                % Bound-hit recovery remains fully fail-closed: use the frozen
++                % S2.3 direct-goal/frontier planner, strict trajectory generator,
++                % and known-free stop validation. This permits conservative map
++                % extension without issuing another active-exploration lease.
++                planMeta=augment_s23_recovery_meta_local(baseMeta, ...
++                    ternary_local(baseMeta.isFinal,'direct_goal_after_authority_bound', ...
++                    'conservative_frontier_after_authority_bound'));
+                 plannedRequest=struct();
++                if routeExists&&baseMeta.frontierUsed
++                    conservativeFrontierFallbackCount=conservativeFrontierFallbackCount+1;
++                end
+             else
+                 [planner,path,traj,st,jump,routeExists,planMeta,frontierState,plannedRequest]= ...
+                     plan_active_exploration_segment_S2_4( ...
+                     cfg,s24cfg,grid,mapState,uncertaintyState,frontierState, ...
+                     est,estAcc,segmentMissionGoal,scenario.trajectoryInitialTimeScale,t);
++                % If the S2.4 information-viewpoint selector has no admissible
++                % candidate, do not equate that with 'no safe motion'. Reuse the
++                % validated S2.3 goal-directed frontier segment as a conservative
++                % recovery fallback. It travels only on CURRENT known-free cells.
++                if ~routeExists&&any(strcmp(planMeta.reason, ...
++                        {'no_safe_active_viewpoint','active_viewpoint_request_invalid'}))
++                    [fbPlanner,fbPath,fbTraj,fbSt,fbJump,fbRoute,fbMeta]= ...
++                        plan_unknown_segment_S2_3(cfg,grid,est,estAcc,segmentMissionGoal, ...
++                        scenario.trajectoryInitialTimeScale);
++                    st.dstarExpanded=st.dstarExpanded+fbSt.dstarExpanded;
++                    st.astarExpanded=st.astarExpanded+fbSt.astarExpanded;
++                    st.astarRecovery=st.astarRecovery+fbSt.astarRecovery;
++                    if fbRoute
++                        planner=fbPlanner;path=fbPath;traj=fbTraj;jump=fbJump;routeExists=true;
++                        planMeta=augment_s23_recovery_meta_local(fbMeta, ...
++                            ternary_local(fbMeta.isFinal,'s25_recovery_direct_goal', ...
++                            's25_recovery_conservative_frontier'));
++                        plannedRequest=struct();
++                        if fbMeta.frontierUsed
++                            conservativeFrontierFallbackCount=conservativeFrontierFallbackCount+1;
++                        end
++                    end
++                end
+             end
+             dstarRepairExpanded=dstarRepairExpanded+st.dstarExpanded;
+             astarScratchExpanded=astarScratchExpanded+st.astarExpanded;
+@@ -745,6 +773,10 @@
+                     activeExplorationRequest=plannedRequest;
+                     explorationActive=true;activeExplorationAcceptedTime=t;
+                     suspendedExplorationRequest=struct();suspendedRequestAvailable=false;suspendedRequestReason='NONE';
++                    % Fresh planner request = fresh authority episode. A
++                    % reauthorization of the same request bypasses this block.
++                    authorityEpisodeRequestId=active_request_id(plannedRequest);
++                    authorityEpisodeInvalidationCount=0;
+                     authorityGenerationCounter=authorityGenerationCounter+uint64(1);
+                     activeAuthorityGeneration=authorityGenerationCounter;
+                     if ~isfinite(firstExplorationAcceptedTime),firstExplorationAcceptedTime=t;end
+@@ -837,6 +869,15 @@
+                         extensionProgress=segmentStartGoalDistance- ...
+                             norm(est.p(1:2)-segmentMissionGoal(:));
+                         mapExtensionCount=mapExtensionCount+1;
++                        if authorityBoundExplorationSuppressed
++                            % A completed conservative frontier hop establishes a
++                            % new sensing context. The failed request remains dead,
++                            % but future planner-issued exploration starts a new
++                            % bounded episode.
++                            authorityBoundExplorationSuppressed=false;
++                            authorityEpisodeRequestId=uint64(0);
++                            authorityEpisodeInvalidationCount=0;
++                        end
+                         if explorationActive&&~isempty(fieldnames(activeExplorationRequest))
+                             explorationExecutedCount=explorationExecutedCount+1;
+                             executedFrontierTrackIds(end+1)= ...
+@@ -1137,6 +1178,7 @@
+         end
+         if explorationActive&&~isempty(fieldnames(activeExplorationRequest))
+             executionAuthorityInvalidationCount=executionAuthorityInvalidationCount+1;
++            authorityEpisodeInvalidationCount=authorityEpisodeInvalidationCount+1;
+             executionSafetyHistory{end+1}=struct('time',t,'event','REFERENCE_GUARD_REVOKED', ...
+                 'reason',lastExecutionSafetyReason,'requestId',active_request_id(activeExplorationRequest), ...
+                 'authorityGeneration',activeAuthorityGeneration); %#ok<AGROW>
+@@ -1147,7 +1189,7 @@
+             yawCommand=estimated_yaw_S2_3(est);yawTargetCommand=yawCommand;
+             freshPlanRequiredAfterRevocation=true;
+             pendingExplorationReplan=true;
+-            pendingExplorationTerminal=executionAuthorityInvalidationCount>= ...
++            pendingExplorationTerminal=authorityEpisodeInvalidationCount>= ...
+                 field_or_local(executionSafetyCfg,'maxAuthorityInvalidations',3);
+         else
+             executionSafetyHistory{end+1}=struct('time',t,'event','REFERENCE_GUARD_BRAKE', ...
+@@ -1455,6 +1497,10 @@
+     'executionRevalidationPassCount',executionRevalidationPassCount, ...
+     'executionLeaseRenewalCount',executionLeaseRenewalCount, ...
+     'executionAuthorityInvalidationCount',executionAuthorityInvalidationCount, ...
++    'authorityEpisodeRequestId',double(authorityEpisodeRequestId), ...
++    'authorityEpisodeInvalidationCount',authorityEpisodeInvalidationCount, ...
++    'authorityEpisodeBoundHitCount',authorityEpisodeBoundHitCount, ...
++    'conservativeFrontierFallbackCount',conservativeFrontierFallbackCount, ...
+     'executionRetreatRefreshCount',executionRetreatRefreshCount, ...
+     'executionMapChangeRevalidationCount',executionMapChangeRevalidationCount, ...
+     'executionExpiryInvalidationCount',executionExpiryInvalidationCount, ...
+@@ -1729,6 +1775,18 @@
+ end
+ end
+ 
++function meta=augment_s23_recovery_meta_local(baseMeta,reason)
++% Normalize frozen S2.3 planner metadata to the S2.4/S2.5 mission schema.
++meta=baseMeta;
++meta.reason=reason;
++meta.explorationUsed=false;
++meta.selectedFrontierTrackId=uint64(0);
++meta.selectedCandidateId=uint64(0);
++meta.frontierDiagnostics=struct();
++meta.viewpointDiagnostics=struct();
++meta.decisionEvidence=struct();
++end
++
+ function out=ternary_local(cond,a,b)
+ if cond,out=a;else,out=b;end
+ end

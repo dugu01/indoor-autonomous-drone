@@ -98,16 +98,16 @@ isolation**).
 | **S2.4** | `S2_4_uncertainty_active_exploration_*` | Look before you leap: read-only uncertainty / frontier reasoning over the map; generate target-directed viewpoints; prefer *goal-relevant* looking over generic exploration | Frontier Information Structure (FUEL) [15]; modular gain/cost/evaluator split (mav_active_3d_planning) [16] | ✅ validated (10/10 physical seed sweep) |
 | **S2.4-F** | `S2_4_execution_time_safety_revalidation_*` | Keep checking while executing: an exploration "authority" is re-checked every step (route still free? still able to stop? retreat still valid?) and revoked if not | Execution-time safety supervision; leased authority with a short time-to-live | ✅ validated (coupled MATLAB gate PASS, F2–F14, 2026-08-29) |
 | **S2.4-G** | `S2_4_full_closed_loop_mission_qualification_*` | Prove the whole S2.2–S2.4 loop end-to-end under a fault matrix (5 no-fault + 75 fault runs), with correct pass/fail semantics | Full closed-loop qualification; bounded yaw-rate reference to protect the attitude estimator | ✅ validated (v1.0.4: 5/5 no-fault + **75/75** critical PASS, max attitude 1.46° < 2.0°, 2026-08-30) |
-| **S2.5** | `S2_5_estimation_perception_robustness_*` | Stress the estimator + perception under injected sensor faults (VIO / LiDAR / IMU / depth dropout, outliers, stale packets, range spikes) and confirm safe recovery or safe abort | Qualifies the S2.1–S2.4 robustness mechanisms under fault; recovery-behaviour design informed by Nav2 recovery trees [18] | 🟠 **active development** — offline gates PASS, **coupled MATLAB in progress** (see §6) |
+| **S2.5** | `S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/` | Stress the estimator + perception under injected sensor faults (VIO / LiDAR / IMU / depth dropout, outliers, stale packets, range spikes) and confirm safe recovery or safe abort | Qualifies the S2.1–S2.4 robustness mechanisms under fault; recovery-behaviour design informed by Nav2 recovery trees [18] | ✅ validated (v1.0.9, 2026-09-03: 71/71 coupled missions — 5 no-fault + 60 recoverable + 6 fail-safe; S2.4-F regression PASS; frozen S2.4-G parent 353/353 byte-identical) |
 | **S3** | `S3_obstacle_avoidance/` | Reactive avoidance of fast / dynamic obstacles | *planned* | ⚪ not started |
 | **S4** | `S4_aruco_landing/` | Precision landing on an ArUco marker | *planned* | ⚪ not started |
 
 `✅ validated` = passes its own coupled MATLAB scenario matrix and is frozen as
 the parent for the next stage. `🟠 active development` = being worked on right
-now. (S2.4-F / S2.4-G folder names still carry a `candidate` suffix from before
-their MATLAB runs; the coupled evidence for both is recorded — F in
-`S2_4_..._G_.../evidence/S2_4_F_USER_MATLAB_VALIDATION_PASS.txt`, G in
-`S2_5_..._r1/s2_5/evidence/S2_4_G_USER_MATLAB_VALIDATION_SUMMARY.txt`.)
+now. `⚪ not started` = planned only. (The S2.4-F / S2.4-G folder names still
+carry a `candidate` suffix from before their MATLAB runs; the coupled PASS
+evidence for both, and for S2.5, is recorded inside each stage's `evidence/`
+tree and its `S2_5_VALIDATION_REPORT_v1_0_9.md` / equivalent.)
 
 ---
 
@@ -185,13 +185,14 @@ never the first response.
 ```
 S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
                                           |
-                             S2.4-F ✅ -- S2.4-G ✅ -->  S2.5 🟠  (you are here)
+                             S2.4-F ✅ -- S2.4-G ✅ -->  S2.5 ✅
                                                               |
-                                                        S3 ⚪   S4 ⚪
+                                                     S3 ⚪   S4 ⚪   (you are here)
 ```
 
-- **Validated baseline:** S2.4-G `v1.0.4` — the full closed-loop mission
-  qualification. Coupled MATLAB campaign (2026-08-30): 5/5 no-fault baselines
+- **Previous validated stage:** S2.4-G `v1.0.4` — the full closed-loop mission
+  qualification, and the frozen parent S2.5 was built on. Coupled MATLAB
+  campaign (2026-08-30): 5/5 no-fault baselines
   PASS, **75/75** critical fault runs PASS (F2/F3/F6/F9/F10 × early/mid/late ×
   seeds 0–4), mission completion / hard safety / truth isolation / frozen-parent
   integrity all PASS. The v1.0.3→v1.0.4 change was a bounded exploration
@@ -200,25 +201,24 @@ S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
   relaxing the estimator threshold. S2.4-F (execution-time safety revalidation,
   F2–F14) passed its own coupled MATLAB gate on 2026-08-29 and is the runtime
   baseline that G is built on.
-- **Actively being worked on: S2.5** (`v1.0.4-parallel-candidate-r1`) — injects
-  deterministic sensor / perception faults and checks that the inherited
-  four-lane ESKF and mapping/lifecycle mechanisms recover safely. Offline gates
-  PASS. Open item in the coupled MATLAB run: **5 historical "recoverable" fault
-  cases end in a fully safe, controlled state (no collision, no geofence breach,
-  estimator in budget, truth isolation OK) but do not reach the goal**, because
-  the injected fault severs the last safe route on the partial map. Two fixes are
-  under evaluation:
-  - an **informative-relocation** helper (rank all known-free hold-support
-    viewpoints, commit only one that passes the full route + trajectory + stop
-    checks); and
-  - a **bounded retreat-to-known-clear** recovery (back out along the flown path,
-    executed in the verified low-speed velocity mode so it does not need a
-    trajectory that starts inside an inflated cell).
-  If neither can safely recover a given case, the intended behaviour — consistent
-  with Nav2 and PX4 practice [18] — is a **bounded recovery attempt followed by a
-  safe controlled abort (RTL / land)**, and the qualification criterion for those
-  specific cases is adjusted to accept that outcome (the project already does
-  this for the `nav_xy_loss` fail-safe case).
+- **Latest validated stage: S2.5** `v1.0.9` (`S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/`)
+  — injects deterministic sensor / perception faults (VIO / LiDAR / IMU / depth
+  dropout, outlier bursts, stale packets, range spikes) and checks that the
+  inherited four-lane ESKF and mapping / lifecycle mechanisms recover safely or
+  abort safely. User-executed MATLAB qualification (2026-09-03): **71/71 unique
+  coupled missions PASS** — 5/5 no-fault baselines, 60/60 recoverable-fault
+  matrix, 6/6 fail-safe matrix — plus inherited S2.4-F regression PASS and the
+  frozen S2.4-G parent 353/353 byte-identical after the run. The recovery design
+  landed as: (1) an **informative-relocation** helper (rank known-free
+  hold-support viewpoints, commit only one that passes the full route +
+  trajectory + stop checks); (2) a **bounded retreat-to-known-clear** recovery in
+  verified low-speed velocity mode; and (3) where neither can safely recover a
+  case, a **bounded recovery attempt followed by a safe controlled abort
+  (RTL / land)** — consistent with Nav2 / PX4 practice [18] — with the fail-safe
+  matrix qualifying exactly that outcome. v1.0.9 also fixed a lifecycle dead
+  state (`LIFECYCLE_REPLAN_BRAKE` restored after `NAV_DEGRADED_HOLD` had already
+  cancelled the pending replan) with no safety threshold relaxed. This tree is
+  the frozen parent for S2.6.
 - **Not started:** S3 (reactive dynamic-obstacle avoidance) and S4 (ArUco
   precision landing).
 
@@ -238,9 +238,9 @@ S1 ✅  S2 ✅  S2.1 ✅  S2.2 ✅  S2.3 ✅  S2.4 ✅
 1. **Tidy S2.4-F / S2.4-G packaging** — rename the folders to drop `candidate`
    and refresh their in-package `VERSION.txt` to record the coupled MATLAB PASS
    (2026-08-29 / 2026-08-30). No code change.
-2. **Close S2.5** — land the recovery / abort behaviour above, get the 71-run
-   coupled matrix (5 baseline + 60 recoverable + 6 fail-safe) to full PASS, then
-   freeze `S2_5_estimation_perception_robustness_v1_0_0_validated`.
+2. **Close S2.5** — ✅ done (2026-09-03): recovery / abort behaviour landed, the
+   71-run coupled matrix (5 baseline + 60 recoverable + 6 fail-safe) is full
+   PASS, and `S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/` is frozen.
 3. **S3 — dynamic obstacle avoidance** — reactive local avoidance of moving
    obstacles on top of the S2.5-validated stack (velocity obstacles [11] /
    barrier-style guards), keeping the known-free-stop contract.
@@ -264,9 +264,9 @@ simulation/
 ├── S2_3_online_mapping_v1_0_0_validated/          S2.3 ✅  online probabilistic mapping + safe nav
 ├── S2_4_uncertainty_active_exploration_           S2.4 ✅  active exploration
 │      {development, v1_0_0_validated}/
-├── S2_4_execution_time_safety_revalidation_.F./   S2.4-F 🟡 execution-time safety supervisor
-├── S2_4_full_closed_loop_mission_qualification_.G./ S2.4-G 🟡 full closed-loop fault matrix
-├── S2_5_estimation_perception_robustness_.r1/     S2.5 🟠  estimator + perception fault robustness
+├── S2_4_execution_time_safety_revalidation_v1_1_2_F_candidate_validated/     S2.4-F ✅ execution-time safety supervisor
+├── S2_4_full_closed_loop_mission_qualification_v1_0_4_G_candidate_validated/ S2.4-G ✅ full closed-loop fault matrix
+├── S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/  S2.5 ✅  estimator + perception fault robustness
 ├── S3_obstacle_avoidance/                         S3   ⚪  planned (.gitkeep only)
 └── S4_aruco_landing/                              S4   ⚪  planned (.gitkeep only)
 ```
@@ -311,7 +311,7 @@ Later stages have their own validated entry points (see each stage README /
 Independent Python checks (run first, no MATLAB needed), e.g.:
 
 ```bash
-cd simulation/S2_5_estimation_perception_robustness_v1_0_4_parallel_candidate_r1/s2_5/validation
+cd simulation/S2_5_estimation_perception_robustness_v1_0_9_VALIDATED/s2_5/validation
 python3 run_all_checks_S2_5.py
 ```
 

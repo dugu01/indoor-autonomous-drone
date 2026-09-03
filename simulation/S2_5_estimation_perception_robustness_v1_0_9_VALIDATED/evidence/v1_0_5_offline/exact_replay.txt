@@ -1,0 +1,64 @@
+========================================================================================
+S2.5 EXACT MATLAB SNAPSHOT REPLAY — CSE + HIERARCHICAL SAFE INFORMATIVE EXCURSION
+========================================================================================
+
+[COUPLED_IMU_PERCEPTION] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.630009 m inflation=0.602 m connector=0.074742 m
+  NEW SIE_STAGE1_STOP_FIRST gain=19 anchor=(49, 15) terminal=(49, 15) path=3.730 m
+  trajectory vmax=0.310680 amax=0.386723 jmax=1.161054 | safety=PASS
+
+[NAV_IMU_FAULT_VIO_OUTAGE] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.632682 m inflation=0.602 m connector=0.083568 m
+  NEW SIE_STAGE1_STOP_FIRST gain=19 anchor=(48, 14) terminal=(49, 15) path=3.773 m
+  trajectory vmax=0.293285 amax=0.440641 jmax=2.010966 | safety=PASS
+
+[PERCEPTION_DUAL_BRIEF] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.637993 m inflation=0.602 m connector=0.062637 m
+  NEW SIE_STAGE1_STOP_FIRST gain=16 anchor=(48, 13) terminal=(48, 13) path=3.457 m
+  trajectory vmax=0.310680 amax=0.371703 jmax=1.187413 | safety=PASS
+
+[PERCEPTION_RANGE_SPIKE] old=recovery_candidates_failed_full_execution_checks
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 120, 'metric': 101, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 6, 'stop': 13, 'selected': 0}
+  startBlocked=0 wall=1.546821 m inflation=0.602 m connector=0.000000 m
+  NEW SIE_STAGE1_STOP_FIRST gain=1 anchor=(47, 14) terminal=(49, 11) path=0.706 m
+  trajectory vmax=0.310681 amax=0.512735 jmax=1.460881 | safety=PASS
+
+[PERCEPTION_STALE_BURST] old=recovery_start_not_known_free
+  MATLAB/Python old diagnostics: MATCH {'configError': 0, 'shellFallback': 0, 'ranked': 0, 'metric': 0, 'stale': 0, 'dynamic': 0, 'path': 0, 'traj': 0, 'stop': 0, 'selected': 0}
+  startBlocked=1 wall=0.637993 m inflation=0.602 m connector=0.062637 m
+  NEW SIE_STAGE1_STOP_FIRST gain=16 anchor=(48, 13) terminal=(48, 13) path=3.457 m
+  trajectory vmax=0.310680 amax=0.371703 jmax=1.187413 | safety=PASS
+
+EXACT FIVE-CASE RESULT: PASS 5/5
+
+----------------------------------------------------------------------------------------
+NEGATIVE CONTROLS
+  COUPLED_IMU_PERCEPTION: inside-inflation start connector rejected PASS
+  COUPLED_IMU_PERCEPTION: zero-information map rejected PASS
+  COUPLED_IMU_PERCEPTION: stale-route universe rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: inside-inflation start connector rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: zero-information map rejected PASS
+  NAV_IMU_FAULT_VIO_OUTAGE: stale-route universe rejected PASS
+  PERCEPTION_DUAL_BRIEF: inside-inflation start connector rejected PASS
+  PERCEPTION_DUAL_BRIEF: zero-information map rejected PASS
+  PERCEPTION_DUAL_BRIEF: stale-route universe rejected PASS
+  PERCEPTION_RANGE_SPIKE: zero-information map rejected PASS
+  PERCEPTION_RANGE_SPIKE: stale-route universe rejected PASS
+  PERCEPTION_STALE_BURST: inside-inflation start connector rejected PASS
+  PERCEPTION_STALE_BURST: zero-information map rejected PASS
+  PERCEPTION_STALE_BURST: stale-route universe rejected PASS
+NEGATIVE CONTROLS: PASS (14/14)
+
+----------------------------------------------------------------------------------------
+RANDOMIZED LOCAL STATE PERTURBATIONS (2 per case; fixed RNG seed 2505)
+  COUPLED_IMU_PERCEPTION: 2/2
+  NAV_IMU_FAULT_VIO_OUTAGE: 2/2
+  PERCEPTION_DUAL_BRIEF: 2/2
+  PERCEPTION_RANGE_SPIKE: 2/2
+  PERCEPTION_STALE_BURST: 2/2
+RANDOMIZED PERTURBATIONS: PASS (10/10)
+
+OVERALL PYTHON PHASE-C EXACT-REPLAY GATE: PASS

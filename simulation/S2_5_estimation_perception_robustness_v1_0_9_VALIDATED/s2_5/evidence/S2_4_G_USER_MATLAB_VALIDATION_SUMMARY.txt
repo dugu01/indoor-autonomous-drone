@@ -1,0 +1,16 @@
+User-coupled MATLAB evidence for S2.4-G v1.0.4 parent (2026-08-30)
+
+S2.4-F execution-time safety MATLAB gate: PASS
+No-fault S2.4-G baselines: 5/5 PASS
+Historical estimator residual preflight F2/F3/F9/F10 MID seed=3: 4/4 PASS
+  max attitude error: 1.464801 deg (< 2.0 deg)
+  max yaw rate: 44.392 deg/s
+Critical timing/seed matrix: 75/75 PASS
+Mission completion: PASS
+Closed-loop integrity: PASS
+Hard safety: PASS
+Actual truth access isolation: PASS
+Frozen-parent integrity: PASS
+Overall S2.4-G full closed-loop mission qualification: PASS
+
+The S2.5 parent byte inventory is copied from the exact package used for this run.

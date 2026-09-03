@@ -1,0 +1,15 @@
+S2.4-F USER-EXECUTED MATLAB VALIDATION EVIDENCE
+Source: user-provided MATLAB console output in the project continuation chat, 2026-08-29.
+Package exercised: S2_4_execution_time_safety_revalidation_v1_1_2_F_candidate
+
+Observed final coupled evidence:
+- S2.4-E combined MATLAB gate: PASS
+- S2.4-F deterministic revalidation contracts: PASS
+- S2.4-F no-fault E reference parity: PASS
+- F2/F3/F4/F5/F6/F7/F8/F9/F10/F11/F13/F14: PASS
+- Every listed fault: injected=1, detected=1, response=1, stale=0, collision=0, unknown=0
+- F14: invalidations=3, authority generations=3 (bounded retry exercised)
+- S2.4-F EXECUTION-TIME SAFETY MATLAB GATE: PASS
+- F15: NOT APPLICABLE because live predictive moving-obstacle interface is not connected.
+
+Interpretation: S2.4-F v1.1.2 is the validated runtime baseline for S2.4-G. G does not alter F runtime code.

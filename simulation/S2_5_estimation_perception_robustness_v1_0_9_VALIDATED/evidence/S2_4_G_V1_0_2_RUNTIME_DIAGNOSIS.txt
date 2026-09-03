@@ -1,0 +1,42 @@
+S2.4-G v1.0.2 user MATLAB diagnosis
+Date: 2026-08-29
+
+Observed aggregate:
+  A-D shadow: PASS
+  E + F coupled: PASS
+  no-fault seeds: 5/5 PASS
+  critical matrix: 71/75 PASS
+  hard safety: PASS
+  actual truth access isolation: PASS
+  frozen parent: PASS
+
+Only residual failures:
+  F2 MID seed=3
+  F3 MID seed=3
+  F9 MID seed=3
+  F10 MID seed=3
+
+Common runtime signature for all four:
+  injected=1, detected=1, required response=1
+  stale=0, collision=0, geofence=0, unknown=0, unsafe viewpoint=0
+  map truth access=0, uncertainty truth access=0
+  timeout=0, goalUnreachable=0
+  final=COMPLETE
+  timeToGoal=57.90 s
+  timeToComplete=108.04 s
+  freshPlans=1
+  suspended proposal reauthorization rejected once
+
+Source cross-check:
+  ACTIVE_GOAL_REQUIRES_SCAN requires expectedMinExplorationExecutions=1.
+  mission_lifecycle_manager_S2_4 summary.pass includes explorationPass.
+  G v1.0.2 defined critical missionCompletion using summary.pass.
+  Therefore a fault run that safely completes via a fresh direct-to-goal route can be
+  misclassified if the revoked exploration viewpoint itself is not executed.
+
+v1.0.3 response:
+  no runtime/autonomy change from v1.0.2;
+  no-fault runs still require full nominal summary.pass;
+  critical fault runs require literal COMPLETE mission outcome plus every full
+  composite gate except only nominal explorationPass, with all hard-safety/fault
+  evidence gates unchanged.

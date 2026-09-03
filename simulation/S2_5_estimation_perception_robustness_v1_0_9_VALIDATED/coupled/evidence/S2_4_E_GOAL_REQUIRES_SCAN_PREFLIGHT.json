@@ -1,0 +1,43 @@
+{
+  "schema": "S2_4_AD_RECORDED_SHADOW_REPLAY_V1",
+  "mat_file": "S2_3_v1_0_0_candidate_trial_data.mat",
+  "scenario": "GOAL_REQUIRES_SCAN",
+  "snapshots": 103,
+  "map_resolution_m": 0.1,
+  "effective_inflation_m": 0.602,
+  "incremental_frontier_equals_full": true,
+  "accepted_candidates": 15,
+  "unsafe_accepted_candidates": 0,
+  "max_active_frontiers": 7,
+  "tracks_created": 26,
+  "source_evidence": {
+    "records": 1707,
+    "accepted": 1707,
+    "rejected": 0,
+    "lidar_packets": 854,
+    "depth_packets": 1024,
+    "lidar_rays": 102480,
+    "depth_rays": 121856,
+    "lidar_hits": 102480,
+    "depth_hits": 116130
+  },
+  "uncertainty": {
+    "entropy_min": 0.12997927466630485,
+    "entropy_max": 1.0,
+    "finite_entropy": true,
+    "observation_total": 5822279,
+    "stale_free_cells": 1475,
+    "static_confidence_range": [
+      0.0,
+      1.0
+    ],
+    "dynamic_confidence_range": [
+      0.0,
+      0.5
+    ],
+    "digest": "a5c46187f260ef4463938f4d202d9d2850eef61902e12e29da85df89b7bd000d"
+  },
+  "replay_digest": "18c50ac61de6432a19db6260f30ceab653cae8cf4db3753f9d0e8e9a635791d4",
+  "pass": true,
+  "deterministic_repeat_match": true
+}

@@ -1,0 +1,52 @@
+v102_user_exact_five_still_failed                                    PASS 
+v102_recovery_fallback_never_fired                                   PASS 
+v102_historical_direct_unreachable_reason                            PASS 
+candidate_version_v1_0_3                                             PASS 
+three_stationary_scans_before_relocation                             PASS 
+mission_extension_bound_preserved                                    PASS 
+recovery_counter_present                                             PASS 
+recovery_helper_called                                               PASS 
+known_free_endpoint                                                  PASS 
+execution_blocked_endpoint                                           PASS 
+hold_support                                                         PASS 
+known_free_astar                                                     PASS 
+stale_route_rejected                                                 PASS 
+dynamic_route_rejected                                               PASS 
+visible_unknown_required                                             PASS 
+meaningful_relocation                                                PASS 
+strict_trajectory                                                    PASS 
+known_free_stop                                                      PASS 
+no_tuning_cfg_maxEstimatorPositionError_m_s_                         PASS 
+no_tuning_cfg_maxEstimatorAttitudeError_deg_s_                       PASS 
+no_tuning_cfg_mapMaxFalseFreeRate_s_                                 PASS 
+no_tuning_cfg_mapMinOccupiedRecall_s_                                PASS 
+strong_direct_goal_unavailable_False                                 PASS 
+strong_normal_s24_selection_none_False                               PASS frontiers=1 candidates=57 accepted=0
+strong_policy_rejected_candidates_present_False                      PASS 23
+strong_recovery_found_False                                          PASS 
+sideways_negative_progress_False                                     PASS 10.000->17.000
+sideways_path_fail_closed_False                                      PASS 
+sideways_hold_support_False                                          PASS 
+sideways_information_False                                           PASS 17
+sideways_meaningful_relocation_False                                 PASS 0.700
+strong_direct_goal_unavailable_True                                  PASS 
+strong_normal_s24_selection_none_True                                PASS frontiers=1 candidates=57 accepted=0
+strong_policy_rejected_candidates_present_True                       PASS 23
+strong_recovery_found_True                                           PASS 
+sideways_negative_progress_True                                      PASS 10.000->17.000
+sideways_path_fail_closed_True                                       PASS 
+sideways_hold_support_True                                           PASS 
+sideways_information_True                                            PASS 17
+sideways_meaningful_relocation_True                                  PASS 0.700
+negative_stale_route                                                 PASS 
+negative_dynamic_route                                               PASS 
+negative_no_information                                              PASS 
+recorded_replay_nominal_no_selection_count                           PASS 6
+recorded_replay_unsafe_recovery_zero                                 PASS 0
+recorded_early_fail_closed_preserved                                 PASS 0
+monte_carlo_precondition_normal_none_direct_none                     PASS 200/200
+monte_carlo_adversarial_safe_relocations                             PASS 200/200
+monte_carlo_unsafe_relocations_zero                                  PASS 0
+five_historical_policy_classes_have_safe_recovery_model              PASS 5
+
+S2.5 v1.0.3 PYTHON MISSION-POLICY RECOVERY BACKTEST: PASS

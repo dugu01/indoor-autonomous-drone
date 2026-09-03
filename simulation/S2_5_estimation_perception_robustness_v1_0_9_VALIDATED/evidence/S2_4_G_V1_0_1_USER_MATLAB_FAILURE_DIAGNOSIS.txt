@@ -1,0 +1,21 @@
+S2.4-G v1.0.1 USER MATLAB FAILURE DIAGNOSIS
+Result: 5/5 no-fault baselines PASS; 52/75 critical matrix PASS; G NOT qualified.
+Inherited A-D/E/F: PASS. Frozen S2.3: PASS. Actual truth-access isolation: PASS.
+
+Deterministic failure signatures from user log:
+- F2/F3/F10 EARLY seed=2: unknownCommitmentCount=23, truthAccess=0, refGuard=0.
+- F2/F3/F10 MID seed=3: safe fault response and fresh plan, but mission did not complete.
+- F2/F3 LATE seeds 0,1,2,4: one invalidation, no fresh plan, GOAL_UNREACHABLE.
+- F10 LATE seeds 0,1,2,4: same plus RETREAT_ROUTE_INVALID at injection.
+- F9 MID seeds 1,2,3 and LATE seeds 0,4: safe perception revocation but mission did not complete; seed0 late reached GOAL_UNREACHABLE.
+
+Source-derived root causes:
+1. v1.0.1 current-reference guard covered TRACK_OUTBOUND only, while the independent unknown-commitment diagnostic covered TRACK_OUTBOUND and TRACK_RTL. Therefore an unsafe RTL reference could produce unknown commitments with refGuard=0.
+2. F2/F3/F10 validation faults perturb only the one-cycle derived execution grid. After revocation the runtime discarded the accepted viewpoint request and relied on active-exploration rediscovery. Late-route recovery could exhaust normal rediscovery/no-progress logic after the transient fault had already cleared.
+
+v1.0.2 response:
+- guard both outbound and RTL at the same pre-controller boundary;
+- retain revoked request only as non-authoritative proposal data;
+- after braking/perception recovery, replan on current grid to same viewpoint, recompute current retreat, rerun admission and F execution revalidation, then issue a NEW authority generation only on complete success;
+- F8 expiry excluded; F14 bound unchanged;
+- G acceptance criteria unchanged.
